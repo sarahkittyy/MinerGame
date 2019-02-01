@@ -5,6 +5,7 @@
 #include <imgui-sfml/imgui-SFML.h>
 
 #include "KeyManager.hpp"
+#include "Tilemap.hpp"
 
 /**
  * @brief Base application class.
@@ -42,6 +43,12 @@ private:
 	 * 
 	 */
 	sf::Clock mImGuiClock;
+	
+	/**
+	 * @brief The main map.
+	 * 
+	 */
+	Tilemap mMap;
 	
 	/**
 	 * @brief Begin & End the main ImGui windows.

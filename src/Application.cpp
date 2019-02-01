@@ -12,6 +12,8 @@ Application::Application() :
 	//Init the keyboard manager
 	KeyManager::setWindowReference(&mWindow);
 	
+	//Init the map.
+	mMap.loadFromID(1);
 }
 
 int Application::run()
@@ -48,7 +50,7 @@ int Application::run()
 		//Start drawing.
 		mWindow.clear(BG_COLOR);
 		
-		
+		mWindow.draw(mMap);
 		
 		//Render ImGui last.
 		ImGui::SFML::Render(mWindow);
