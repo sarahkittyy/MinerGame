@@ -1,7 +1,7 @@
 #include "Application.hpp"
 
 Application::Application() :
-	mWindow(sf::VideoMode(600,600), "")
+	mWindow(sf::VideoMode(600,600), "Miner")
 {
 	mWindow.setFramerateLimit(60);
 	
@@ -63,5 +63,6 @@ void Application::mUpdateGui()
 	//Init window components.
 	ImGui::Begin("Miner");
 	
+	//Stop initializing imgui window componenets.
 	ImGui::End();	
 }
