@@ -12,8 +12,9 @@ CCFLAGS_RELEASE = -c -Wall -I$(INCDIR) -I$(IMGUI) -I$(IMGUI_SFML) -Wno-unused-va
 CCFLAGS_DEBUG = $(CCFLAGS_RELEASE) -g -DDEBUG_MODE
 
 LIB_SFML = -lsfml-window -lsfml-graphics -lsfml-audio -lsfml-network -lsfml-system
-LIB_RELEASE = -lstdc++ -std=c++17 $(LIB_SFML)
-LIB_DEBUG = -lstdc++ -std=c++17 $(patsubst -lsfml-%, -lsfml-%-d, $(LIB_SFML))
+LIB = -lstdc++ -std=c++17 -lGL
+LIB_RELEASE = $(LIB) $(LIB_SFML)
+LIB_DEBUG = $(LIB) $(patsubst -lsfml-%, -lsfml-%-d, $(LIB_SFML))
 
 IMGUI = $(INCDIR)/imgui
 IMGUI_SFML = $(INCDIR)/imgui-sfml
