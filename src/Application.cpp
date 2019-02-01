@@ -1,13 +1,14 @@
 #include "Application.hpp"
 
 Application::Application() :
-	mWindow(sf::VideoMode(600,600), "Miner")
+	mWindow(sf::VideoMode(600,600), "")
 {
 	mWindow.setFramerateLimit(60);
 	
 	//Init ImGui
 	ImGui::SFML::Init(mWindow);
 	mImGuiClock.restart();
+	
 }
 
 int Application::run()
@@ -35,8 +36,8 @@ int Application::run()
 			}
 		}
 		
-		//Update ImGui
-		ImGui::SFML::Update(mWindow, mImGuiClock.restart());
+		//Update the GUI.
+		mUpdateGui();
 		
 		//Start drawing.
 		mWindow.clear(sf::Color::White);
@@ -48,5 +49,19 @@ int Application::run()
 		mWindow.display();
 	}
 	
+	//Release resources.
+	ImGui::SFML::Shutdown();
+	
 	return 0;
+}
+
+void Application::mUpdateGui()
+{
+	//Update ImGui
+	ImGui::SFML::Update(mWindow, mImGuiClock.restart());
+	
+	//Init window components.
+	ImGui::Begin("Miner");
+	
+	ImGui::End();	
 }

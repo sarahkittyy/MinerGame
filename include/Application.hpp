@@ -36,4 +36,10 @@ private:
 	 * 
 	 */
 	sf::Clock mImGuiClock;
+	
+	/**
+	 * @brief Begin & End the main ImGui windows.
+	 * 
+	 */
+	void mUpdateGui();
 };
