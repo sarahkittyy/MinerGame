@@ -11,8 +11,6 @@
 
 #include "nlohmann/json.hpp"
 
-#include "CollisionBox.h"
-
 #include "Vector2Hash.h"
 
 /**
@@ -25,24 +23,14 @@ class Tilemap : public sf::Drawable,
 protected:
 	/**
 	 * @brief A struct for the data of each type of tile.
-	 * Each tile *ID* uses either the mDefaults values or the specified values.
+	 * Data is retrieved from Tilemap::getTileData()
 	 * 
 	 * @see resource/maps/<ID>.json
 	 * 
 	 */
 	struct TileData
 	{
-		/**
-		 * @brief True if the tile is collideable.
-		 * 
-		 */
-		bool collideable;
-
-		/**
-		 * @brief The collision boundaries of the tile.
-		 * 
-		 */
-		sf::FloatRect bounds;
+		
 	};
 	
 public:
@@ -80,22 +68,6 @@ public:
 	 * @return int The ID.
 	 */
 	int getTileID(sf::Vector2f pos);
-	
-	/**
-	 * @brief Checks if the position given is inside a collideable tile.
-	 * 
-	 * @param pos The position to check. 
-	 * @return true If the position is inside a collideable tile.
-	 */
-	bool isCollidingWithTile(sf::Vector2f pos);
-	
-	/**
-	 * @brief Checks if the rectangle is colliding with any collideable tiles.
-	 * 
-	 * @param col The bounds to check.
-	 * @return true If the box is colliding with any tile.
-	 */
-	bool isCollidingWithTile(sf::FloatRect col);
 
 private:
 	/**

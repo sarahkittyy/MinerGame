@@ -4,12 +4,6 @@ Tilemap::Tilemap()
 {
 	//Set the vertices primitive type.
 	mVertices.setPrimitiveType(sf::Quads);
-
-	//Initialize "True" defaults, if no defaults json file is specified.
-	mDefaults.collideable = true;
-	mDefaults.bounds = sf::FloatRect{
-		0,0,32,32
-	};
 }
 
 void Tilemap::draw(	sf::RenderTarget& target,
@@ -123,16 +117,8 @@ bool Tilemap::getTileData(nlohmann::json& tiledata)
 
 	//Get default tile data.//
 	nlohmann::json default_data = tiledata["defaults"];
-
-	mDefaults.collideable = default_data["collideable"].get<bool>();
-
-	nlohmann::json bounds_array = default_data["bounds"];
-	mDefaults.bounds = sf::FloatRect(
-		bounds_array[0],
-		bounds_array[1],
-		bounds_array[2],
-		bounds_array[3]
-	);
+	
+	//((GET DATA HERE))
 	///////////////////////////
 
 	//If there's no individual tile data, return successful.
@@ -150,40 +136,7 @@ bool Tilemap::getTileData(nlohmann::json& tiledata)
 		//Get a reference to the json object.
 		nlohmann::json& data = it.value();
 		
-		//Check for the collideable tag.
-		auto collideableFound = data.find("collideable");
-
-		bool collideable = mDefaults.collideable;
-
-		if(collideableFound != data.end())
-		{
-			collideable = collideableFound->get<bool>();
-		}
-
-		//Check for the boundaries.
-		auto boundsFound = data.find("bounds");
-
-		sf::FloatRect bounds = mDefaults.bounds;
-
-		if(boundsFound != data.end())
-		{
-			//Get the four values of the boundaries.
-			std::vector<int> vals = boundsFound->get<std::vector<int>>();
-
-			//Set bounds to the newly found bounds.
-			bounds = sf::FloatRect{
-				(float)vals[0],
-				(float)vals[1],
-				(float)vals[2],
-				(float)vals[3]
-			};
-		}
-
-		//Append final values to the mTileData map.
-		mTileData[tile_id] = TileData{
-			.collideable = collideable,
-			.bounds = bounds
-		};
+		////////Get necessary data here///////////
 	}
 
 	//Return successful.
@@ -265,69 +218,6 @@ const Tilemap::TileData& Tilemap::getTileDataFor(int tileID)
 	
 	//Otherwise, return the info.
 	return found->second;
-}
-
-bool Tilemap::isCollidingWithTile(sf::Vector2f pos)
-{
-	//Get the inside tile.
-	sf::Vector2f tpos = getTileInside(pos);
-	
-	//Get the tile's ID.
-	int ID = getTileID(tpos);
-	
-	//Get the tile's data.
-	auto data = getTileDataFor(ID);
-	
-	//Assert the tile is collideable.
-	if(!data.collideable)
-		return false;
-	
-	//Create a FloatRect for the position + bounds.
-	sf::FloatRect bounds = {
-		pos.x + data.bounds.left,
-		pos.y + data.bounds.top,
-		data.bounds.width,
-		data.bounds.height
-	};
-	
-	//Return whether or not the position is contained.
-	return bounds.contains(pos);
-	
-	/*
-	^^^ Are the last 2 statements necessary? ^^^
-	*/
-}
-
-bool Tilemap::isCollidingWithTile(sf::FloatRect col)
-{
-	//Get the tiles at the top left & bottom right positions.
-	sf::Vector2f top_left = getTileInside(sf::Vector2f{col.left, col.top});
-	sf::Vector2f bottom_right = getTileInside(sf::Vector2f{
-		col.left + col.width,
-		col.top + col.height
-	});
-	
-	//Iterate through all tiles inbetween.
-	for(float y = top_left.y; y <= bottom_right.y; y += mTileDimensions.y)
-	{
-		for(float x = top_left.x; x <= bottom_right.x; x += mTileDimensions.x)
-		{
-			//Get the tile at the current position.
-			sf::Vector2f tpos = getTileInside(sf::Vector2f(x, y));
-			
-			//Get the tile's ID.
-			int ID = getTileID(tpos);
-			
-			//Get the tile's data.
-			auto data = getTileDataFor(ID);
-			
-			//If the tile is collideable, it's colliding. Return true.
-			if(data.collideable)
-				return true;
-		}
-	}
-	
-	return false;
 }
 
 sf::Vector2f Tilemap::getTileInside(sf::Vector2f pos)
