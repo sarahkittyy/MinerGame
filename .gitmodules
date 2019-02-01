@@ -1,0 +1,3 @@
+[submodule "include/imgui"]
+	path = include/imgui
+	url = https://github.com/eliasdaler/imgui-sfml.git
