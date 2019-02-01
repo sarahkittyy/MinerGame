@@ -43,6 +43,7 @@ int Application::run()
 		mWindow.clear(BG_COLOR);
 		
 		
+		
 		//Render ImGui last.
 		ImGui::SFML::Render(mWindow);
 		//Finish drawing.
