@@ -11,7 +11,7 @@
 
 #include "nlohmann/json.hpp"
 
-#include "Vector2Hash.h"
+#include "Vector2Hash.inl"
 
 /**
  * @brief Renders a grid of tiles to the screen, using a VertexArray.
