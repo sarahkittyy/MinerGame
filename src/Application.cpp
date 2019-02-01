@@ -40,7 +40,7 @@ int Application::run()
 		mUpdateGui();
 		
 		//Start drawing.
-		mWindow.clear(sf::Color::White);
+		mWindow.clear(BG_COLOR);
 		
 		
 		//Render ImGui last.

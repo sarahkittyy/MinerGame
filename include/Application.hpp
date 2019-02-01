@@ -25,6 +25,10 @@ public:
 	int run();
 	
 private:
+	//////////////////CONSTANTS////////////////////
+	const sf::Color BG_COLOR = sf::Color(100, 100, 255);
+	///////////////////////////////////////////////
+	
 	/**
 	 * @brief The main SFML renderwindow.
 	 * 
