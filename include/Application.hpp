@@ -4,6 +4,8 @@
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 
+#include "KeyManager.hpp"
+
 /**
  * @brief Base application class.
  * 

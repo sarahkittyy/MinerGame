@@ -9,6 +9,9 @@ Application::Application() :
 	ImGui::SFML::Init(mWindow);
 	mImGuiClock.restart();
 	
+	//Init the keyboard manager
+	KeyManager::setWindowReference(&mWindow);
+	
 }
 
 int Application::run()
@@ -35,6 +38,9 @@ int Application::run()
 				break;
 			}
 		}
+		
+		//Update the keyboard manager.
+		KeyManager::update();
 		
 		//Update the GUI.
 		mUpdateGui();
