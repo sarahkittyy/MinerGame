@@ -1,4 +1,4 @@
-#include "KeyManager.h"
+#include "KeyManager.hpp"
 
 //STATIC DECL
 sf::RenderWindow* KeyManager::mWindowPtr;
