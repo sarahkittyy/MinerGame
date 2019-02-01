@@ -2,7 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <imgui/imgui.h>
-#include <imgui/imgui-SFML.h>
+#include <imgui-sfml/imgui-SFML.h>
 
 /**
  * @brief Base application class.
@@ -29,5 +29,11 @@ private:
 	 * @brief The main SFML renderwindow.
 	 * 
 	 */
-	sf::RenderWindow mWindow;	
+	sf::RenderWindow mWindow;
+	
+	/**
+	 * @brief Clock for updating ImGui.
+	 * 
+	 */
+	sf::Clock mImGuiClock;
 };
