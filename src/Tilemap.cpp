@@ -30,8 +30,6 @@ bool Tilemap::loadFromID(int id)
 	std::string fname = std::to_string(digits); 
 	fname = std::string(3 - digits, '0') + fname;
 
-
-
 	//Load the actual tilemap data itself.
 	std::ifstream ifile("resource/maps/" + fname + "_Data.json");
 	
@@ -141,6 +139,31 @@ bool Tilemap::getTileData(nlohmann::json& tiledata)
 
 	//Return successful.
 	return true;
+}
+
+void Tilemap::setTileAt(sf::Vector2f pos, int newTileID)
+{
+	//Get the tile at the given position.
+	auto found = mTilePositions.find(getTileInside(pos));
+	
+	//If not found, return.
+	if(found == mTilePositions.end())
+	{
+		return;
+	}
+	
+	//Otherwise, set the tile ID at that position.
+	if(newTileID != 0)
+		found->second = newTileID - 1;
+	
+	//Get the position of it in the mTiles vector.
+	int vecpos = found->first.x + found->first.y * mGridDimensions.x;
+	
+	//Set the mTiles ID.
+	mTiles[vecpos] = newTileID;
+	
+	//Update the vertices.
+	updateVertices();
 }
 
 bool Tilemap::updateVertices()

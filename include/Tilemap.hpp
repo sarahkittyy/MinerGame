@@ -68,6 +68,14 @@ public:
 	 * @return int The ID.
 	 */
 	int getTileID(sf::Vector2f pos);
+	
+	/**
+	 * @brief Set the the at given position to the given ID.
+	 * 
+	 * @param pos The tile position to set.
+	 * @param newTileID The new tile ID.
+	 */
+	void setTileAt(sf::Vector2f pos, int newTileID);
 
 private:
 	/**
@@ -95,7 +103,7 @@ private:
 	 * @brief The internal vector of tile ID's.
 	 * 
 	 * @remarks The ID corresponds to a position in the mMapTexture, left->right. 0 is an empty, "air" tile.
-	 * 
+	 * DO NOT USE OUTSIDE updateVertices()
 	 */
 	std::vector<int> mTiles;
 
