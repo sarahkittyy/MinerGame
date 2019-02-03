@@ -1,0 +1,31 @@
+{
+	"texturedir": "textures/",
+	"resources": [
+		{
+			"name": "cash",
+			"icon": "icons/cash.png"	
+		},
+		{
+			"name": "coal",
+			"icon": "icons/coal.png"
+		}
+	],
+	"buildings": [
+		{
+			"name": "Coal Drill",
+			"price": {
+				"name": "cash",
+				"count": "10"
+			},
+			"texture": "buildings/coal_drill.png"
+		},
+		{
+			"name": "Stone Drill",
+			"price": {
+				"name": "coal",
+				"count": "25"
+			},
+			"texture": "buildings/stone_drill.png"
+		}
+	]
+}
