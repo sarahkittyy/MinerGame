@@ -14,22 +14,8 @@ void Tilemap::draw(	sf::RenderTarget& target,
 	target.draw(mVertices, states);
 }
 
-bool Tilemap::loadFromID(int id)
+bool Tilemap::loadFromFilename(std::string fname)
 {
-	//Get the digits in the file name.
-	int digits = (int)std::log10(id) + 1;
-	
-	//Limit of 999 maps.
-	if(digits > 3)
-	{
-		//Invalid ID.
-		return false;
-	}
-
-	//Prepend `3-digits` zeroes to the front of the ID.
-	std::string fname = std::to_string(digits); 
-	fname = std::string(3 - digits, '0') + fname;
-
 	//Load the actual tilemap data itself.
 	std::ifstream ifile("resource/maps/" + fname + "_Data.json");
 	

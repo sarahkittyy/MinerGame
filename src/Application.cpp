@@ -13,7 +13,9 @@ Application::Application() :
 	KeyManager::setWindowReference(&mWindow);
 	
 	//Init the map.
-	mMap.loadFromID(1);
+	mMap.loadFromFilename("map");
+	
+	//Init the object map.
 }
 
 int Application::run()

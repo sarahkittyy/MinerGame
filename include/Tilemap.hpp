@@ -30,13 +30,13 @@ public:
 	/**
 	 * @brief Loads the tilemap data from it's ID.
 	 * 
-	 * @param id The ID of the map.
+	 * @param name The name of the map, without the path/.json extension.
 	 * @return true The map loaded properly.
 	 * @return false The map didn't load properly.
 	 * 
-	 * @see resource/maps/<ID>.json
+	 * @see resource/maps/name.json
 	 */
-	bool loadFromID(int id);
+	bool loadFromFilename(std::string fname);
 	
 	//////////////COLLISION INFORMATION RETRIEVAL//////////////
 	
