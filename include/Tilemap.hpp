@@ -19,20 +19,7 @@
  */
 class Tilemap : public sf::Drawable,
 				public sf::Transformable
-{
-protected:
-	/**
-	 * @brief A struct for the data of each type of tile.
-	 * Data is retrieved from Tilemap::getTileData()
-	 * 
-	 * @see resource/maps/<ID>.json
-	 * 
-	 */
-	struct TileData
-	{
-		
-	};
-	
+{	
 public:
 	/**
 	 * @brief Construct the map.
@@ -58,8 +45,10 @@ public:
 	 * 
 	 * @param tileID The ID to retrieve.
 	 * @return const TileData& The data of the tile.
+	 * 
+	 * @remarks tileID includes air as 0.
 	 */
-	const TileData& getTileDataFor(int tileID);	
+	const nlohmann::json& getTileDataFor(int tileID);	
 	
 	/**
 	 * @brief Get the Tile ID at the specified position.
@@ -128,16 +117,21 @@ private:
 	std::unordered_map<sf::Vector2f, int, Vector2Hash> mTilePositions;
 	
 	/**
-	 * @brief The default tile data values, for unspecified tile data.
+	 * @brief The default tile data.
+	 * 
+	 * @see resource/maps/INFO.md
 	 * 
 	 */
-	TileData mDefaults;
+	nlohmann::json mTileDefaults;
 
 	/**
-	 * @brief A map of custom tile data, specified in resource/maps/<ID>.json
+	 * @brief A json object for individual tile data.
 	 * 
+	 * @remarks Objects are sorted by ID, so mTileData::at("0") is structured the same as mTileDefaults.
+	 * 
+	 * @see resource/maps/INFO.md
 	 */
-	std::unordered_map<int, TileData> mTileData;
+	nlohmann::json mTileData;
 
 	//////////////INITIALIZATION FUNCTIONS//////////////////
 

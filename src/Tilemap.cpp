@@ -114,9 +114,9 @@ bool Tilemap::getTileData(nlohmann::json& tiledata)
 	*/
 
 	//Get default tile data.//
-	nlohmann::json default_data = tiledata["defaults"];
+	mTileDefaults = tiledata["defaults"];
 	
-	//((GET DATA HERE))
+	
 	///////////////////////////
 
 	//If there's no individual tile data, return successful.
@@ -125,17 +125,8 @@ bool Tilemap::getTileData(nlohmann::json& tiledata)
 		return true;
 	}
 
-	//Iterate through all tiles objects now.
-	for(auto& it : tiledata["tiles"].items())
-	{
-		//Get the tile id.
-		int tile_id = std::stoi(it.key());
-
-		//Get a reference to the json object.
-		nlohmann::json& data = it.value();
-		
-		////////Get necessary data here///////////
-	}
+	//Otherwise, set mTileData to the data.
+	mTileData = tiledata["tiles"];
 
 	//Return successful.
 	return true;
@@ -228,19 +219,19 @@ bool Tilemap::updateVertices()
 	return true;
 }
 
-const Tilemap::TileData& Tilemap::getTileDataFor(int tileID)
+const nlohmann::json& Tilemap::getTileDataFor(int tileID)
 {
 	//Check if the tiledata was found.
-	auto found = mTileData.find(tileID+1);
+	auto found = mTileData.find(std::to_string(tileID));
 	
 	//If it wasn't found...
 	if(found == mTileData.end())
 	{
-		return mDefaults;
+		return mTileDefaults;
 	}
 	
 	//Otherwise, return the info.
-	return found->second;
+	return *found;
 }
 
 sf::Vector2f Tilemap::getTileInside(sf::Vector2f pos)

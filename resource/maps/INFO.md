@@ -28,9 +28,3 @@ The <ID>.json file is for customization -- an example file would look like this:
 
 * "tiles"
 	* The individual tile configuration. Each json object is labeled with the tile's ID, and the inside contents are the same as all other tile configurations (including "defaults")
-
-### Tile configuration options are listed in the table below. (Subject to change).
-
-| Option        | Definition |
-|---------------|------------|
-...(None yet)
