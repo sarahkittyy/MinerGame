@@ -16,6 +16,7 @@ Application::Application() :
 	mMap.loadFromFilename("map");
 	
 	//Init the object map.
+	mObjectMap.loadFromFilename("objectmap");
 }
 
 int Application::run()
@@ -53,6 +54,7 @@ int Application::run()
 		mWindow.clear(BG_COLOR);
 		
 		mWindow.draw(mMap);
+		mWindow.draw(mObjectMap);
 		
 		//Render ImGui last.
 		ImGui::SFML::Render(mWindow);
