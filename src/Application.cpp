@@ -14,9 +14,6 @@ Application::Application() :
 	
 	//Init the map.
 	mMap.loadFromFilename("map");
-	
-	//Init the object map.
-	mObjectMap.loadFromFilename("objectmap");
 }
 
 int Application::run()
@@ -54,7 +51,6 @@ int Application::run()
 		mWindow.clear(BG_COLOR);
 		
 		mWindow.draw(mMap);
-		mWindow.draw(mObjectMap);
 		
 		//Render ImGui last.
 		ImGui::SFML::Render(mWindow);
@@ -74,8 +70,33 @@ void Application::mUpdateGui()
 	ImGui::SFML::Update(mWindow, mImGuiClock.restart());
 	
 	//Init window components.
-	ImGui::Begin("Miner");
+	ImGui::Begin("Buildings", nullptr, ImVec2(400,200), 255, 
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoCollapse | 
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoResize);
+	ImGui::SetWindowPos(ImVec2(0, 400));
 	
 	//Stop initializing imgui window componenets.
 	ImGui::End();	
+	
+	//Create the statistics window.
+	ImGui::Begin("Statistics", nullptr, ImVec2(200,400), 255,
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoCollapse | 
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoResize);
+	ImGui::SetWindowPos(ImVec2(400,0));
+	
+	ImGui::End();
+	
+	//Create the tooltip window.
+	ImGui::Begin("Tooltip", nullptr, ImVec2(400,200), 255,
+		ImGuiWindowFlags_NoSavedSettings |
+		ImGuiWindowFlags_NoCollapse | 
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoResize);
+	ImGui::SetWindowPos(ImVec2(400,400));
+		
+	ImGui::End();
 }
