@@ -51,6 +51,12 @@ private:
 	Tilemap mMap;
 	
 	/**
+	 * @brief Tilemap for all objects built on the map.
+	 * 
+	 */
+	Tilemap mObjectMap;
+	
+	/**
 	 * @brief Begin & End the main ImGui windows.
 	 * 
 	 */
