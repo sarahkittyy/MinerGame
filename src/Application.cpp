@@ -88,7 +88,7 @@ void Application::mUpdateGui()
 	
 	//Create a child container for the building buttons.
 	ImGui::BeginChild("BuildingButtons", ImVec2(100,160), true, default_flags);
-	ImGui::Columns(3);
+	ImGui::Columns(3, nullptr, false);
 	
 	//Render the building manager's gui components.
 	mBuilder.renderGuiBuildings();
