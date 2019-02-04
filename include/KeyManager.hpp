@@ -33,13 +33,22 @@ public:
 	static sf::Vector2i getMousePos();
 
 	/**
-	 * @brief Retrieve the mouse state.
+	 * @brief Retrieve the LMB state.
 	 * 
 	 * @return short The state of the left mouse button.
 	 * 
 	 * @see getKeyState
 	 */
-	static short getMouseState();
+	static short getLMouseState();
+	
+	/**
+	 * @brief Retrieve the RMB state.
+	 * 
+	 * @return short The state of the right mouse button.
+	 * 
+	 * @see getKeyState
+	 */
+	static short getRMouseState();
 
 	/**
 	 * @brief Retrieves current keyboard states.
@@ -69,8 +78,14 @@ private:
 	static std::unordered_map<sf::Keyboard::Key, short> mKeyStates;
 
 	/**
-	 * @brief The current mouse state.
+	 * @brief The current LMB state.
 	 * 
 	 */
-	static short mMouseState;
+	static short mLMouseState;
+	
+	/**
+	 * @brief The current RMB state.
+	 * 
+	 */
+	static short mRMouseState;
 };
