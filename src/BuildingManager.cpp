@@ -61,6 +61,38 @@ void BuildingManager::renderGuiResources()
 	}
 }
 
+void BuildingManager::renderGuiTooltip()
+{
+	/* PSUEDOCODE (?)
+	
+	Building Tooltip Info
+		* Name
+		* Icon
+		* Description
+		* Price
+		* Resource I/O
+	
+	If in build mode:
+		* Building tooltip.
+		
+	If building button hovered:
+		*  Building tooltip.
+	
+	If nothing is selected:
+		* TPS
+		* Game Time Elapsed
+	
+	If building on map is highlighted:
+		* Sell price.
+		* Note: (Right click to sell)
+		
+	Extra Notes:
+		* Sell price = 90% buy price.
+	*/
+
+	
+}
+
 void BuildingManager::update()
 {
 	//Update build mode.

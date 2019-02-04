@@ -70,6 +70,14 @@ public:
 	void renderGuiResources();
 	
 	/**
+	 * @brief Renders the tooltip for building information.
+	 * 
+	 * @remarks
+	 * 
+	 */
+	void renderGuiTooltip();
+	
+	/**
 	 * @brief Updates the actively placed buildings & "build mode".
 	 * 
 	 * @remarks Counts ticks & updates resources/tick.
