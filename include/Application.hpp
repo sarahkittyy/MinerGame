@@ -6,6 +6,7 @@
 
 #include "KeyManager.hpp"
 #include "Tilemap.hpp"
+#include "BuildingManager.hpp"
 
 /**
  * @brief Base application class.
@@ -49,6 +50,12 @@ private:
 	 * 
 	 */
 	Tilemap mMap;
+	
+	/**
+	 * @brief The main building manager.
+	 * 
+	 */
+	BuildingManager mBuilder;
 	
 	/**
 	 * @brief Begin & End the main ImGui windows.
