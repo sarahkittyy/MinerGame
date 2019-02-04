@@ -80,8 +80,8 @@ void Application::mUpdateGui()
 		ImGuiWindowFlags_NoMove |
 		ImGuiWindowFlags_NoResize;
 	
-	//Init window components.
-	ImGui::Begin("Buildings", nullptr, ImVec2(400,200), 255, 
+	//Init building window.///////////////////////////////////
+	ImGui::Begin("Buildings", nullptr, ImVec2(400,200), -1.0f, 
 		default_flags);
 	ImGui::SetWindowPos(ImVec2(0, 400));
 	
@@ -90,25 +90,39 @@ void Application::mUpdateGui()
 	ImGui::Columns(3);
 	
 	//Render the building manager's gui components.
-	mBuilder.renderGui();
+	mBuilder.renderGuiBuildings();
 	
-	ImGui::EndChild();
-	
+	ImGui::EndChild();	
 	
 	//Stop initializing imgui window componenets.
-	ImGui::End();	
+	ImGui::End();
+	////////////////////////////////////////////////////////
 	
-	//Create the statistics window.
-	ImGui::Begin("Statistics", nullptr, ImVec2(200,400), 255,
+	//Create the statistics window.////////////////////
+	ImGui::Begin("Statistics", nullptr, ImVec2(200,400), -1.0f,
 		default_flags);
 	ImGui::SetWindowPos(ImVec2(400,0));
 	
-	ImGui::End();
+	//Create a child container for the resource counts.
+	ImGui::BeginChild("StatisticsResources", ImVec2(160, 200), true, default_flags);
+	ImGui::Columns(2, nullptr, false);
+	ImGui::SetColumnWidth(0, 25);
+	ImGui::SetColumnWidth(1, 175);
 	
+	//Render the resource counts with their icons.
+	mBuilder.renderGuiResources();
+	
+	ImGui::EndChild();
+	
+	ImGui::End();
+	//////////////////////////////////////////////////////
+	
+	//////////////////////////////////////////////////////
 	//Create the tooltip window.
-	ImGui::Begin("Tooltip", nullptr, ImVec2(400,200), 255,
+	ImGui::Begin("Tooltip", nullptr, ImVec2(400,200), -1.0f,
 		default_flags);
 	ImGui::SetWindowPos(ImVec2(400,400));
 		
 	ImGui::End();
+	//////////////////////////////////////////////////////
 }
