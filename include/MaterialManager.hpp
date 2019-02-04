@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <initializer_list>
 
+#include <SFML/Graphics.hpp>
+
 #include "nlohmann/json.hpp"
 
 /**
@@ -75,10 +77,32 @@ public:
 	 */
 	bool purchase(std::initializer_list<Resource> cost);
 	
+	/**
+	 * @brief Retrieve a const reference to the resource map.
+	 * 
+	 * @return const std::unordered_map<std::string, int>& A reference to the internal resources.
+	 */
+	const std::unordered_map<std::string, int>& getResources();
+	
+	/**
+	 * @brief Get a pointer to the icon texture for the specified resource.
+	 * 
+	 * @param resource The resource's texture to retrieve.
+	 * @return sf::Texture* A pointer to the texture.
+	 */
+	sf::Texture* getTexture(std::string resource);
+
+	
 private:
 	/**
 	 * @brief Internal map of the name to the count of each resource.
 	 * 
 	 */
 	std::unordered_map<std::string, int> mResources;
+	
+	/**
+	 * @brief Map of resources to their texture.
+	 * 
+	 */
+	std::unordered_map<std::string, sf::Texture> mIconTextures;
 };
