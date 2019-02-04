@@ -1,11 +1,112 @@
 #include "BuildingManager.hpp"
 
-BuildingManager::BuildingManager()
+BuildingManager::BuildingManager(Tilemap* map)
 {
+	mMap = map;
+	mBuildMode = false;
 	if(!initBuildings())
 	{
 		throw std::runtime_error("Building initialization failed.");
 	}
+}
+
+void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	//If attempting to place a building...
+	if(mBuildMode)
+	{
+		//Draw the held building sprite.
+		target.draw(mBuildingSprite, states);
+	}
+	
+	//Draw all built buildings.
+	for(auto &i : mBuilt)
+	{
+		target.draw(i.spr, states);
+	}
+}
+
+void BuildingManager::renderGui()
+{
+	for(auto i : mBuildings)
+	{
+		if(ImGui::ImageButton(i.texture, 1))
+		{
+			placeBuilding(&i);
+		}
+		ImGui::NextColumn();
+	}
+}
+
+void BuildingManager::update()
+{
+	//Update build mode.
+	if(mBuildMode)
+	{
+		updateBuilding();
+	}
+}
+
+void BuildingManager::placeBuilding(BuildingManager::Building* building)
+{
+	mBuildMode = true;
+	mBuildingSprite.setTexture(building->texture);
+	mBuildingBuilding = building;
+}
+
+void BuildingManager::updateBuilding()
+{
+	//Center building sprite on mouse position.
+	mBuildingSprite.setPosition((sf::Vector2f)KeyManager::getMousePos() - sf::Vector2f(
+		mBuildingSprite.getGlobalBounds().width/2.0f,
+		mBuildingSprite.getGlobalBounds().height/2.0f
+	));
+	
+	//Check for keys to indicate escaping building mode.
+	if(KeyManager::getKeyState(sf::Keyboard::Escape))
+	{
+		releaseBuilding();
+		return;
+	}
+	//Check if mouse is clicked.
+	if(KeyManager::getMouseState())
+	{
+		//If off the tilemap boundaries...
+		if(	KeyManager::getMousePos().x > 400 || 
+			KeyManager::getMousePos().x < 0 ||
+			KeyManager::getMousePos().y > 400 ||
+			KeyManager::getMousePos().y < 0)
+		{
+			//Release the building.
+			releaseBuilding();
+			return;
+		}
+		
+		//Get the mouse's highlighted tile position.
+		sf::Vector2f tile_pos = mMap->getTileInside((sf::Vector2f)KeyManager::getMousePos());
+		
+		//Get the data for the tile we're currently on.
+		nlohmann::json tiledata = mMap->getTileDataFor(mMap->getTileID(tile_pos));
+		
+		//If we're on land..
+		if(tiledata.at("land").get<bool>())
+		{
+			//Plant the building.
+			BuildingEntityData b;
+			b.building_data = mBuildingBuilding;
+			b.spr.setTexture(mBuildingBuilding->texture);
+			b.spr.setPosition(tile_pos);
+			mBuilt.push_back(b);
+			
+			//Release the building.
+			releaseBuilding();
+		}
+	}
+}
+
+void BuildingManager::releaseBuilding()
+{
+	mBuildMode = false;
 }
 
 bool BuildingManager::initBuildings()
@@ -37,6 +138,7 @@ bool BuildingManager::initBuildings()
 		Building b;
 		b.name = obj.at("name").get<std::string>();
 		b.texture.loadFromFile(texture_dir + obj.at("texture").get<std::string>());
+		b.description = obj.at("description").get<std::string>();
 		
 		//Iterate through all price objects.
 		for(nlohmann::json& price_obj : obj.at("price").get<nlohmann::json>())
@@ -48,6 +150,9 @@ bool BuildingManager::initBuildings()
 			//Add the new resource object to the building cost vector.
 			b.price.push_back(r);
 		}
+		
+		//Push the building into the internal vector.
+		mBuildings.push_back(b);
 	}
 	
 	//Return successful.
