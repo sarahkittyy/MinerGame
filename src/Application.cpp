@@ -1,7 +1,8 @@
 #include "Application.hpp"
 
 Application::Application() :
-	mWindow(sf::VideoMode(600,600), "Miner")
+	mWindow(sf::VideoMode(600,600), "Miner"),
+	mBuilder(&mMap)
 {
 	mWindow.setFramerateLimit(60);
 	
@@ -47,10 +48,14 @@ int Application::run()
 		//Update the GUI.
 		mUpdateGui();
 		
+		//Update the building manager
+		mBuilder.update();
+		
 		//Start drawing.
 		mWindow.clear(BG_COLOR);
 		
 		mWindow.draw(mMap);
+		mWindow.draw(mBuilder);
 		
 		//Render ImGui last.
 		ImGui::SFML::Render(mWindow);
@@ -69,33 +74,40 @@ void Application::mUpdateGui()
 	//Update ImGui
 	ImGui::SFML::Update(mWindow, mImGuiClock.restart());
 	
-	//Init window components.
-	ImGui::Begin("Buildings", nullptr, ImVec2(400,200), 255, 
-		ImGuiWindowFlags_NoSavedSettings |
+	//Get ImGui window flags.
+	ImGuiWindowFlags default_flags = ImGuiWindowFlags_NoSavedSettings |
 		ImGuiWindowFlags_NoCollapse | 
 		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoResize);
+		ImGuiWindowFlags_NoResize;
+	
+	//Init window components.
+	ImGui::Begin("Buildings", nullptr, ImVec2(400,200), 255, 
+		default_flags);
 	ImGui::SetWindowPos(ImVec2(0, 400));
+	
+	
+	ImGui::BeginChild("Buildings", ImVec2(100,160), true, default_flags);
+	
+	ImGui::Columns(3);
+	//Render the building manager's gui components.
+	mBuilder.renderGui();
+	
+	ImGui::EndChild();
+	
 	
 	//Stop initializing imgui window componenets.
 	ImGui::End();	
 	
 	//Create the statistics window.
 	ImGui::Begin("Statistics", nullptr, ImVec2(200,400), 255,
-		ImGuiWindowFlags_NoSavedSettings |
-		ImGuiWindowFlags_NoCollapse | 
-		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoResize);
+		default_flags);
 	ImGui::SetWindowPos(ImVec2(400,0));
 	
 	ImGui::End();
 	
 	//Create the tooltip window.
 	ImGui::Begin("Tooltip", nullptr, ImVec2(400,200), 255,
-		ImGuiWindowFlags_NoSavedSettings |
-		ImGuiWindowFlags_NoCollapse | 
-		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoResize);
+		default_flags);
 	ImGui::SetWindowPos(ImVec2(400,400));
 		
 	ImGui::End();
