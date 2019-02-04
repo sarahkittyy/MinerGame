@@ -214,14 +214,41 @@ void BuildingManager::updateBuilding()
 				}
 			}
 			
-			//Plant the building.
-			BuildingEntityData b;
-			b.building_data = mBuildingBuilding;
-			b.spr.setTexture(mBuildingBuilding->texture);
-			b.spr.setPosition(tile_pos);
+			//Check if we can purchase the building.
+			bool purchaseable = true;
+			for(auto &i : mBuildingBuilding->price)
+			{
+				if(!mMaterials.canPurchase({
+					.name = i.name,
+					.count = i.count
+				}))
+				{
+					purchaseable = false;
+					break;
+				}
+			}
 			
-			//..Why does this line error in vs code, but compile properly??
-			mBuilt.push_back(b);
+			//If purchaseable...
+			if(purchaseable)
+			{
+				//Purchase...
+				for(auto &i : mBuildingBuilding->price)
+				{
+					mMaterials.purchase({
+						.name = i.name,
+						.count = i.count
+					});
+				}
+				
+				//Plant the building.
+				BuildingEntityData b;
+				b.building_data = mBuildingBuilding;
+				b.spr.setTexture(mBuildingBuilding->texture);
+				b.spr.setPosition(tile_pos);
+				
+				//..Why does this line error in vs code, but compile properly??
+				mBuilt.push_back(b);
+			}	
 		}
 		//Release the building.
 		releaseBuilding();

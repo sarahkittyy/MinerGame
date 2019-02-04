@@ -23,7 +23,7 @@ void MaterialManager::initResources(nlohmann::json& objectdata)
 	}
 }
 
-void MaterialManager::setResourceCount(Resource r)
+void MaterialManager::setResourceCount(MaterialManager::Resource r)
 {
 	//Set the new count of resources.
 	mResources[r.name] = r.count;
@@ -34,43 +34,31 @@ int MaterialManager::getResourceCount(std::string resource_name)
 	return mResources[resource_name];
 }
 
-void MaterialManager::addResources(Resource r)
+void MaterialManager::addResources(MaterialManager::Resource r)
 {
 	//Add the specified resource count.
 	mResources[r.name] += r.count;
 }
 
-void MaterialManager::removeResources(Resource r)
+void MaterialManager::removeResources(MaterialManager::Resource r)
 {
 	mResources[r.name] -= r.count;
 }
 
-bool MaterialManager::canPurchase(Resource r)
+bool MaterialManager::canPurchase(MaterialManager::Resource r)
 {
-	//For every item..
-	for(auto &i : r)
-	{
-		//If it's not purchaseable, return false.
-		if(mResources[i.name] < i.count)
-			return false;
-	}
-	
-	//Return true.
-	return true;
+	return mResources[r.name] >= r.count;
 }
 
-bool MaterialManager::purchase(Resource r)
+bool MaterialManager::purchase(MaterialManager::Resource r)
 {
 	if(!canPurchase(r))
 	{
 		return false;
 	}
 	
-	//We're still going, so now purchase all items.
-	for(auto &i : r)
-	{
-		mResources[i.name] -= i.count;
-	}
+	//Purchase the item.
+	mResources[r.name] -= r.count;
 	
 	//We were successful.
 	return true;
