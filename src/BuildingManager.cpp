@@ -7,13 +7,14 @@ BuildingManager::BuildingManager(Tilemap* map)
 	mBuildMode = false;
 	mTPS = 1;
 	
-	mMaterials.addResources({.name = "Cash", .count = 10});
-	
 	//Attempt to initialize buildings...
 	if(!initBuildings())
 	{
 		throw std::runtime_error("Building initialization failed.");
 	}
+	
+	//Add starter materials.
+	mMaterials.addResources({.name = "Cash", .count = 10});
 }
 
 void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) const
