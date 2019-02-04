@@ -288,6 +288,30 @@ void BuildingManager::update()
 		
 		mTickClock.restart();
 	}
+	
+	//Check if hovering a building on the map.
+	for(auto i = mBuilt.begin(); i != mBuilt.end(); )
+	{
+		//If the mouse is hovered over a building
+		//& the right mouse button is released..
+		if(i->spr.getGlobalBounds().contains(
+			(sf::Vector2f)KeyManager::getMousePos())
+			&& KeyManager::getRMouseState() == 2)
+		{
+			//Remove the building from the map.
+			mBuilt.erase(i);
+			
+			//Return the sell price of the building.
+			for(auto &j : i->building_data->sellprice)
+			{
+				mMaterials.addResources(j);
+			}
+			
+			//Break.
+			break;
+		}
+		else { ++i; }
+	}
 }
 
 void BuildingManager::updateTick()
@@ -373,7 +397,7 @@ void BuildingManager::updateBuilding()
 		return;
 	}
 	
-	//Check if mouse is clicked.
+	//Check if left mouse is clicked.
 	if(KeyManager::getLMouseState() == 1)
 	{	
 		//Get the data for the tile we're currently on.
