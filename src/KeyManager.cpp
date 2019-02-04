@@ -79,7 +79,7 @@ short KeyManager::getLMouseState()
 
 short KeyManager::getRMouseState()
 {
-	return RMouseState;
+	return mRMouseState;
 }
 
 short KeyManager::getKeyState(sf::Keyboard::Key key)
