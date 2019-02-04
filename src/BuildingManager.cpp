@@ -374,7 +374,7 @@ void BuildingManager::updateBuilding()
 	}
 	
 	//Check if mouse is clicked.
-	if(KeyManager::getMouseState() == 1)
+	if(KeyManager::getLMouseState() == 1)
 	{	
 		//Get the data for the tile we're currently on.
 		nlohmann::json tiledata = mMap->getTileDataFor(mMap->getTileID(tile_pos));
