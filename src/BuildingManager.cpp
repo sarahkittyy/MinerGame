@@ -28,7 +28,7 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 
 void BuildingManager::renderGui()
 {
-	for(auto i : mBuildings)
+	for(auto& i : mBuildings)
 	{
 		if(ImGui::ImageButton(i.texture, 1))
 		{
@@ -80,7 +80,7 @@ void BuildingManager::updateBuilding()
 	mBuildingSprite.setPosition(tile_pos);
 	
 	//Check if mouse is clicked.
-	if(KeyManager::getMouseState())
+	if(KeyManager::getMouseState() == 1)
 	{	
 		//Get the data for the tile we're currently on.
 		nlohmann::json tiledata = mMap->getTileDataFor(mMap->getTileID(tile_pos));
