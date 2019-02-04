@@ -1,5 +1,7 @@
 #pragma once
-
+////////TODO///////
+//Refactor ;-;
+///////////////////
 #include <SFML/Graphics.hpp>
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
@@ -38,6 +40,7 @@ public:
 	{
 		std::string name;
 		std::vector<MaterialManager::Resource> price;
+		std::vector<MaterialManager::Resource> sellprice;
 		sf::Texture texture;
 		std::string description;
 		nlohmann::json pertick;
@@ -104,6 +107,12 @@ private:
 	sf::Clock mTickClock;
 	
 	/**
+	 * @brief Clock that's never reset, logging the total game time elapsed.
+	 * 
+	 */
+	sf::Clock mGlobalClock;
+	
+	/**
 	 * @brief The ticks per second.
 	 * 
 	 */
@@ -133,6 +142,15 @@ private:
 	 * @param building The building to render the tooltip for.
 	 */
 	void renderGuiBuildingTooltip(Building& building);
+	
+	/**
+	 * @brief Renders the tooltip for a building on the map.
+	 * 
+	 * @param building The building to render the tooltip for.
+	 * 
+	 * @see renderGuiBuildingTooltip
+	 */
+	void renderGuiMapBuildingTooltip(Building& building);
 	
 	/**
 	 * @brief Initializes the material manager & the mBuildings vector.
@@ -192,5 +210,9 @@ private:
 	 */
 	bool mBuildingButtonHovered;
 	
+	/**
+	 * @brief Pointer to the building being hovered over.
+	 * 
+	 */
 	Building* mBuildingHovered;
 };

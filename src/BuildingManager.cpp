@@ -6,6 +6,7 @@ BuildingManager::BuildingManager(Tilemap* map)
 	mMap = map;
 	mBuildMode = false;
 	mTPS = 1;
+	mGlobalClock.restart();
 	
 	//Attempt to initialize buildings...
 	if(!initBuildings())
@@ -106,27 +107,55 @@ void BuildingManager::renderGuiTooltip()
 	Extra Notes:
 		* Sell price = 90% buy price.
 	*/
+	
+	bool mapBuildingHovered = false;
+	Building* mapBuildingHoveredBuilding = nullptr;
+	//Check if building on map is hovered...
+	for(auto &i : mBuilt)
+	{
+		//If the sprite contains the mouse's position...
+		if(i.spr.getGlobalBounds().contains(
+			(sf::Vector2f)KeyManager::getMousePos()
+		))
+		{
+			//We're hovering, grab a pointer to the hovered building and break.
+			mapBuildingHovered = true;
+			mapBuildingHoveredBuilding = i.building_data;
+			break;
+		}
+	}
 
 	//Build mode check..
 	if(mBuildMode)
 	{
 		renderGuiBuildingTooltip(*mBuildingBuilding);
 	}
-	else if(mBuildingButtonHovered)
+	else if(mBuildingButtonHovered) //Otherwise, if hovering over a button...
 	{
 		renderGuiBuildingTooltip(*mBuildingHovered);
+	}
+	else if(mapBuildingHovered) //If a building on the map is hovered..
+	{
+		renderGuiMapBuildingTooltip(*mapBuildingHoveredBuilding);
+	}
+	else //If neither...
+	{
+		//Render the TPS & the game time elapsed.
+		ImGui::Text("Ticks/Second: %d\n---\n", mTPS);
+		ImGui::Text("Time Elapsed: %d sec.", 
+						(int)mGlobalClock.getElapsedTime().asSeconds());
 	}
 }
 
 void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& building)
 {
 	/*
-	Building Tooltip Info
+	Building Tooltip info:
 		* Name
 		* Icon
-		* Description
-		* Price
+		* Desc
 		* Resource I/O
+		* Price
 	*/
 	//Render the icon of the building.
 	ImGui::Image(building.texture);
@@ -177,6 +206,71 @@ void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& buildi
 		ImGui::SameLine();
 		ImGui::Text("%d %s", count, name.c_str());
 	}
+}
+
+void BuildingManager::renderGuiMapBuildingTooltip(BuildingManager::Building& building)
+{
+	/*
+	Selling Tooltip Info
+		* Name
+		* Icon
+		* Description
+		* Sell price.
+		* Resource I/O
+		* Note: Right click to sell.
+	*/
+	//Render the icon of the building.
+	ImGui::Image(building.texture);
+	
+	//Render the name & building of the building.
+	ImGui::Text("%s\n> %s\n---", building.name.c_str(), building.description.c_str());
+	
+	//Begin rendering the sell price.
+	ImGui::Text("Sells for:");
+	//So for each element of the total cost..
+	for(auto &i : building.sellprice)
+	{
+		//Render the icon.
+		ImGui::Image(*mMaterials.getTexture(i.name));
+		//Render the name & count
+		ImGui::SameLine();
+		ImGui::Text("%d %s", i.count, i.name.c_str());
+	}
+	
+	//Render the resource I/O..
+	if(building.pertick.at("resource_in").size() != 0)
+		ImGui::Text("Input/Tick:");
+	//Get all necessary input resources.
+	for(auto &i : building.pertick.at("resource_in"))
+	{
+		std::string name = i.at("name").get<std::string>();
+		int count = i.at("count").get<int>();
+		
+		//Render the icon.
+		ImGui::Image(*mMaterials.getTexture(name));
+		//Render the name & count
+		ImGui::SameLine();
+		ImGui::Text("%d %s", count, name.c_str());
+	}
+	
+	//Now for out I/O...
+	if(building.pertick.at("resource_out").size() != 0)
+		ImGui::Text("Output/Tick:");
+	//Get all necessary output resources.
+	for(auto &i : building.pertick.at("resource_out"))
+	{
+		std::string name = i.at("name").get<std::string>();
+		int count = i.at("count").get<int>();
+		
+		//Render the icon.
+		ImGui::Image(*mMaterials.getTexture(name));
+		//Render the name & count
+		ImGui::SameLine();
+		ImGui::Text("%d %s", count, name.c_str());
+	}
+	
+	//Inform the user they can right click to sell.
+	ImGui::Text("-Sell with RMB-");
 }
 
 void BuildingManager::update()
@@ -372,6 +466,7 @@ bool BuildingManager::initBuildings()
 	//Iterate through the list of buildings.
 	for(nlohmann::json& obj : object_data.at("buildings").get<nlohmann::json>())
 	{
+		//////BUILDING INITIALIZATION HAPPENS HERE////
 		//Create a new building.
 		Building b;
 		b.name = obj.at("name").get<std::string>();
@@ -387,6 +482,16 @@ bool BuildingManager::initBuildings()
 			r.count = price_obj.at("count").get<int>();
 			//Add the new resource object to the building cost vector.
 			b.price.push_back(r);
+		}
+		//Iterate the same as before, but with sellprice objects.
+		for(nlohmann::json& sellprice_obj : obj.at("sellprice").get<nlohmann::json>())
+		{
+			//Create a new Resource object.
+			MaterialManager::Resource r;
+			r.name = sellprice_obj.at("name").get<std::string>();
+			r.count = sellprice_obj.at("count").get<int>();
+			//Add the new resource object to the building cost vector.
+			b.sellprice.push_back(r);
 		}
 		
 		b.pertick = obj.at("pertick");

@@ -78,7 +78,8 @@ void Application::mUpdateGui()
 	ImGuiWindowFlags default_flags = ImGuiWindowFlags_NoSavedSettings |
 		ImGuiWindowFlags_NoCollapse | 
 		ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoResize;
+		ImGuiWindowFlags_NoResize | 
+		ImGuiWindowFlags_NoTitleBar;
 	
 	//Init building window.///////////////////////////////////
 	ImGui::Begin("Buildings", nullptr, ImVec2(400,200), -1.0f, 
@@ -99,7 +100,7 @@ void Application::mUpdateGui()
 	////////////////////////////////////////////////////////
 	
 	//Create the statistics window.////////////////////
-	ImGui::Begin("Statistics", nullptr, ImVec2(200,400), -1.0f,
+	ImGui::Begin("Statistics", nullptr, ImVec2(200,250), -1.0f,
 		default_flags);
 	ImGui::SetWindowPos(ImVec2(400,0));
 	
@@ -119,12 +120,12 @@ void Application::mUpdateGui()
 	
 	//////////////////////////////////////////////////////
 	//Create the tooltip window.
-	ImGui::Begin("Tooltip", nullptr, ImVec2(200,200), -1.0f,
+	ImGui::Begin("Tooltip", nullptr, ImVec2(200,350), -1.0f,
 		default_flags);
-	ImGui::SetWindowPos(ImVec2(400,400));
+	ImGui::SetWindowPos(ImVec2(400,250));
 	
 	//Create the child container for the building manager tooltip.
-	ImGui::BeginChild("TooltipBuildings", ImVec2(200,160), false, default_flags);
+	ImGui::BeginChild("TooltipBuildings", ImVec2(200,325), false, default_flags);
 	
 	//Render the resource tooltip.
 	mBuilder.renderGuiTooltip();
