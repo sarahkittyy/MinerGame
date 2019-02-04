@@ -1,4 +1,4 @@
-# Miner
+# MinerGame
 
 A small little incremental game about diggin' some dirt! <3
 
