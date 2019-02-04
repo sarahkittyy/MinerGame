@@ -128,10 +128,8 @@ void BuildingManager::updateTick()
 		{
 			//Break if unpurchaseable.
 			if(!mMaterials.canPurchase({
-				{
 					.name = obj.at("name").get<std::string>(),
 					.count = obj.at("count").get<int>()
-				}
 			}))
 			{
 				purchaseable = false;
@@ -146,10 +144,8 @@ void BuildingManager::updateTick()
 			for(auto& obj : rpt_in)
 			{
 				mMaterials.purchase({
-					{
 						.name = obj.at("name").get<std::string>(),
 						.count = obj.at("count").get<int>()
-					}
 				});
 			}
 			

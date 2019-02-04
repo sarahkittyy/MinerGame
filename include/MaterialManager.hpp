@@ -71,19 +71,19 @@ public:
 	/**
 	 * @brief Checks if there are as many resources in storage as given.
 	 * 
-	 * @param cost The resources to check.
+	 * @param cost The resource to check.
 	 * @return true If those many resources exist.
 	 */
-	bool canPurchase(std::initializer_list<Resource> cost);
+	bool canPurchase(Resource r);
 	
 	/**
-	 * @brief Attempt to purchase an object from the list of resources required.
+	 * @brief Attempt to purchase an object from the resources required..
 	 * 
-	 * @param cost A list of resources to deduct from.
+	 * @param cost A resource to deduct from.
 	 * @return true If the item is purchaseable, and was purchased.
 	 * @return false If there are not enough resources in internal storage. 
 	 */
-	bool purchase(std::initializer_list<Resource> cost);
+	bool purchase(Resource r);
 	
 	/**
 	 * @brief Retrieve a const reference to the resource map.
