@@ -63,6 +63,12 @@ void BuildingManager::updateBuilding()
 		return;
 	}
 	
+	//Get the mouse's highlighted tile position.
+	sf::Vector2f tile_pos = mMap->getTileInside((sf::Vector2f)KeyManager::getMousePos());
+	
+	//Place building sprite on the tile position.
+	mBuildingSprite.setPosition(tile_pos);
+	
 	//If off the tilemap boundaries...
 	if(	KeyManager::getMousePos().x > 400 || 
 		KeyManager::getMousePos().x < 0 ||
@@ -73,12 +79,6 @@ void BuildingManager::updateBuilding()
 		return;
 	}
 	
-	//Get the mouse's highlighted tile position.
-	sf::Vector2f tile_pos = mMap->getTileInside((sf::Vector2f)KeyManager::getMousePos());
-	
-	//Place building sprite on the tile position.
-	mBuildingSprite.setPosition(tile_pos);
-	
 	//Check if mouse is clicked.
 	if(KeyManager::getMouseState() == 1)
 	{	
@@ -88,16 +88,29 @@ void BuildingManager::updateBuilding()
 		//If we're on land..
 		if(tiledata.at("land").get<bool>())
 		{
+			//Assert the building's position is not taken up.
+			for(auto &i : mBuilt)
+			{
+				//If it is..
+				if(i.spr.getGlobalBounds().contains(tile_pos))
+				{
+					//Release & return.
+					releaseBuilding();
+					return;
+				}
+			}
+			
 			//Plant the building.
 			BuildingEntityData b;
 			b.building_data = mBuildingBuilding;
 			b.spr.setTexture(mBuildingBuilding->texture);
 			b.spr.setPosition(tile_pos);
-			mBuilt.push_back(b);
 			
-			//Release the building.
-			releaseBuilding();
+			//..Why does this line error in vs code, but compile properly??
+			mBuilt.push_back(b);
 		}
+		//Release the building.
+		releaseBuilding();
 	}
 }
 
