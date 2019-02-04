@@ -195,19 +195,15 @@ void BuildingManager::updateBuilding()
 			//..Why does this line error in vs code, but compile properly??
 			mBuilt.push_back(b);
 		}
-		
-		//Unless shift is held...
-		if(!KeyManager::getKeyState(sf::Keyboard::LShift))
-		{
-			//Release the building.
-			releaseBuilding();
-		}	
+		//Release the building.
+		releaseBuilding();
 	}
 }
 
 void BuildingManager::releaseBuilding()
 {
-	mBuildMode = false;
+	if(KeyManager::getKeyState(sf::Keyboard::LShift) == 0)
+		mBuildMode = false;
 }
 
 bool BuildingManager::initBuildings()
