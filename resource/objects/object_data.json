@@ -42,7 +42,7 @@
 			"price": [
 				{
 					"name": "Coal",
-					"count": 25
+					"count": 10
 				}
 			],
 			"texture": "buildings/stone_drill.png",
