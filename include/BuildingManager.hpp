@@ -78,6 +78,10 @@ private:
 	 */
 	MaterialManager mMaterials;
 	
+	/**
+	 * @brief Internal reference to the tilemap, to retrieve tile properties.
+	 * 
+	 */
 	Tilemap* mMap;
 	
 	/**
@@ -86,6 +90,10 @@ private:
 	 */
 	std::vector<Building> mBuildings;
 	
+	/**
+	 * @brief Vector of placed building data, for the actual rendered buildings.
+	 * 
+	 */
 	std::vector<BuildingEntityData> mBuilt;
 	
 	/**
@@ -95,11 +103,40 @@ private:
 	 */
 	bool initBuildings();
 	
+	/**
+	 * @brief True if currently in "build mode" -- dragging tower for placement.
+	 * 
+	 */
 	bool mBuildMode;
+	
+	/**
+	 * @brief Enable buildmode & start moving the sprite.
+	 * 
+	 * @param building 
+	 */
 	void placeBuilding(Building* building);
+	
+	/**
+	 * @brief Called by update(), updates the building sprite & places the building if necessary & in buildmode.
+	 * 
+	 */
 	void updateBuilding();
+	
+	/**
+	 * @brief Releases the held building, ending build mode.
+	 * 
+	 */
 	void releaseBuilding();
 	
+	/**
+	 * @brief Build mode's internal reference to the currently selected building.
+	 * 
+	 */
 	Building* mBuildingBuilding;
+	
+	/**
+	 * @brief The sprite rendered when dragging & dropping the building.
+	 * 
+	 */
 	sf::Sprite mBuildingSprite;
 };
