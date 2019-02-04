@@ -73,6 +73,13 @@ public:
 	 * @return sf::Vector2f The top left position of the tile currently inside.
 	 */
 	sf::Vector2f getTileInside(sf::Vector2f pos);
+	
+	/**
+	 * @brief Get the size of each individual tile.
+	 * 
+	 * @return sf::Vector2f The size of a tile.
+	 */
+	sf::Vector2f getTileSize();
 
 private:
 	/**

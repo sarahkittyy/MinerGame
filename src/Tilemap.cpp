@@ -237,6 +237,11 @@ sf::Vector2f Tilemap::getTileInside(sf::Vector2f pos)
 	return sf::Vector2f(x, y);
 }
 
+sf::Vector2f Tilemap::getTileSize()
+{
+	return (sf::Vector2f)mTileDimensions;
+}
+
 int Tilemap::getTileID(sf::Vector2f pos)
 {
 	//Check if it's found.
