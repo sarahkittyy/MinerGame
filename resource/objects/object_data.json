@@ -63,12 +63,43 @@
 				"resource_in": [
 					{
 						"name": "Coal",
-						"count": 2
+						"count": 3
 					}
 				],
 				"resource_out": [
 					{
 						"name": "Stone",
+						"count": 2
+					}
+				]
+			}
+		},
+		{
+			"name": "Stone Seller",
+			"price": [
+				{
+					"name": "Stone",
+					"count": 20
+				}
+			],
+			"sellprice": [
+				{
+					"name": "Stone",
+					"count": 18
+				}
+			],
+			"texture": "buildings/stone_seller.png",
+			"description": "Sells stone for cash.",
+			"pertick": {
+				"resource_in": [
+					{
+						"name": "Stone",
+						"count": 3
+					}
+				],
+				"resource_out": [
+					{
+						"name": "Cash",
 						"count": 1
 					}
 				]
