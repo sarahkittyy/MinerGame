@@ -180,7 +180,7 @@ void BuildingManager::updateBuilding()
 		releaseBuilding();
 		return;
 	}
-	
+		
 	//Get the mouse's highlighted tile position.
 	sf::Vector2f tile_pos = mMap->getTileInside((sf::Vector2f)KeyManager::getMousePos());
 	
