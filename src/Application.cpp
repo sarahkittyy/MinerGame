@@ -124,7 +124,7 @@ void Application::mUpdateGui()
 	ImGui::SetWindowPos(ImVec2(400,400));
 	
 	//Create the child container for the building manager tooltip.
-	ImGui::BeginChild("TooltipBuildings", ImVec2(180,160), false, default_flags);
+	ImGui::BeginChild("TooltipBuildings", ImVec2(200,160), false, default_flags);
 	
 	//Render the resource tooltip.
 	mBuilder.renderGuiTooltip();
