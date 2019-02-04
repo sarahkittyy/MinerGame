@@ -192,7 +192,7 @@ bool Tilemap::updateVertices()
 		};
 		
 		//Append the quad to mTilePositions.
-		mTilePositions[tile_pos] = tile;
+		mTilePositions[tile_pos] = tile + 1;
 		
 		std::for_each(	std::begin(vertices), 
 						std::end(vertices),
@@ -205,7 +205,7 @@ bool Tilemap::updateVertices()
 	return true;
 }
 
-const nlohmann::json& Tilemap::getTileDataFor(int tileID)
+nlohmann::json Tilemap::getTileDataFor(int tileID)
 {
 	//Check if the tiledata was found.
 	auto found = mTileData.find(std::to_string(tileID));
@@ -216,8 +216,22 @@ const nlohmann::json& Tilemap::getTileDataFor(int tileID)
 		return mTileDefaults;
 	}
 	
-	//Otherwise, return the info.
-	return *found;
+	//Copy the found data.
+	nlohmann::json ret = *found;
+	
+	//Assert all tile data information is contained.
+	for(auto& i : mTileDefaults.items())
+	{
+		//If the ret data does not contain the current key...
+		if(ret.find(i.key()) == ret.end())
+		{
+			//Append it.
+			ret[i.key()] = i.value();
+		}
+	}
+	
+	//Return the data.
+	return ret;
 }
 
 sf::Vector2f Tilemap::getTileInside(sf::Vector2f pos)
