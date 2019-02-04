@@ -65,6 +65,14 @@ public:
 	 * @param newTileID The new tile ID.
 	 */
 	void setTileAt(sf::Vector2f pos, int newTileID);
+	
+	/**
+	 * @brief Returns the tile that the point is contained inside of.
+	 * 
+	 * @param pos The point to check. 
+	 * @return sf::Vector2f The top left position of the tile currently inside.
+	 */
+	sf::Vector2f getTileInside(sf::Vector2f pos);
 
 private:
 	/**
@@ -159,14 +167,4 @@ private:
 	 * @return true If successful.
 	 */
 	bool updateVertices();
-	
-	///////////////EXTRA UTILITY FUNCTIONS/////////////////
-	
-	/**
-	 * @brief Returns the tile that the point is contained inside of.
-	 * 
-	 * @param pos The point to check. 
-	 * @return sf::Vector2f The top left position of the tile currently inside.
-	 */
-	sf::Vector2f getTileInside(sf::Vector2f pos);
 };
