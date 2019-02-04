@@ -44,11 +44,11 @@ public:
 	 * @brief Get the TileData for the specific ID.
 	 * 
 	 * @param tileID The ID to retrieve.
-	 * @return const TileData& The data of the tile.
+	 * @return nlohmann::json The data of the tile.
 	 * 
 	 * @remarks tileID includes air as 0.
 	 */
-	const nlohmann::json& getTileDataFor(int tileID);	
+	nlohmann::json getTileDataFor(int tileID);	
 	
 	/**
 	 * @brief Get the Tile ID at the specified position.
