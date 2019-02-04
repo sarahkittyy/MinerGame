@@ -56,35 +56,32 @@ void BuildingManager::placeBuilding(BuildingManager::Building* building)
 
 void BuildingManager::updateBuilding()
 {
-	//Center building sprite on mouse position.
-	mBuildingSprite.setPosition((sf::Vector2f)KeyManager::getMousePos() - sf::Vector2f(
-		mBuildingSprite.getGlobalBounds().width/2.0f,
-		mBuildingSprite.getGlobalBounds().height/2.0f
-	));
-	
 	//Check for keys to indicate escaping building mode.
 	if(KeyManager::getKeyState(sf::Keyboard::Escape))
 	{
 		releaseBuilding();
 		return;
 	}
+	
+	//If off the tilemap boundaries...
+	if(	KeyManager::getMousePos().x > 400 || 
+		KeyManager::getMousePos().x < 0 ||
+		KeyManager::getMousePos().y > 400 ||
+		KeyManager::getMousePos().y < 0)
+	{
+		//Return.
+		return;
+	}
+	
+	//Get the mouse's highlighted tile position.
+	sf::Vector2f tile_pos = mMap->getTileInside((sf::Vector2f)KeyManager::getMousePos());
+	
+	//Place building sprite on the tile position.
+	mBuildingSprite.setPosition(tile_pos);
+	
 	//Check if mouse is clicked.
 	if(KeyManager::getMouseState())
-	{
-		//If off the tilemap boundaries...
-		if(	KeyManager::getMousePos().x > 400 || 
-			KeyManager::getMousePos().x < 0 ||
-			KeyManager::getMousePos().y > 400 ||
-			KeyManager::getMousePos().y < 0)
-		{
-			//Release the building.
-			releaseBuilding();
-			return;
-		}
-		
-		//Get the mouse's highlighted tile position.
-		sf::Vector2f tile_pos = mMap->getTileInside((sf::Vector2f)KeyManager::getMousePos());
-		
+	{	
 		//Get the data for the tile we're currently on.
 		nlohmann::json tiledata = mMap->getTileDataFor(mMap->getTileID(tile_pos));
 		
