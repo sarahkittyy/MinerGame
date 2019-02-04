@@ -166,6 +166,14 @@ private:
 	void updateTick();
 	
 	/**
+	 * @brief Get the amount of a resource recieved per tick.
+	 * 
+	 * @param resource The resource to check.
+	 * @return float The average resources/tick recieved.
+	 */
+	float getResourcePerTick(std::string resource);
+	
+	/**
 	 * @brief True if currently in "build mode" -- dragging tower for placement.
 	 * 
 	 */

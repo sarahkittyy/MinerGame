@@ -73,8 +73,14 @@ void BuildingManager::renderGuiResources()
 		ImGui::Image(*mMaterials.getTexture(i.first));
 		ImGui::NextColumn();
 		
+		float rpt = getResourcePerTick(i.first);
+		
 		//Add the name of it, and its count.
-		ImGui::Text(std::string("%s - %d").c_str(), i.first.c_str(), i.second);
+		ImGui::Text(std::string("%s - %d (%c%.1f)").c_str(),
+					 i.first.c_str(), 
+					 i.second, 
+					 (rpt >= 0)?('+'):('-'),
+					 std::abs(rpt));
 		ImGui::NextColumn();
 	}
 }
@@ -363,6 +369,37 @@ void BuildingManager::updateTick()
 			}
 		}
 	}
+}
+
+float BuildingManager::getResourcePerTick(std::string resource)
+{
+	//Variables for how many gained & how many lost.
+	float gained = 0, lost = 0;
+	for(auto &i : mBuilt)
+	{
+		//Iterate over all input resources
+		for(nlohmann::json &r_in : i.building_data->pertick.at("resource_in"))
+		{
+			//If it's name matches, add it's count to how much lost per tick.
+			if(r_in.at("name").get<std::string>() == resource)
+			{
+				lost += r_in.at("count").get<int>();
+			}
+		}
+		
+		//Iterate over all output resources...
+		for(nlohmann::json &r_out : i.building_data->pertick.at("resource_out"))
+		{
+			//If it's name matches, add its count to gained/tick.
+			if(r_out.at("name").get<std::string>() == resource)
+			{
+				gained += r_out.at("count").get<int>();
+			}
+		}
+	}
+	
+	//Return the final overall loss/gain.
+	return gained-lost;
 }
 
 void BuildingManager::placeBuilding(BuildingManager::Building* building)
