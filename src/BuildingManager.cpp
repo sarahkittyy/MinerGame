@@ -2,8 +2,14 @@
 
 BuildingManager::BuildingManager(Tilemap* map)
 {
+	//Initialize defaults.
 	mMap = map;
 	mBuildMode = false;
+	mTPS = 1;
+	
+	mMaterials.addResources({.name = "Cash", .count = 10});
+	
+	//Attempt to initialize buildings...
 	if(!initBuildings())
 	{
 		throw std::runtime_error("Building initialization failed.");
@@ -26,14 +32,31 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 	}
 }
 
-void BuildingManager::renderGui()
+void BuildingManager::renderGuiBuildings()
 {
+	//For every building...
 	for(auto& i : mBuildings)
 	{
+		//Create a building button, and begin placing a building if pressed.
 		if(ImGui::ImageButton(i.texture, 1))
 		{
 			placeBuilding(&i);
 		}
+		ImGui::NextColumn();
+	}
+}
+
+void BuildingManager::renderGuiResources()
+{
+	//For every resource...
+	for(auto &i : mMaterials.getResources())
+	{
+		//Add an image for it.
+		ImGui::Image(*mMaterials.getTexture(i.first));
+		ImGui::NextColumn();
+		
+		//Add the name of it, and its count.
+		ImGui::Text(std::string("%s - %d").c_str(), i.first.c_str(), i.second);
 		ImGui::NextColumn();
 	}
 }
@@ -45,6 +68,19 @@ void BuildingManager::update()
 	{
 		updateBuilding();
 	}
+	//If ready to update a tick...	
+	if(mTickClock.getElapsedTime() > sf::seconds(1.0f/mTPS))
+	{
+		//Update the tick.
+		updateTick();
+		
+		mTickClock.restart();
+	}
+}
+
+void BuildingManager::updateTick()
+{
+	
 }
 
 void BuildingManager::placeBuilding(BuildingManager::Building* building)

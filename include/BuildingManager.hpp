@@ -57,11 +57,20 @@ public:
 	 * 
 	 * @see ImGui::Begin()
 	 */
-	void renderGui();
+	void renderGuiBuildings();
 	
 	/**
-	 * @brief Updates the actively placed buildings & their 
+	 * @brief Renders the resources to the active ImGui context.
 	 * 
+	 * @remarks CALL ImGui::Begin() BEFOREHAND.
+	 * 
+	 */
+	void renderGuiResources();
+	
+	/**
+	 * @brief Updates the actively placed buildings & "build mode".
+	 * 
+	 * @remarks Counts ticks & updates resources/tick.
 	 */
 	void update();
 	
@@ -77,6 +86,18 @@ private:
 	 * 
 	 */
 	MaterialManager mMaterials;
+	
+	/**
+	 * @brief Internal clock to time the ticks per second.
+	 * 
+	 */
+	sf::Clock mTickClock;
+	
+	/**
+	 * @brief The ticks per second.
+	 * 
+	 */
+	int mTPS;
 	
 	/**
 	 * @brief Internal reference to the tilemap, to retrieve tile properties.
@@ -102,6 +123,12 @@ private:
 	 * @return true If successful. 
 	 */
 	bool initBuildings();
+	
+	/**
+	 * @brief Updates a single game tick.
+	 * 
+	 */
+	void updateTick();
 	
 	/**
 	 * @brief True if currently in "build mode" -- dragging tower for placement.
