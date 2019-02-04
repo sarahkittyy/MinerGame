@@ -11,6 +11,7 @@
 #include "MaterialManager.hpp"
 #include "KeyManager.hpp"
 #include "Tilemap.hpp"
+#include "nlohmann/json.hpp"
 
 /**
  * @brief Class that loads & stores building information, and
@@ -37,6 +38,7 @@ public:
 		std::vector<MaterialManager::Resource> price;
 		sf::Texture texture;
 		std::string description;
+		nlohmann::json pertick;
 	};
 	
 	/**

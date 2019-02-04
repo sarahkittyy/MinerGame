@@ -80,7 +80,57 @@ void BuildingManager::update()
 
 void BuildingManager::updateTick()
 {
-	
+	//For every built building...
+	for(auto &i : mBuilt)
+	{
+		//Get the pertick data.
+		nlohmann::json pertick = i.building_data->pertick;
+		
+		//Get the resources per tick in & out.
+		nlohmann::json rpt_in = pertick.at("resource_in");
+		nlohmann::json rpt_out = pertick.at("resource_out");
+		
+		bool purchaseable = true;
+		//Check to make sure the per-tick cost in can be paid.
+		for(auto& obj : rpt_in)
+		{
+			//Break if unpurchaseable.
+			if(!mMaterials.canPurchase({
+				{
+					.name = obj.at("name").get<std::string>(),
+					.count = obj.at("count").get<int>()
+				}
+			}))
+			{
+				purchaseable = false;
+				break;
+			}
+		}
+		
+		//If the item is still purcheaseable...
+		if(purchaseable)
+		{
+			//Purchase it.
+			for(auto& obj : rpt_in)
+			{
+				mMaterials.purchase({
+					{
+						.name = obj.at("name").get<std::string>(),
+						.count = obj.at("count").get<int>()
+					}
+				});
+			}
+			
+			//Get the amount of resources needed.
+			for(auto& obj: rpt_out)
+			{
+				mMaterials.addResources({
+					.name = obj.at("name").get<std::string>(),
+					.count = obj.at("count").get<int>()
+				});
+			}
+		}
+	}
 }
 
 void BuildingManager::placeBuilding(BuildingManager::Building* building)
@@ -196,6 +246,8 @@ bool BuildingManager::initBuildings()
 			//Add the new resource object to the building cost vector.
 			b.price.push_back(r);
 		}
+		
+		b.pertick = obj.at("pertick");
 		
 		//Push the building into the internal vector.
 		mBuildings.push_back(b);

@@ -69,6 +69,14 @@ public:
 	void removeResources(Resource r);
 	
 	/**
+	 * @brief Checks if there are as many resources in storage as given.
+	 * 
+	 * @param cost The resources to check.
+	 * @return true If those many resources exist.
+	 */
+	bool canPurchase(std::initializer_list<Resource> cost);
+	
+	/**
 	 * @brief Attempt to purchase an object from the list of resources required.
 	 * 
 	 * @param cost A list of resources to deduct from.

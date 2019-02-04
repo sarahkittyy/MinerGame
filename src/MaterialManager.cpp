@@ -45,7 +45,7 @@ void MaterialManager::removeResources(Resource r)
 	mResources[r.name] -= r.count;
 }
 
-bool MaterialManager::purchase(std::initializer_list<Resource> cost)
+bool MaterialManager::canPurchase(std::initializer_list<Resource> cost)
 {
 	//For every item..
 	for(auto &i : cost)
@@ -53,6 +53,17 @@ bool MaterialManager::purchase(std::initializer_list<Resource> cost)
 		//If it's not purchaseable, return false.
 		if(mResources[i.name] < i.count)
 			return false;
+	}
+	
+	//Return true.
+	return true;
+}
+
+bool MaterialManager::purchase(std::initializer_list<Resource> cost)
+{
+	if(!canPurchase(cost))
+	{
+		return false;
 	}
 	
 	//We're still going, so now purchase all items.

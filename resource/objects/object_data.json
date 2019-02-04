@@ -8,6 +8,10 @@
 		{
 			"name": "Coal",
 			"icon": "icons/coal.png"
+		},
+		{
+			"name": "Stone",
+			"icon": "icons/stone.png"
 		}
 	],
 	"buildings": [
@@ -20,7 +24,18 @@
 				}
 			],
 			"texture": "buildings/coal_drill.png",
-			"description": "Mines coal."
+			"description": "Mines coal.",
+			"pertick": {
+				"resource_in": [
+					
+				],
+				"resource_out": [
+					{
+						"name": "Coal",
+						"count": 1
+					}
+				]
+			}
 		},
 		{
 			"name": "Stone Drill",
@@ -31,7 +46,21 @@
 				}
 			],
 			"texture": "buildings/stone_drill.png",
-			"description": "Mines stone."
+			"description": "Mines stone.",
+			"pertick": {
+				"resource_in": [
+					{
+						"name": "Coal",
+						"count": 2
+					}
+				],
+				"resource_out": [
+					{
+						"name": "Stone",
+						"count": 1
+					}
+				]
+			}
 		}
 	]
 }
