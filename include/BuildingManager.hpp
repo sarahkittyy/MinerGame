@@ -127,6 +127,8 @@ private:
 	 */
 	std::vector<BuildingEntityData> mBuilt;
 	
+	void renderGuiBuildingTooltip(Building& building);
+	
 	/**
 	 * @brief Initializes the material manager & the mBuildings vector.
 	 * 

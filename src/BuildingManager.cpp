@@ -91,7 +91,69 @@ void BuildingManager::renderGuiTooltip()
 		* Sell price = 90% buy price.
 	*/
 
+	if(mBuildMode)
+		renderGuiBuildingTooltip(*mBuildingBuilding);
+}
+
+void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& building)
+{
+	/*
+	Building Tooltip Info
+		* Name
+		* Icon
+		* Description
+		* Price
+		* Resource I/O
+	*/
+	//Render the icon of the building.
+	ImGui::Image(building.texture);
 	
+	//Render the name & building of the building.
+	ImGui::Text("%s\n> %s\n---", building.name.c_str(), building.description.c_str());
+	
+	//Begin rendering the price..
+	ImGui::Text("Cost:");
+	//So for each element of the total cost..
+	for(auto &i : building.price)
+	{
+		//Render the icon.
+		ImGui::Image(*mMaterials.getTexture(i.name));
+		//Render the name & count
+		ImGui::SameLine();
+		ImGui::Text("%d %s", i.count, i.name.c_str());
+	}
+	
+	//Render the resource I/O..
+	if(building.pertick.at("resource_in").size() != 0)
+		ImGui::Text("Input/Tick:");
+	//Get all necessary input resources.
+	for(auto &i : building.pertick.at("resource_in"))
+	{
+		std::string name = i.at("name").get<std::string>();
+		int count = i.at("count").get<int>();
+		
+		//Render the icon.
+		ImGui::Image(*mMaterials.getTexture(name));
+		//Render the name & count
+		ImGui::SameLine();
+		ImGui::Text("%d %s", count, name.c_str());
+	}
+	
+	//Now for out I/O...
+	if(building.pertick.at("resource_out").size() != 0)
+		ImGui::Text("Output/Tick:");
+	//Get all necessary output resources.
+	for(auto &i : building.pertick.at("resource_out"))
+	{
+		std::string name = i.at("name").get<std::string>();
+		int count = i.at("count").get<int>();
+		
+		//Render the icon.
+		ImGui::Image(*mMaterials.getTexture(name));
+		//Render the name & count
+		ImGui::SameLine();
+		ImGui::Text("%d %s", count, name.c_str());
+	}
 }
 
 void BuildingManager::update()
