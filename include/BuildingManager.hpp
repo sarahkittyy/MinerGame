@@ -17,6 +17,8 @@
  * @brief Class that loads & stores building information, and
  * that updates GUI & states to allow for constructing buildings to the map.
  * 
+ * @remarks I'm sorry.
+ * 
  */
 class BuildingManager : public sf::Drawable
 {
@@ -72,8 +74,6 @@ public:
 	/**
 	 * @brief Renders the tooltip for building information.
 	 * 
-	 * @remarks
-	 * 
 	 */
 	void renderGuiTooltip();
 	
@@ -127,6 +127,11 @@ private:
 	 */
 	std::vector<BuildingEntityData> mBuilt;
 	
+	/**
+	 * @brief Renders the tooltip for the given building to GUI.
+	 * 
+	 * @param building The building to render the tooltip for.
+	 */
 	void renderGuiBuildingTooltip(Building& building);
 	
 	/**
@@ -178,4 +183,14 @@ private:
 	 * 
 	 */
 	sf::Sprite mBuildingSprite;
+	
+	/**
+	 * @brief True if one of the buttons are being hovered over.
+	 * 
+	 * @remarks Updated in renderGuiBuildings().
+	 * 
+	 */
+	bool mBuildingButtonHovered;
+	
+	Building* mBuildingHovered;
 };

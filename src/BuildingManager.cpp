@@ -35,6 +35,8 @@ void BuildingManager::draw(sf::RenderTarget& target, sf::RenderStates states) co
 
 void BuildingManager::renderGuiBuildings()
 {
+	//Boolean used to check if nothing at all is hovered.
+	bool hoveredThisFrame = false;
 	//For every building...
 	for(auto& i : mBuildings)
 	{
@@ -43,7 +45,21 @@ void BuildingManager::renderGuiBuildings()
 		{
 			placeBuilding(&i);
 		}
+		//If hovering the button...
+		if(ImGui::IsItemHovered())
+		{
+			//Set the hovering flag & set the pointer to the hovered building.
+			mBuildingButtonHovered = true;
+			hoveredThisFrame = true;
+			mBuildingHovered = &i;
+		}
 		ImGui::NextColumn();
+	}
+	//If not hovered at all...
+	if(!hoveredThisFrame)
+	{
+		//..we're not hovering.
+		mBuildingButtonHovered = false;
 	}
 }
 
@@ -91,8 +107,15 @@ void BuildingManager::renderGuiTooltip()
 		* Sell price = 90% buy price.
 	*/
 
+	//Build mode check..
 	if(mBuildMode)
+	{
 		renderGuiBuildingTooltip(*mBuildingBuilding);
+	}
+	else if(mBuildingButtonHovered)
+	{
+		renderGuiBuildingTooltip(*mBuildingHovered);
+	}
 }
 
 void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& building)
