@@ -19,7 +19,8 @@
 					"count": 10
 				}
 			],
-			"texture": "buildings/coal_drill.png"
+			"texture": "buildings/coal_drill.png",
+			"description": "Mines coal."
 		},
 		{
 			"name": "Stone Drill",
@@ -29,7 +30,8 @@
 					"count": 25
 				}
 			],
-			"texture": "buildings/stone_drill.png"
+			"texture": "buildings/stone_drill.png",
+			"description": "Mines stone."
 		}
 	]
 }
