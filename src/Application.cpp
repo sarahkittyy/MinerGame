@@ -104,7 +104,7 @@ void Application::mUpdateGui()
 	ImGui::SetWindowPos(ImVec2(400,0));
 	
 	//Create a child container for the resource counts.
-	ImGui::BeginChild("StatisticsResources", ImVec2(160, 200), true, default_flags);
+	ImGui::BeginChild("StatisticsResources", ImVec2(180, 200), true, default_flags);
 	ImGui::Columns(2, nullptr, false);
 	ImGui::SetColumnWidth(0, 25);
 	ImGui::SetColumnWidth(1, 175);
@@ -119,9 +119,17 @@ void Application::mUpdateGui()
 	
 	//////////////////////////////////////////////////////
 	//Create the tooltip window.
-	ImGui::Begin("Tooltip", nullptr, ImVec2(400,200), -1.0f,
+	ImGui::Begin("Tooltip", nullptr, ImVec2(200,200), -1.0f,
 		default_flags);
 	ImGui::SetWindowPos(ImVec2(400,400));
+	
+	//Create the child container for the building manager tooltip.
+	ImGui::BeginChild("TooltipBuildings", ImVec2(180,160), false, default_flags);
+	
+	//Render the resource tooltip.
+	mBuilder.renderGuiTooltip();
+	
+	ImGui::EndChild();
 		
 	ImGui::End();
 	//////////////////////////////////////////////////////
