@@ -23,6 +23,12 @@
 					"count": 10
 				}
 			],
+			"sellprice": [
+				{
+					"name": "Cash",
+					"count": 9
+				}
+			],
 			"texture": "buildings/coal_drill.png",
 			"description": "Mines coal.",
 			"pertick": {
@@ -43,6 +49,12 @@
 				{
 					"name": "Coal",
 					"count": 10
+				}
+			],
+			"sellprice": [
+				{
+					"name": "Coal",
+					"count": 9
 				}
 			],
 			"texture": "buildings/stone_drill.png",
