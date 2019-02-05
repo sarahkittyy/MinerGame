@@ -38,11 +38,14 @@ OBJ_RELEASE_IMGUI = $(patsubst $(IMGUI)/%.cpp, $(OBJDIR)/$(RELEASEDIR)/$(IMGUI_D
 OBJ_DEBUG_IMGUI_SFML = $(patsubst $(IMGUI_SFML)/%.cpp, $(OBJDIR)/$(DEBUGDIR)/$(IMGUI_SFML_DIR)/%.o, $(SOURCES_IMGUI_SFML))
 OBJ_RELEASE_IMGUI_SFML = $(patsubst $(IMGUI_SFML)/%.cpp, $(OBJDIR)/$(RELEASEDIR)/$(IMGUI_SFML_DIR)/%.o, $(SOURCES_IMGUI_SFML))
 
+all: release
+
 clean:
 	rm -rf $(OUTDIR)/$(RELEASEDIR)/* || true
 	rm -rf $(OUTDIR)/$(DEBUGDIR)/* || true
 	rm -rf $(OBJDIR)/$(RELEASEDIR)/* || true
 	rm -rf $(OBJDIR)/$(DEBUGDIR)/* || true
+	make -C winbuild clean
 	@printf "\nCleaned!\n";
 	
 release: dirs $(OBJ_RELEASE) %(OBJ_RELEASE_IMGUI)
@@ -50,6 +53,9 @@ release: dirs $(OBJ_RELEASE) %(OBJ_RELEASE_IMGUI)
 	
 debug: dirs $(OBJ_DEBUG) $(OBJ_DEBUG_IMGUI)
 	$(CC) $(LINKFLAGS_DEBUG) $(LIB_DEBUG) $(OBJ_DEBUG)
+	
+win: dirs
+	make -C winbuild
 	
 dirs:
 	mkdir -p $(OUTDIR)
