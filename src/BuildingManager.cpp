@@ -412,57 +412,78 @@ void BuildingManager::updateBuilding()
 		//Get the data for the tile we're currently on.
 		nlohmann::json tiledata = mMap->getTileDataFor(mMap->getTileID(tile_pos));
 		
-		//If we're on land..
-		if(tiledata.at("land").get<bool>())
+		bool canPlace = false;
+		//Release & return if we cannot place on this tile.
+		for(auto &i : mBuildingBuilding->canbuildon)
 		{
-			//Assert the building's position is not taken up.
-			for(auto &i : mBuilt)
-			{
-				//If it is..
-				if(i.spr.getGlobalBounds().contains(tile_pos))
-				{
-					//Release & return.
-					releaseBuilding();
-					return;
-				}
-			}
+			//Find the element in the tiledata.
+			auto found = tiledata.find(i);
 			
-			//Check if we can purchase the building.
-			bool purchaseable = true;
+			//Since defaults are appended by default,
+			//continue if found in the tiledata as true.
+			if(	found != tiledata.end() &&
+				*found)
+			{
+				//Placeable, break.
+				canPlace = true;
+				break;
+			}
+		}
+		if(!canPlace)
+		{
+			//Release & return.
+			releaseBuilding();
+			return;
+		}
+
+		//Assert the building's position is not taken up.
+		for(auto &i : mBuilt)
+		{
+			//If it is..
+			if(i.spr.getGlobalBounds().contains(tile_pos))
+			{
+				//Release & return.
+				releaseBuilding();
+				return;
+			}
+		}
+		
+		//Check if we can purchase the building.
+		bool purchaseable = true;
+		for(auto &i : mBuildingBuilding->price)
+		{
+			if(!mMaterials.canPurchase({
+				.name = i.name,
+				.count = i.count
+			}))
+			{
+				purchaseable = false;
+				break;
+			}
+		}
+		
+		//If purchaseable...
+		if(purchaseable)
+		{
+			//Purchase...
 			for(auto &i : mBuildingBuilding->price)
 			{
-				if(!mMaterials.canPurchase({
+				mMaterials.purchase({
 					.name = i.name,
 					.count = i.count
-				}))
-				{
-					purchaseable = false;
-					break;
-				}
+				});
 			}
 			
-			//If purchaseable...
-			if(purchaseable)
-			{
-				//Purchase...
-				for(auto &i : mBuildingBuilding->price)
-				{
-					mMaterials.purchase({
-						.name = i.name,
-						.count = i.count
-					});
-				}
-				
-				//Plant the building.
-				BuildingEntityData b;
-				b.building_data = mBuildingBuilding;
-				b.spr.setTexture(mBuildingBuilding->texture);
-				b.spr.setPosition(tile_pos);
-				
-				//..Why does this line error in vs code, but compile properly??
-				mBuilt.push_back(b);
-			}	
+			//Plant the building.
+			BuildingEntityData b;
+			b.building_data = mBuildingBuilding;
+			b.spr.setTexture(mBuildingBuilding->texture);
+			b.spr.setPosition(tile_pos);
+			
+			//..Why does this line error in vs code, but compile properly??
+			mBuilt.push_back(b);
 		}
+		
 		//Release the building.
 		releaseBuilding();
 	}
@@ -527,7 +548,11 @@ bool BuildingManager::initBuildings()
 			b.sellprice.push_back(r);
 		}
 		
+		//Data on what the building does per tick.
 		b.pertick = obj.at("pertick");
+		
+		//Data on what the tower can be placed on.
+		b.canbuildon = obj.at("canbuildon").get<std::vector<std::string>>();
 		
 		//Push the building into the internal vector.
 		mBuildings.push_back(b);

@@ -1,14 +1,18 @@
 {
 	"defaults": {
-		"land": false,
-		"water": false
+		"grass": false,
+		"water": false,
+		"tree": false
 	},
 	"tiles": {
 		"1": {
-			"land": true
+			"grass": true
 		},
 		"2": {
 			"water": true
+		},
+		"3": {
+			"tree": true
 		}
 	}
 }

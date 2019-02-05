@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <map>
 #include <algorithm>
 #include <queue>
 
@@ -113,7 +114,7 @@ public:
 	 * 
 	 * @return const std::unordered_map<std::string, int>& A reference to the internal resources.
 	 */
-	const std::unordered_map<std::string, int>& getResources();
+	const std::map<std::string, int>& getResources();
 	
 	/**
 	 * @brief Get a pointer to the icon texture for the specified resource.
@@ -129,7 +130,7 @@ private:
 	 * @brief Internal map of the name to the count of each resource.
 	 * 
 	 */
-	std::unordered_map<std::string, int> mResources;
+	std::map<std::string, int> mResources;
 	
 	/**
 	 * @brief Map of resources to their texture.

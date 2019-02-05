@@ -111,7 +111,7 @@ float MaterialManager::getAverageResourcePerTick(std::string resource)
 							0.0f) / (float)queue_diff.size();
 }
 
-const std::unordered_map<std::string, int>& MaterialManager::getResources()
+const std::map<std::string, int>& MaterialManager::getResources()
 {
 	return mResources;
 }

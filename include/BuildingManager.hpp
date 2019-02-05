@@ -44,6 +44,7 @@ public:
 		sf::Texture texture;
 		std::string description;
 		nlohmann::json pertick;
+		std::vector<std::string> canbuildon;
 	};
 	
 	/**

@@ -6,6 +6,10 @@
 			"icon": "icons/cash.png"
 		},
 		{
+			"name": "Wood",
+			"icon": "icons/wood.png"	
+		},
+		{
 			"name": "Coal",
 			"icon": "icons/coal.png"
 		},
@@ -16,18 +20,84 @@
 	],
 	"buildings": [
 		{
-			"name": "Coal Drill",
+			"name": "Woodcutter",
 			"price": [
 				{
 					"name": "Cash",
-					"count": 10
+					"count": 5
 				}
 			],
 			"sellprice": [
 				{
 					"name": "Cash",
+					"count": 4
+				}
+			],
+			"texture": "buildings/wood_cutter.png",
+			"description": "Cuts wood.",
+			"pertick": {
+				"resource_in": [
+					{
+						"name": "Coal",
+						"count": 10
+					}
+				],
+				"resource_out": [
+					{
+						"name": "Wood",
+						"count": 1
+					}
+				]
+			},
+			"canbuildon": [
+				"tree"
+			]
+			
+		},
+		{
+			"name": "Sawmill",
+			"price": [
+				{
+					"name": "Wood",
+					"count": 10
+				}
+			],
+			"sellprice": [
+				{
+					"name": "Wood",
 					"count": 9
 				}
+			],
+			"texture": "buildings/sawmill.png",
+			"description": "Processes & Sells wood.",
+			"pertick": {
+				"resource_in": [
+					{
+						"name": "Wood",
+						"count": 5
+					}
+				],
+				"resource_out": [
+					{
+						"name": "Cash",
+						"count": 1
+					}
+				]
+			},
+			"canbuildon": [
+				"grass"
+			]
+		},
+		{
+			"name": "Coal Drill",
+			"price": [
+				{
+					"name": "Cash",
+					"count": 1
+				}
+			],
+			"sellprice": [
+				
 			],
 			"texture": "buildings/coal_drill.png",
 			"description": "Mines coal.",
@@ -41,20 +111,23 @@
 						"count": 1
 					}
 				]
-			}
+			},
+			"canbuildon": [
+				"grass"
+			]
 		},
 		{
 			"name": "Stone Drill",
 			"price": [
 				{
-					"name": "Coal",
-					"count": 15
+					"name": "Cash",
+					"count": 50
 				}
 			],
 			"sellprice": [
 				{
-					"name": "Coal",
-					"count": 13
+					"name": "Cash",
+					"count": 45
 				}
 			],
 			"texture": "buildings/stone_drill.png",
@@ -63,16 +136,19 @@
 				"resource_in": [
 					{
 						"name": "Coal",
-						"count": 3
+						"count": 5
 					}
 				],
 				"resource_out": [
 					{
 						"name": "Stone",
-						"count": 2
+						"count": 1
 					}
 				]
-			}
+			},
+			"canbuildon": [
+				"grass"
+			]
 		},
 		{
 			"name": "Stone Seller",
@@ -80,12 +156,20 @@
 				{
 					"name": "Stone",
 					"count": 20
+				},
+				{
+					"name": "Wood",
+					"count": 15
 				}
 			],
 			"sellprice": [
 				{
 					"name": "Stone",
 					"count": 18
+				},
+				{
+					"name": "Wood",
+					"count": 13
 				}
 			],
 			"texture": "buildings/stone_seller.png",
@@ -94,7 +178,7 @@
 				"resource_in": [
 					{
 						"name": "Stone",
-						"count": 3
+						"count": 4
 					}
 				],
 				"resource_out": [
@@ -103,7 +187,10 @@
 						"count": 1
 					}
 				]
-			}
+			},
+			"canbuildon": [
+				"grass"
+			]
 		}
 	]
 }
