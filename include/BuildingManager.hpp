@@ -167,6 +167,14 @@ private:
 	void updateTick();
 	
 	/**
+	 * @brief Returns the amount of buildings of the specified name are built.
+	 * 
+	 * @param building_name The name of the building.
+	 * @return int The built count.
+	 */
+	int getBuildingCount(std::string building_name);
+	
+	/**
 	 * @brief True if currently in "build mode" -- dragging tower for placement.
 	 * 
 	 */

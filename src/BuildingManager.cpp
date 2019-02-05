@@ -165,6 +165,9 @@ void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& buildi
 	*/
 	//Render the icon of the building.
 	ImGui::Image(building.texture);
+	//Render how many are currently on-screen.
+	ImGui::SameLine();
+	ImGui::Text("Count: %d", getBuildingCount(building.name));
 	
 	//Render the name & building of the building.
 	ImGui::Text("%s\n> %s\n---", building.name.c_str(), building.description.c_str());
@@ -227,6 +230,9 @@ void BuildingManager::renderGuiMapBuildingTooltip(BuildingManager::Building& bui
 	*/
 	//Render the icon of the building.
 	ImGui::Image(building.texture);
+	//Render how many are currently on-screen.
+	ImGui::SameLine();
+	ImGui::Text("Count: %d", getBuildingCount(building.name));
 	
 	//Render the name & building of the building.
 	ImGui::Text("%s\n> %s\n---", building.name.c_str(), building.description.c_str());
@@ -372,6 +378,26 @@ void BuildingManager::updateTick()
 			}
 		}
 	}
+}
+
+int BuildingManager::getBuildingCount(std::string building_name)
+{
+	//Return var (count).
+	int ret = 0;
+	
+	//For every built structure...
+	for(auto &i : mBuilt)
+	{
+		//If the names match...
+		if(i.building_data->name == building_name)
+		{
+			//Increment ret;
+			ret++;
+		}
+	}
+	
+	//Return.
+	return ret;
 }
 
 void BuildingManager::placeBuilding(BuildingManager::Building* building)
