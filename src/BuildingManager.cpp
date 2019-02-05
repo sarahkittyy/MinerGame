@@ -559,10 +559,43 @@ bool BuildingManager::initBuildings()
 	for(nlohmann::json& obj : object_data.at("buildings").get<nlohmann::json>())
 	{
 		//Push the building into the internal vector.
-		obj["texture"] = texture_dir + obj.at("texture").get<std::string>();
+		std::string tex = texture_dir + obj.at("texture").get<std::string>();
+		
+		obj["texture"] = tex;
+		
 		mBuildings.push_back(obj);
+		
+		mBuildingTextures[obj.at("name").get<std::string>()]
+							.loadFromFile(tex);
 	}
 	
 	//Return successful.
 	return true;
+}
+
+sf::Texture* BuildingManager::getBuildingTexture(std::string building_name)
+{
+	//Search for the texture...
+	auto found = std::find_if(mBuildings.begin(), mBuildings.end(),
+				[&](Building& b)->bool{
+					return b.at("name").get<std::string>()
+								== building_name;
+				});
+	
+	//Throw if not found.
+	if(found == mBuildings.end())
+	{
+		throw std::out_of_range("getBuildingTexture() -- building not found.");
+	}
+	
+	//Return the building texture.
+	return &mBuildingTextures[found->at("name").get<std::string>()];
+}
+
+sf::Texture* BuildingManager::getBuildingTexture(BuildingManager::Building& building)
+{
+	//Get the name & return the corresponding texture.
+	std::string name = building.at("name").get<std::string>();
+	
+	return &mBuildingTextures[name];
 }
