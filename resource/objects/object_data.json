@@ -195,5 +195,37 @@
 				"grass"
 			]
 		}
+	],
+	"upgrades": [
+		{
+			"name": "TPS++",
+			"description": "Increases the TPS by one.",
+			"uses": -1,
+			"baseprice": [
+				{
+					"name": "Cash",
+					"count": 50
+				}
+			],
+			"pricefactor": 4,
+			"actions": [
+				
+			]
+		},
+		{
+			"name": "Coal Drill++",
+			"description": "Increases Coal/Tick from 1 to 2",
+			"uses": 1,
+			"baseprice": [
+				{
+					"name": "Cash",
+					"count": 50
+				}
+			],
+			"pricefactor": 1,
+			"actions": [
+				
+			]
+		}
 	]
 }
