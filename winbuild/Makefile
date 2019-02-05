@@ -33,6 +33,7 @@ SOURCES_IMGUI_SFML = $(IMGUI_SFML)/imgui-SFML.cpp
 OBJ_IMGUI = $(patsubst $(IMGUI)/%.cpp, $(OBJDIR)/$(WINDIR)/$(IMGUI_DIR)/%.o, $(SOURCES_IMGUI)) $(patsubst $(IMGUI_SFML)/%.cpp, $(OBJDIR)/$(WINDIR)/$(IMGUI_SFML_DIR)/%.o, $(SOURCES_IMGUI_SFML))
 
 all: dirs release
+	zip -FSr $(OUTDIR)/$(WINDIR)/MinerGame.zip $(OUTDIR)/$(WINDIR)/Miner.exe $(OUTDIR)/$(WINDIR)/resource
 
 dirs:
 	mkdir -p $(OBJDIR)/$(WINDIR)
