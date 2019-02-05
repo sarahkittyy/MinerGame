@@ -48,13 +48,13 @@
 			"price": [
 				{
 					"name": "Coal",
-					"count": 10
+					"count": 15
 				}
 			],
 			"sellprice": [
 				{
 					"name": "Coal",
-					"count": 9
+					"count": 13
 				}
 			],
 			"texture": "buildings/stone_drill.png",
