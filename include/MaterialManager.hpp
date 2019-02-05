@@ -1,11 +1,18 @@
 #pragma once
 
 #include <unordered_map>
-#include <initializer_list>
+#include <algorithm>
+#include <queue>
 
 #include <SFML/Graphics.hpp>
 
 #include "nlohmann/json.hpp"
+
+/////////////TODO/////////////
+//Multiple unordered maps,all sorted by the same type of key.
+//Can/Will be refactored into one map.
+//////////////////////////////
+
 
 /**
  * @brief Standalone class to init, and track in-game resources.
@@ -86,6 +93,22 @@ public:
 	bool purchase(Resource r);
 	
 	/**
+	 * @brief Updates tick-by-tick resource statistics, such as average resource/tick.
+	 * 
+	 * @remarks Call once per game tick.
+	 * 
+	 */
+	void updateResourceLogger();
+	
+	/**
+	 * @brief Get the average resource gain/loss per tick.
+	 * 
+	 * @param resource The resource to retrieve.
+	 * @return float The amount gained/lost per tick.
+	 */
+	float getAverageResourcePerTick(std::string resource);
+	
+	/**
 	 * @brief Retrieve a const reference to the resource map.
 	 * 
 	 * @return const std::unordered_map<std::string, int>& A reference to the internal resources.
@@ -113,4 +136,19 @@ private:
 	 * 
 	 */
 	std::unordered_map<std::string, sf::Texture> mIconTextures;
+	
+	/**
+	 * @brief How many values back to log.
+	 * 
+	 * @remarks The larger this is, the longer the display will take to reach an accurate value, but the more accurate that value will be.
+	 * Perhaps a slider should be made?
+	 * 
+	 */
+	const unsigned LOG_QUEUE_SIZE = 5;
+	
+	/**
+	 * @brief Logs resources for their previous values, to measure average change/tick.
+	 * 
+	 */
+	std::unordered_map<std::string, std::deque<float>> mResourceLog;
 };

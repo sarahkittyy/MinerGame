@@ -20,6 +20,9 @@ void MaterialManager::initResources(nlohmann::json& objectdata)
 		//Init the icon texture directory.
 		mIconTextures[name] = sf::Texture();
 		mIconTextures[name].loadFromFile(texture_dir + obj.at("icon").get<std::string>());
+		
+		//Init the deque resourceLog
+		mResourceLog[name] = std::deque<float>();
 	}
 }
 
@@ -62,6 +65,50 @@ bool MaterialManager::purchase(MaterialManager::Resource r)
 	
 	//We were successful.
 	return true;
+}
+
+void MaterialManager::updateResourceLogger()
+{
+	//Push the count of all resources back into the logger.
+	for(auto& i : mResources)
+	{
+		std::deque<float>* queue = &(mResourceLog.find(i.first)->second);
+		//Push the current value.
+		queue->push_back(i.second);
+		
+		//Pop the other end if the size is too large.
+		if(queue->size() > LOG_QUEUE_SIZE)
+		{
+			queue->pop_front();
+		}
+	}
+}
+
+float MaterialManager::getAverageResourcePerTick(std::string resource)
+{
+	//Get the queue of the specific resource.
+	std::deque<float>* queue = &(mResourceLog.find(resource)->second);
+	
+	//Get the difference of all elements.
+	std::vector<float> queue_diff;
+	
+	//Assert that elements are actually yknow, *in the queue*
+	if(queue->size() <= 1)
+	{
+		return 0;
+	}
+	
+	//Iterate over all queue elements.
+	for(unsigned i = 0; i < queue->size() - 1; ++i)
+	{
+		//Push back the change in resources per tick.
+		queue_diff.push_back((*queue)[i+1]-(*queue)[i]);
+	}
+	
+	//Return the average difference.
+	return std::accumulate(	queue_diff.begin(),
+							queue_diff.end(),
+							0.0f) / (float)queue_diff.size();
 }
 
 const std::unordered_map<std::string, int>& MaterialManager::getResources()
