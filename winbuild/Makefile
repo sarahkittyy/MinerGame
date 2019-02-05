@@ -40,7 +40,7 @@ dirs:
 	mkdir -p $(OBJDIR)/$(WINDIR)/$(IMGUI_DIR)
 	mkdir -p $(OBJDIR)/$(WINDIR)/$(IMGUI_SFML_DIR)
 	
-	ln -rsf ../resource $(OUTDIR)/$(WINDIR)/
+	cp -r ../resource $(OUTDIR)/$(WINDIR)/
 
 release: $(OBJECTS) $(OBJ_IMGUI)
 	$(CC) $(OBJECTS) $(OBJ_IMGUI) -o $(OUTDIR)/$(WINDIR)/$(OUTFILE) $(LINK)

@@ -1,0 +1,14 @@
+{
+	"defaults": {
+		"land": false,
+		"water": false
+	},
+	"tiles": {
+		"1": {
+			"land": true
+		},
+		"2": {
+			"water": true
+		}
+	}
+}
