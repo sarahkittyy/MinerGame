@@ -33,19 +33,10 @@ public:
 	BuildingManager(Tilemap* map);
 	
 	/**
-	 * @brief Struct to store basic building data.
+	 * @brief Simple typedef to make building usage easier.
 	 * 
 	 */
-	struct Building
-	{
-		std::string name;
-		std::vector<MaterialManager::Resource> price;
-		std::vector<MaterialManager::Resource> sellprice;
-		sf::Texture texture;
-		std::string description;
-		nlohmann::json pertick;
-		std::vector<std::string> canbuildon;
-	};
+	typedef nlohmann::json Building;
 	
 	/**
 	 * @brief Placed building data.
@@ -173,6 +164,28 @@ private:
 	 * @return int The built count.
 	 */
 	int getBuildingCount(std::string building_name);
+	
+	/**
+	 * @brief Map of building names to their textures.
+	 * 
+	 */
+	std::unordered_map<std::string, sf::Texture> mBuildingTextures;
+	
+	/**
+	 * @brief Get the texture of the given building.
+	 * 
+	 * @param building_name The name of the building.
+	 * @return sf::Texture* A pointer to the required texture.
+	 */
+	sf::Texture* getBuildingTexture(std::string building_name);
+	
+	/**
+	 * @brief Get the texture of the given building.
+	 * 
+	 * @param building The building.
+	 * @return sf::Texture* A pointer to the building's texture.
+	 */
+	sf::Texture* getBuildingTexture(Building& building);
 	
 	/**
 	 * @brief True if currently in "build mode" -- dragging tower for placement.

@@ -42,7 +42,7 @@ void BuildingManager::renderGuiBuildings()
 	for(auto& i : mBuildings)
 	{
 		//Create a building button, and begin placing a building if pressed.
-		if(ImGui::ImageButton(i.texture, 1))
+		if(ImGui::ImageButton(*getBuildingTexture(i), 1))
 		{
 			placeBuilding(&i);
 		}
@@ -164,31 +164,35 @@ void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& buildi
 		* Price
 	*/
 	//Render the icon of the building.
-	ImGui::Image(building.texture);
+	ImGui::Image(*getBuildingTexture(building));
 	//Render how many are currently on-screen.
 	ImGui::SameLine();
-	ImGui::Text("Count: %d", getBuildingCount(building.name));
+	ImGui::Text("Count: %d", getBuildingCount(building.at("name")
+										.get<std::string>()));
 	
 	//Render the name & building of the building.
-	ImGui::Text("%s\n> %s\n---", building.name.c_str(), building.description.c_str());
+	ImGui::Text("%s\n> %s\n---", building.at("name")
+				.get<std::string>().c_str(), 
+				building.at("description").get<std::string>().c_str());
 	
 	//Begin rendering the price..
 	ImGui::Text("Cost:");
 	//So for each element of the total cost..
-	for(auto &i : building.price)
+	for(auto &i : building.at("price"))
 	{
 		//Render the icon.
-		ImGui::Image(*mMaterials.getTexture(i.name));
+		ImGui::Image(*mMaterials.getTexture(i.at("name").get<std::string>()));
 		//Render the name & count
 		ImGui::SameLine();
-		ImGui::Text("%d %s", i.count, i.name.c_str());
+		ImGui::Text("%d %s", i.at("count").get<int>(), 
+					i.at("name").get<std::string>().c_str());
 	}
 	
 	//Render the resource I/O..
-	if(building.pertick.at("resource_in").size() != 0)
+	if(building.at("pertick").at("resource_in").size() != 0)
 		ImGui::Text("Input/Tick:");
 	//Get all necessary input resources.
-	for(auto &i : building.pertick.at("resource_in"))
+	for(auto &i : building.at("pertick").at("resource_in"))
 	{
 		std::string name = i.at("name").get<std::string>();
 		int count = i.at("count").get<int>();
@@ -201,10 +205,10 @@ void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& buildi
 	}
 	
 	//Now for out I/O...
-	if(building.pertick.at("resource_out").size() != 0)
+	if(building.at("pertick").at("resource_out").size() != 0)
 		ImGui::Text("Output/Tick:");
 	//Get all necessary output resources.
-	for(auto &i : building.pertick.at("resource_out"))
+	for(auto &i : building.at("pertick").at("resource_out"))
 	{
 		std::string name = i.at("name").get<std::string>();
 		int count = i.at("count").get<int>();
@@ -229,31 +233,33 @@ void BuildingManager::renderGuiMapBuildingTooltip(BuildingManager::Building& bui
 		* Note: Right click to sell.
 	*/
 	//Render the icon of the building.
-	ImGui::Image(building.texture);
+	ImGui::Image(*getBuildingTexture(building));
 	//Render how many are currently on-screen.
 	ImGui::SameLine();
-	ImGui::Text("Count: %d", getBuildingCount(building.name));
+	ImGui::Text("Count: %d", getBuildingCount(building.at("name").get<std::string>()));
 	
 	//Render the name & building of the building.
-	ImGui::Text("%s\n> %s\n---", building.name.c_str(), building.description.c_str());
+	ImGui::Text("%s\n> %s\n---", building.at("name").get<std::string>().c_str(),
+						building.at("description").get<std::string>().c_str());
 	
 	//Begin rendering the sell price.
 	ImGui::Text("Sells for:");
 	//So for each element of the total cost..
-	for(auto &i : building.sellprice)
+	for(auto &i : building.at("sellprice"))
 	{
 		//Render the icon.
-		ImGui::Image(*mMaterials.getTexture(i.name));
+		ImGui::Image(*mMaterials.getTexture(i.at("name").get<std::string>()));
 		//Render the name & count
 		ImGui::SameLine();
-		ImGui::Text("%d %s", i.count, i.name.c_str());
+		ImGui::Text("%d %s", i.at("count").get<int>(), 
+					i.at("name").get<std::string>().c_str());
 	}
 	
 	//Render the resource I/O..
-	if(building.pertick.at("resource_in").size() != 0)
+	if(building.at("pertick").at("resource_in").size() != 0)
 		ImGui::Text("Input/Tick:");
 	//Get all necessary input resources.
-	for(auto &i : building.pertick.at("resource_in"))
+	for(auto &i : building.at("pertick").at("resource_in"))
 	{
 		std::string name = i.at("name").get<std::string>();
 		int count = i.at("count").get<int>();
@@ -266,10 +272,10 @@ void BuildingManager::renderGuiMapBuildingTooltip(BuildingManager::Building& bui
 	}
 	
 	//Now for out I/O...
-	if(building.pertick.at("resource_out").size() != 0)
+	if(building.at("pertick").at("resource_out").size() != 0)
 		ImGui::Text("Output/Tick:");
 	//Get all necessary output resources.
-	for(auto &i : building.pertick.at("resource_out"))
+	for(auto &i : building.at("pertick").at("resource_out"))
 	{
 		std::string name = i.at("name").get<std::string>();
 		int count = i.at("count").get<int>();
@@ -314,9 +320,13 @@ void BuildingManager::update()
 			mBuilt.erase(i);
 			
 			//Return the sell price of the building.
-			for(auto &j : i->building_data->sellprice)
+			for(auto &j : i->building_data->at("sellprice"))
 			{
-				mMaterials.addResources(j);
+				mMaterials.addResources(
+					{
+						.name = j.at("name").get<std::string>(),
+						.count = j.at("count").get<int>()
+					});
 			}
 			
 			//Break.
@@ -335,7 +345,7 @@ void BuildingManager::updateTick()
 	for(auto &i : mBuilt)
 	{
 		//Get the pertick data.
-		nlohmann::json pertick = i.building_data->pertick;
+		nlohmann::json pertick = i.building_data->at("pertick");
 		
 		//Get the resources per tick in & out.
 		nlohmann::json rpt_in = pertick.at("resource_in");
@@ -389,7 +399,8 @@ int BuildingManager::getBuildingCount(std::string building_name)
 	for(auto &i : mBuilt)
 	{
 		//If the names match...
-		if(i.building_data->name == building_name)
+		if(i.building_data->at("name")
+				.get<std::string>() == building_name)
 		{
 			//Increment ret;
 			ret++;
@@ -403,7 +414,7 @@ int BuildingManager::getBuildingCount(std::string building_name)
 void BuildingManager::placeBuilding(BuildingManager::Building* building)
 {
 	mBuildMode = true;
-	mBuildingSprite.setTexture(building->texture);
+	mBuildingSprite.setTexture(*getBuildingTexture(*building));
 	mBuildingBuilding = building;
 }
 
@@ -440,7 +451,8 @@ void BuildingManager::updateBuilding()
 		
 		bool canPlace = false;
 		//Release & return if we cannot place on this tile.
-		for(auto &i : mBuildingBuilding->canbuildon)
+		for(auto &i : mBuildingBuilding->at("canbuildon")
+						.get<std::vector<std::string>>())
 		{
 			//Find the element in the tiledata.
 			auto found = tiledata.find(i);
@@ -476,11 +488,11 @@ void BuildingManager::updateBuilding()
 		
 		//Check if we can purchase the building.
 		bool purchaseable = true;
-		for(auto &i : mBuildingBuilding->price)
+		for(auto &i : mBuildingBuilding->at("price"))
 		{
 			if(!mMaterials.canPurchase({
-				.name = i.name,
-				.count = i.count
+				.name = i.at("name").get<std::string>(),
+				.count = i.at("count").get<int>()
 			}))
 			{
 				purchaseable = false;
@@ -492,18 +504,18 @@ void BuildingManager::updateBuilding()
 		if(purchaseable)
 		{
 			//Purchase...
-			for(auto &i : mBuildingBuilding->price)
+			for(auto &i : mBuildingBuilding->at("price"))
 			{
 				mMaterials.purchase({
-					.name = i.name,
-					.count = i.count
+					.name = i.at("name").get<std::string>(),
+					.count = i.at("count").get<int>()
 				});
 			}
 			
 			//Plant the building.
 			BuildingEntityData b;
 			b.building_data = mBuildingBuilding;
-			b.spr.setTexture(mBuildingBuilding->texture);
+			b.spr.setTexture(*getBuildingTexture(*mBuildingBuilding));
 			b.spr.setPosition(tile_pos);
 			
 			//..Why does this line error in vs code, but compile properly??
@@ -546,42 +558,9 @@ bool BuildingManager::initBuildings()
 	//Iterate through the list of buildings.
 	for(nlohmann::json& obj : object_data.at("buildings").get<nlohmann::json>())
 	{
-		//////BUILDING INITIALIZATION HAPPENS HERE////
-		//Create a new building.
-		Building b;
-		b.name = obj.at("name").get<std::string>();
-		b.texture.loadFromFile(texture_dir + obj.at("texture").get<std::string>());
-		b.description = obj.at("description").get<std::string>();
-		
-		//Iterate through all price objects.
-		for(nlohmann::json& price_obj : obj.at("price").get<nlohmann::json>())
-		{
-			//Create a new Resource object.
-			MaterialManager::Resource r;
-			r.name = price_obj.at("name").get<std::string>();
-			r.count = price_obj.at("count").get<int>();
-			//Add the new resource object to the building cost vector.
-			b.price.push_back(r);
-		}
-		//Iterate the same as before, but with sellprice objects.
-		for(nlohmann::json& sellprice_obj : obj.at("sellprice").get<nlohmann::json>())
-		{
-			//Create a new Resource object.
-			MaterialManager::Resource r;
-			r.name = sellprice_obj.at("name").get<std::string>();
-			r.count = sellprice_obj.at("count").get<int>();
-			//Add the new resource object to the building cost vector.
-			b.sellprice.push_back(r);
-		}
-		
-		//Data on what the building does per tick.
-		b.pertick = obj.at("pertick");
-		
-		//Data on what the tower can be placed on.
-		b.canbuildon = obj.at("canbuildon").get<std::vector<std::string>>();
-		
 		//Push the building into the internal vector.
-		mBuildings.push_back(b);
+		obj["texture"] = texture_dir + obj.at("texture").get<std::string>();
+		mBuildings.push_back(obj);
 	}
 	
 	//Return successful.
