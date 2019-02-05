@@ -308,7 +308,7 @@ void BuildingManager::update()
 		//& the right mouse button is released..
 		if(i->spr.getGlobalBounds().contains(
 			(sf::Vector2f)KeyManager::getMousePos())
-			&& KeyManager::getRMouseState() == 2)
+			&& KeyManager::getRMouseState() == 1)
 		{
 			//Remove the building from the map.
 			mBuilt.erase(i);
