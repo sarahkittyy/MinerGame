@@ -55,6 +55,37 @@
 			
 		},
 		{
+			"name": "Coal Drill",
+			"price": [
+				{
+					"name": "Cash",
+					"count": 3
+				}
+			],
+			"sellprice": [
+				{
+					"name": "Cash",
+					"count": 1
+				}
+			],
+			"texture": "buildings/coal_drill.png",
+			"description": "Mines coal.",
+			"pertick": {
+				"resource_in": [
+					
+				],
+				"resource_out": [
+					{
+						"name": "Coal",
+						"count": 2
+					}
+				]
+			},
+			"canbuildon": [
+				"grass"
+			]
+		},
+		{
 			"name": "Sawmill",
 			"price": [
 				{
@@ -80,34 +111,6 @@
 				"resource_out": [
 					{
 						"name": "Cash",
-						"count": 1
-					}
-				]
-			},
-			"canbuildon": [
-				"grass"
-			]
-		},
-		{
-			"name": "Coal Drill",
-			"price": [
-				{
-					"name": "Cash",
-					"count": 1
-				}
-			],
-			"sellprice": [
-				
-			],
-			"texture": "buildings/coal_drill.png",
-			"description": "Mines coal.",
-			"pertick": {
-				"resource_in": [
-					
-				],
-				"resource_out": [
-					{
-						"name": "Coal",
 						"count": 1
 					}
 				]
@@ -178,13 +181,13 @@
 				"resource_in": [
 					{
 						"name": "Stone",
-						"count": 4
+						"count": 5
 					}
 				],
 				"resource_out": [
 					{
 						"name": "Cash",
-						"count": 1
+						"count": 8
 					}
 				]
 			},
