@@ -10,8 +10,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/a.out.dir/include/imgui/imgui_draw.cpp.obj"
   "CMakeFiles/a.out.dir/include/imgui/imgui_widgets.cpp.obj"
   "CMakeFiles/a.out.dir/include/imgui-sfml/imgui-SFML.cpp.obj"
-  "a.out.pdb"
-  "a.out.exe"
+  "bin/a.out.pdb"
+  "bin/a.out.exe"
   "liba.out.dll.a"
 )
 

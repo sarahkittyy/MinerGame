@@ -18,6 +18,8 @@ if(NOT WINDOWS)
 		GL
 	)
 	set(CMAKE_CXX_FLAGS "-g -std=c++17 -Wall -Wno-unused-variable")
+	
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
 else()
 	include_directories(
 		winbuild/include/SFML/include/
@@ -48,12 +50,13 @@ else()
 	set(CMAKE_CXX_FLAGS"-g -std=c++17 -Wall -Wno-unused-variable")
 	set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
 	add_definitions(-DSFML_STATIC)
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
 file(GLOB_RECURSE MAIN_SRC "src/*.cpp")
 file(GLOB IMGUI_SRC "include/imgui/*.cpp")
 file(GLOB IMGUI_SFML_SRC "include/imgui-sfml/*.cpp")
 
-file(COPY resource DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY resource DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 add_executable(a.out ${MAIN_SRC} ${IMGUI_SRC} ${IMGUI_SFML_SRC})

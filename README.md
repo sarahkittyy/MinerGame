@@ -10,7 +10,7 @@ cmake ../..
 ```
 ## Windows
 
-Pre-Built Binary, `"a.out.exe"` in `build/windows/`
+Pre-Built Binary, `"a.out.exe"` in `build/windows/bin`
 
 ## TODO
 
