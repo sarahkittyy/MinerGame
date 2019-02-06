@@ -6,29 +6,13 @@ include_directories(
 	include/imgui
 	include/imgui-sfml
 	include/nlohmann
+	include/SFML/include
 )
 
-if(NOT WINDOWS)
-	link_libraries(
-		sfml-graphics
-		sfml-window
-		sfml-audio
-		sfml-network
-		sfml-system
-		GL
-	)
-	set(CMAKE_CXX_FLAGS "-g -std=c++17 -Wall -Wno-unused-variable")
-	
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
-else()
-	include_directories(
-		winbuild/include/SFML/include/
-	)
-
-	link_directories(
-		winbuild/include/SFML/lib/
-	)
-
+if(WINDOWS)
+	set(SFML_STATIC_LIBRARIES TRUE)
+	set(SFML_)
+	find_package(SFML 2.5 COMPONENTS graphics window audio network system REQUIRED)
 	link_libraries(
 		sfml-graphics-s
 		sfml-window-s
@@ -47,11 +31,26 @@ else()
 		ogg
 		ws2_32
 	)
-	set(CMAKE_CXX_FLAGS"-g -std=c++17 -Wall -Wno-unused-variable")
 	set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
 	add_definitions(-DSFML_STATIC)
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+else()
+	find_package(SFML 2.5 COMPONENTS graphics window audio network system REQUIRED)
+	
+	link_libraries(
+		sfml-graphics
+		sfml-window
+		sfml-audio
+		sfml-network
+		sfml-system
+		GL
+	)
+	
 endif()
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "-g -Wall -Wno-unused-variable")
+	
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/")
 
 file(GLOB_RECURSE MAIN_SRC "src/*.cpp")
 file(GLOB IMGUI_SRC "include/imgui/*.cpp")
