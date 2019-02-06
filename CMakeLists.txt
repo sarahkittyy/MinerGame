@@ -10,9 +10,9 @@ include_directories(
 )
 
 if(WINDOWS)
-	set(SFML_STATIC_LIBRARIES TRUE)
-	set(SFML_)
-	find_package(SFML 2.5 COMPONENTS graphics window audio network system REQUIRED)
+	link_directories(
+		include/SFML/build-win/install/lib
+	)
 	link_libraries(
 		sfml-graphics-s
 		sfml-window-s
