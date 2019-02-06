@@ -1,0 +1,3 @@
+/usr/bin/cmake -E remove -f CMakeFiles/a.out.dir/objects.a
+/usr/bin/x86_64-w64-mingw32-ar cr CMakeFiles/a.out.dir/objects.a @CMakeFiles/a.out.dir/objects1.rsp
+/usr/bin/x86_64-w64-mingw32-g++ -g    -Wl,--whole-archive CMakeFiles/a.out.dir/objects.a -Wl,--no-whole-archive  -o a.out.exe -Wl,--out-implib,liba.out.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles/a.out.dir/linklibs.rsp

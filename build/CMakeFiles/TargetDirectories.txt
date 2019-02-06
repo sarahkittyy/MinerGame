@@ -1,3 +1,0 @@
-/home/sarahkitty/Code/C++/Miner/build/CMakeFiles/rebuild_cache.dir
-/home/sarahkitty/Code/C++/Miner/build/CMakeFiles/MinerGame.dir
-/home/sarahkitty/Code/C++/Miner/build/CMakeFiles/edit_cache.dir
