@@ -1,3 +1,0 @@
-/home/sarahkitty/Code/C++/Miner/build/windows/CMakeFiles/rebuild_cache.dir
-/home/sarahkitty/Code/C++/Miner/build/windows/CMakeFiles/a.out.dir
-/home/sarahkitty/Code/C++/Miner/build/windows/CMakeFiles/edit_cache.dir
