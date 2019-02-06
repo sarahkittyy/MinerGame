@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/MinerGame.dir/include/imgui-sfml/imgui-SFML.cpp.o  -o MinerGame 
