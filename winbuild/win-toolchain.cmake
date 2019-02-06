@@ -17,7 +17,13 @@ include_directories(
 	SFML/include
 )
 
-link
+link_libraries(
+	
+)
+
+link_directories(
+	
+)
 
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH)
