@@ -1,0 +1,3 @@
+/home/sarahkitty/Code/C++/Miner/build/linux/CMakeFiles/rebuild_cache.dir
+/home/sarahkitty/Code/C++/Miner/build/linux/CMakeFiles/a.out.dir
+/home/sarahkitty/Code/C++/Miner/build/linux/CMakeFiles/edit_cache.dir
