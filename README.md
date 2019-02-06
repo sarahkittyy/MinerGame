@@ -2,16 +2,9 @@
 
 A small little incremental game about diggin' some dirt! <3
 
-## Compilation (Linux)
+## Compilation
 
 ```
-cd build/linux
+cd build/platform/
 cmake ../..
 ```
-## Windows
-
-Pre-Built Binary, `"a.out.exe"` in `build/windows/bin`
-
-## TODO
-
-* Cleanup CMAKE & add SFML as a module instead of linking directly.
