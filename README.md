@@ -1,6 +1,6 @@
 # MinerGame
 
-A small little incremental game about diggin' some dirt! <3
+A small little factory-esque incremental game.
 
 ## Compilation
 
