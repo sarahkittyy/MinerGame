@@ -133,16 +133,7 @@ private:
 	 * 
 	 * @param building The building to render the tooltip for.
 	 */
-	void renderGuiBuildingTooltip(Building& building);
-	
-	/**
-	 * @brief Renders the tooltip for a building on the map.
-	 * 
-	 * @param building The building to render the tooltip for.
-	 * 
-	 * @see renderGuiBuildingTooltip
-	 */
-	void renderGuiMapBuildingTooltip(Building& building);
+	void renderGuiBuilding(Building& building, bool renderSellPrice = false);
 	
 	/**
 	 * @brief Initializes the material manager & the mBuildings vector.
@@ -194,6 +185,12 @@ private:
 	bool mBuildMode;
 	
 	/**
+	 * @brief Build mode's internal reference to the currently selected building.
+	 * 
+	 */
+	Building* mBuildingBuilding;
+	
+	/**
 	 * @brief Enable buildmode & start moving the sprite.
 	 * 
 	 * @param building 
@@ -211,12 +208,6 @@ private:
 	 * 
 	 */
 	void releaseBuilding();
-	
-	/**
-	 * @brief Build mode's internal reference to the currently selected building.
-	 * 
-	 */
-	Building* mBuildingBuilding;
 	
 	/**
 	 * @brief The sprite rendered when dragging & dropping the building.

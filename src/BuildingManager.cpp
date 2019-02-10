@@ -134,15 +134,15 @@ void BuildingManager::renderGuiTooltip()
 	//Build mode check..
 	if(mBuildMode)
 	{
-		renderGuiBuildingTooltip(*mBuildingBuilding);
+		renderGuiBuilding(*mBuildingBuilding);
 	}
 	else if(mBuildingButtonHovered) //Otherwise, if hovering over a button...
 	{
-		renderGuiBuildingTooltip(*mBuildingHovered);
+		renderGuiBuilding(*mBuildingHovered);
 	}
 	else if(mapBuildingHovered) //If a building on the map is hovered..
 	{
-		renderGuiMapBuildingTooltip(*mapBuildingHoveredBuilding);
+		renderGuiBuilding(*mapBuildingHoveredBuilding, true);
 	}
 	else //If neither...
 	{
@@ -153,7 +153,8 @@ void BuildingManager::renderGuiTooltip()
 	}
 }
 
-void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& building)
+void BuildingManager::renderGuiBuilding(BuildingManager::Building& building,
+										bool renderSellPrice)
 {
 	/*
 	Building Tooltip info:
@@ -175,17 +176,37 @@ void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& buildi
 				.get<std::string>().c_str(), 
 				building.at("description").get<std::string>().c_str());
 	
-	//Begin rendering the price..
-	ImGui::Text("Cost:");
-	//So for each element of the total cost..
-	for(auto &i : building.at("price"))
+	//If configured to render the sell price...
+	if(renderSellPrice)
 	{
-		//Render the icon.
-		ImGui::Image(*mMaterials.getTexture(i.at("name").get<std::string>()));
-		//Render the name & count
-		ImGui::SameLine();
-		ImGui::Text("%d %s", i.at("count").get<int>(), 
-					i.at("name").get<std::string>().c_str());
+		//Begin rendering the sell price.
+		ImGui::Text("Sells for:");
+		//So for each element of the total cost..
+		for(auto &i : building.at("sellprice"))
+		{
+			//Render the icon.
+			ImGui::Image(*mMaterials.getTexture(i.at("name").get<std::string>()));
+			//Render the name & count
+			ImGui::SameLine();
+			ImGui::Text("%d %s", i.at("count").get<int>(), 
+						i.at("name").get<std::string>().c_str());
+		}
+	}
+	//Otherwise...
+	else
+	{
+		//Render the cost.
+		ImGui::Text("Cost:");
+		//So for each element of the total cost..
+		for(auto &i : building.at("price"))
+		{
+			//Render the icon.
+			ImGui::Image(*mMaterials.getTexture(i.at("name").get<std::string>()));
+			//Render the name & count
+			ImGui::SameLine();
+			ImGui::Text("%d %s", i.at("count").get<int>(), 
+						i.at("name").get<std::string>().c_str());
+		}
 	}
 	
 	//Render the resource I/O..
@@ -219,76 +240,6 @@ void BuildingManager::renderGuiBuildingTooltip(BuildingManager::Building& buildi
 		ImGui::SameLine();
 		ImGui::Text("%d %s", count, name.c_str());
 	}
-}
-
-void BuildingManager::renderGuiMapBuildingTooltip(BuildingManager::Building& building)
-{
-	/*
-	Selling Tooltip Info
-		* Name
-		* Icon
-		* Description
-		* Sell price.
-		* Resource I/O
-		* Note: Right click to sell.
-	*/
-	//Render the icon of the building.
-	ImGui::Image(*getBuildingTexture(building));
-	//Render how many are currently on-screen.
-	ImGui::SameLine();
-	ImGui::Text("Count: %d", getBuildingCount(building.at("name").get<std::string>()));
-	
-	//Render the name & building of the building.
-	ImGui::Text("%s\n> %s\n---", building.at("name").get<std::string>().c_str(),
-						building.at("description").get<std::string>().c_str());
-	
-	//Begin rendering the sell price.
-	ImGui::Text("Sells for:");
-	//So for each element of the total cost..
-	for(auto &i : building.at("sellprice"))
-	{
-		//Render the icon.
-		ImGui::Image(*mMaterials.getTexture(i.at("name").get<std::string>()));
-		//Render the name & count
-		ImGui::SameLine();
-		ImGui::Text("%d %s", i.at("count").get<int>(), 
-					i.at("name").get<std::string>().c_str());
-	}
-	
-	//Render the resource I/O..
-	if(building.at("pertick").at("resource_in").size() != 0)
-		ImGui::Text("Input/Tick:");
-	//Get all necessary input resources.
-	for(auto &i : building.at("pertick").at("resource_in"))
-	{
-		std::string name = i.at("name").get<std::string>();
-		int count = i.at("count").get<int>();
-		
-		//Render the icon.
-		ImGui::Image(*mMaterials.getTexture(name));
-		//Render the name & count
-		ImGui::SameLine();
-		ImGui::Text("%d %s", count, name.c_str());
-	}
-	
-	//Now for out I/O...
-	if(building.at("pertick").at("resource_out").size() != 0)
-		ImGui::Text("Output/Tick:");
-	//Get all necessary output resources.
-	for(auto &i : building.at("pertick").at("resource_out"))
-	{
-		std::string name = i.at("name").get<std::string>();
-		int count = i.at("count").get<int>();
-		
-		//Render the icon.
-		ImGui::Image(*mMaterials.getTexture(name));
-		//Render the name & count
-		ImGui::SameLine();
-		ImGui::Text("%d %s", count, name.c_str());
-	}
-	
-	//Inform the user they can right click to sell.
-	ImGui::Text("-Sell with RMB-");
 }
 
 void BuildingManager::update()
