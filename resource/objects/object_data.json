@@ -1,13 +1,12 @@
 {
 	"texturedir": "textures/",
-	"resources": [
-		{
+	"resources": [{
 			"name": "Cash",
 			"icon": "icons/cash.png"
 		},
 		{
 			"name": "Wood",
-			"icon": "icons/wood.png"	
+			"icon": "icons/wood.png"
 		},
 		{
 			"name": "Coal",
@@ -18,68 +17,53 @@
 			"icon": "icons/stone.png"
 		}
 	],
-	"buildings": [
-		{
+	"buildings": [{
 			"name": "Woodcutter",
-			"price": [
-				{
-					"name": "Cash",
-					"count": 5
-				}
-			],
-			"sellprice": [
-				{
-					"name": "Cash",
-					"count": 4
-				}
-			],
+			"price": [{
+				"name": "Cash",
+				"count": 5
+			}],
+			"sellprice": [{
+				"name": "Cash",
+				"count": 4
+			}],
 			"texture": "buildings/wood_cutter.png",
 			"description": "Cuts wood.",
 			"pertick": {
-				"resource_in": [
-					{
-						"name": "Coal",
-						"count": 10
-					}
-				],
-				"resource_out": [
-					{
-						"name": "Wood",
-						"count": 1
-					}
-				]
+				"resource_in": [{
+					"name": "Coal",
+					"count": 10
+				}],
+				"resource_out": [{
+					"name": "Wood",
+					"count": 1
+				}]
 			},
 			"canbuildon": [
 				"Tree"
 			]
-			
+
 		},
 		{
 			"name": "Coal Drill",
-			"price": [
-				{
-					"name": "Cash",
-					"count": 3
-				}
-			],
-			"sellprice": [
-				{
-					"name": "Cash",
-					"count": 1
-				}
-			],
+			"price": [{
+				"name": "Cash",
+				"count": 3
+			}],
+			"sellprice": [{
+				"name": "Cash",
+				"count": 1
+			}],
 			"texture": "buildings/coal_drill.png",
 			"description": "Mines coal.",
 			"pertick": {
 				"resource_in": [
-					
+
 				],
-				"resource_out": [
-					{
-						"name": "Coal",
-						"count": 2
-					}
-				]
+				"resource_out": [{
+					"name": "Coal",
+					"count": 2
+				}]
 			},
 			"canbuildon": [
 				"Grass",
@@ -88,33 +72,25 @@
 		},
 		{
 			"name": "Sawmill",
-			"price": [
-				{
-					"name": "Wood",
-					"count": 10
-				}
-			],
-			"sellprice": [
-				{
-					"name": "Wood",
-					"count": 9
-				}
-			],
+			"price": [{
+				"name": "Wood",
+				"count": 10
+			}],
+			"sellprice": [{
+				"name": "Wood",
+				"count": 9
+			}],
 			"texture": "buildings/sawmill.png",
 			"description": "Processes & Sells wood.",
 			"pertick": {
-				"resource_in": [
-					{
-						"name": "Wood",
-						"count": 5
-					}
-				],
-				"resource_out": [
-					{
-						"name": "Cash",
-						"count": 1
-					}
-				]
+				"resource_in": [{
+					"name": "Wood",
+					"count": 5
+				}],
+				"resource_out": [{
+					"name": "Cash",
+					"count": 1
+				}]
 			},
 			"canbuildon": [
 				"Grass",
@@ -123,33 +99,25 @@
 		},
 		{
 			"name": "Stone Drill",
-			"price": [
-				{
-					"name": "Cash",
-					"count": 50
-				}
-			],
-			"sellprice": [
-				{
-					"name": "Cash",
-					"count": 45
-				}
-			],
+			"price": [{
+				"name": "Cash",
+				"count": 50
+			}],
+			"sellprice": [{
+				"name": "Cash",
+				"count": 45
+			}],
 			"texture": "buildings/stone_drill.png",
 			"description": "Mines stone.",
 			"pertick": {
-				"resource_in": [
-					{
-						"name": "Coal",
-						"count": 5
-					}
-				],
-				"resource_out": [
-					{
-						"name": "Stone",
-						"count": 1
-					}
-				]
+				"resource_in": [{
+					"name": "Coal",
+					"count": 5
+				}],
+				"resource_out": [{
+					"name": "Stone",
+					"count": 1
+				}]
 			},
 			"canbuildon": [
 				"Stone"
@@ -157,8 +125,7 @@
 		},
 		{
 			"name": "Stone Seller",
-			"price": [
-				{
+			"price": [{
 					"name": "Stone",
 					"count": 20
 				},
@@ -167,8 +134,7 @@
 					"count": 15
 				}
 			],
-			"sellprice": [
-				{
+			"sellprice": [{
 					"name": "Stone",
 					"count": 18
 				},
@@ -180,18 +146,14 @@
 			"texture": "buildings/stone_seller.png",
 			"description": "Sells stone for cash.",
 			"pertick": {
-				"resource_in": [
-					{
-						"name": "Stone",
-						"count": 5
-					}
-				],
-				"resource_out": [
-					{
-						"name": "Cash",
-						"count": 8
-					}
-				]
+				"resource_in": [{
+					"name": "Stone",
+					"count": 5
+				}],
+				"resource_out": [{
+					"name": "Cash",
+					"count": 8
+				}]
 			},
 			"canbuildon": [
 				"Grass",
@@ -199,35 +161,30 @@
 			]
 		}
 	],
-	"upgrades": [
-		{
+	"upgrades": [{
 			"name": "TPS++",
 			"description": "Increases the TPS by one.",
 			"uses": -1,
-			"baseprice": [
-				{
-					"name": "Cash",
-					"count": 50
-				}
-			],
+			"baseprice": [{
+				"name": "Cash",
+				"count": 50
+			}],
 			"pricefactor": 4,
 			"actions": {
-				
+
 			}
 		},
 		{
 			"name": "Coal Drill++",
 			"description": "Increases Coal/Tick from 1 to 2",
 			"uses": 1,
-			"baseprice": [
-				{
-					"name": "Cash",
-					"count": 50
-				}
-			],
+			"baseprice": [{
+				"name": "Cash",
+				"count": 50
+			}],
 			"pricefactor": 1,
 			"actions": {
-				
+
 			}
 		}
 	]
