@@ -50,7 +50,7 @@
 				]
 			},
 			"canbuildon": [
-				"tree"
+				"Tree"
 			]
 			
 		},
@@ -82,7 +82,8 @@
 				]
 			},
 			"canbuildon": [
-				"grass"
+				"Grass",
+				"Stone"
 			]
 		},
 		{
@@ -116,7 +117,8 @@
 				]
 			},
 			"canbuildon": [
-				"grass"
+				"Grass",
+				"Stone"
 			]
 		},
 		{
@@ -150,7 +152,7 @@
 				]
 			},
 			"canbuildon": [
-				"stone"
+				"Stone"
 			]
 		},
 		{
@@ -192,7 +194,8 @@
 				]
 			},
 			"canbuildon": [
-				"grass"
+				"Grass",
+				"Stone"
 			]
 		}
 	],

@@ -59,6 +59,14 @@ public:
 	int getTileID(sf::Vector2f pos);
 	
 	/**
+	 * @brief Get a Tile's ID from it's name.
+	 * 
+	 * @param tile_name The name of a tile. 
+	 * @return int Its ID.
+	 */
+	int getTileIDFromName(std::string tile_name);
+	
+	/**
 	 * @brief Set the the at given position to the given ID.
 	 * 
 	 * @param pos The tile position to set.
@@ -80,6 +88,21 @@ public:
 	 * @return sf::Vector2f The size of a tile.
 	 */
 	sf::Vector2f getTileSize();
+	
+	/**
+	 * @brief Return the texture of the tilemap.
+	 * 
+	 * @return sf::Texture& A reference to the internal tilemap texture.
+	 */
+	sf::Texture& getTileMapTexture();
+	
+	/**
+	 * @brief Get the position of a tile in the tilemap.
+	 * 
+	 * @param tile_name The name of the tile.
+	 * @return sf::FloatRect The area of mMapTexture that the tile resides.
+	 */
+	sf::FloatRect getTileTextureRect(std::string tile_name);
 
 private:
 	/**
@@ -100,7 +123,7 @@ private:
 	 * 
 	 */
 	sf::Texture mMapTexture;
-
+	
 	//////////////MAP DATA////////////////
 
 	/**

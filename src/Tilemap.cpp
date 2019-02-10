@@ -256,6 +256,72 @@ sf::Vector2f Tilemap::getTileSize()
 	return (sf::Vector2f)mTileDimensions;
 }
 
+sf::Texture& Tilemap::getTileMapTexture()
+{
+	return mMapTexture;
+}
+
+sf::FloatRect Tilemap::getTileTextureRect(std::string tile_name)
+{
+	sf::FloatRect ret;
+	
+	///
+	
+	//Get the ID associated with the tile.
+	int ID = getTileIDFromName(tile_name);
+	ID--;
+	//If the tile was air..
+	if(ID == -1)
+	{
+		//Return an empty rect.
+		return sf::FloatRect(0,0,0,0);
+	}
+	
+	//Get the size of the tilemap texture itself.
+	sf::Vector2i tilemapGridSize = {
+		(int)mMapTexture.getSize().x / mTileDimensions.x,
+		(int)mMapTexture.getSize().y / mTileDimensions.y
+	};
+	
+	//Get the top left position.
+	sf::Vector2i top_left = {
+		ID % tilemapGridSize.x,
+		ID / tilemapGridSize.x
+	};
+	
+	//Set the new boundaries.
+	ret.left = top_left.x * mTileDimensions.x;
+	ret.top = top_left.y * mTileDimensions.y;
+	ret.width = mTileDimensions.x;
+	ret.height = mTileDimensions.y;
+
+	///
+	
+	//Return.
+	return ret;
+}
+
+int Tilemap::getTileIDFromName(std::string tile_name)
+{
+	//Iterate through all elements in mTileData.
+	for(auto &i : mTileData.get<nlohmann::json::object_t>())
+	{	
+		//Get the tile data. 
+		//We call this to automatically emplace default values if necessary.
+		nlohmann::json data = getTileDataFor(std::stoi(i.first));
+		
+		//If the names match..
+		if(tile_name == data.at("name").get<std::string>())
+		{
+			//Return i.first as an integer.
+			return std::stoi(i.first);
+		}
+	}
+	
+	//Return air (0).
+	return 0;
+}
+
 int Tilemap::getTileID(sf::Vector2f pos)
 {
 	//Check if it's found.
