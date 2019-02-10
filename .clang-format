@@ -25,6 +25,7 @@ FixNamespaceComments: 'false'
 IndentCaseLabels: 'false'
 IndentWidth: '4'
 Language: Cpp
+MaxEmptyLinesToKeep: '3'
 PointerAlignment: Left
 SpaceAfterCStyleCast: 'false'
 SpaceAfterTemplateKeyword: 'false'
