@@ -150,7 +150,7 @@
 				]
 			},
 			"canbuildon": [
-				"grass"
+				"stone"
 			]
 		},
 		{
@@ -208,9 +208,9 @@
 				}
 			],
 			"pricefactor": 4,
-			"actions": [
+			"actions": {
 				
-			]
+			}
 		},
 		{
 			"name": "Coal Drill++",
@@ -223,9 +223,9 @@
 				}
 			],
 			"pricefactor": 1,
-			"actions": [
+			"actions": {
 				
-			]
+			}
 		}
 	]
 }
