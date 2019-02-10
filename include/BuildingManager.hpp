@@ -133,7 +133,7 @@ private:
 	 * 
 	 * @param building The building to render the tooltip for.
 	 */
-	void renderGuiBuilding(Building& building, bool renderSellPrice = false);
+	void renderGuiBuilding(Building& building, bool isHighlightedOnMap = false);
 	
 	/**
 	 * @brief Initializes the material manager & the mBuildings vector.

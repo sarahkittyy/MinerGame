@@ -154,7 +154,7 @@ void BuildingManager::renderGuiTooltip()
 }
 
 void BuildingManager::renderGuiBuilding(BuildingManager::Building& building,
-										bool renderSellPrice)
+										bool isHighlightedOnMap)
 {
 	/*
 	Building Tooltip info:
@@ -177,7 +177,7 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building& building,
 				building.at("description").get<std::string>().c_str());
 	
 	//If configured to render the sell price...
-	if(renderSellPrice)
+	if(isHighlightedOnMap)
 	{
 		//Begin rendering the sell price.
 		ImGui::Text("Sells for:");
@@ -239,6 +239,24 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building& building,
 		//Render the name & count
 		ImGui::SameLine();
 		ImGui::Text("%d %s", count, name.c_str());
+	}
+	
+	//Render what it's placeable on.
+	if(!isHighlightedOnMap)
+	{
+		ImGui::Text("Can place on:");
+		
+		//For every placeable tile...
+		for(auto &i : building.at("canbuildon")
+						.get<std::vector<std::string>>())
+		{
+			//Render its icon.
+			ImGui::Image(mMap->getTileMapTexture(), mMap->getTileTextureRect(i));
+			
+			//Render the name.
+			ImGui::SameLine();
+			ImGui::Text("%s", i.c_str());
+		}
 	}
 }
 
@@ -401,19 +419,17 @@ void BuildingManager::updateBuilding()
 		nlohmann::json tiledata = mMap->getTileDataFor(mMap->getTileID(tile_pos));
 		
 		bool canPlace = false;
+		
 		//Release & return if we cannot place on this tile.
 		for(auto &i : mBuildingBuilding->at("canbuildon")
 						.get<std::vector<std::string>>())
 		{
-			//Find the element in the tiledata.
-			auto found = tiledata.find(i);
+			//Get the tile's name.
+			std::string tile_name = tiledata.at("name").get<std::string>();
 			
-			//Since defaults are appended by default,
-			//continue if found in the tiledata as true.
-			if(	found != tiledata.end() &&
-				*found)
+			//If the name matches the tile, the tile is placeable.
+			if(tile_name == i)
 			{
-				//Placeable, break.
 				canPlace = true;
 				break;
 			}
