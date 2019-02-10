@@ -1,7 +1,8 @@
 #include "Application.hpp"
 
 Application::Application() :
-	mWindow(sf::VideoMode(600,600), "Miner"),
+	mWindow(sf::VideoMode(600,600), "Miner",
+					sf::Style::Titlebar | sf::Style::Close),
 	mBuilder(&mMap)
 {
 	mWindow.setFramerateLimit(60);
