@@ -119,8 +119,7 @@ void BuildingManager::renderGuiTooltip() {
 	// Build mode check..
 	if (mBuildMode) {
 		renderGuiBuilding(*mBuildingBuilding);
-	} else if (mBuildingButtonHovered)   // Otherwise, if hovering over a
-										 // button...
+	} else if (mBuildingButtonHovered)   // Otherwise, if hovering over a button...
 	{
 		renderGuiBuilding(*mBuildingHovered);
 	} else if (mapBuildingHovered)   // If a building on the map is hovered..
