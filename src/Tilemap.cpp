@@ -1,22 +1,26 @@
 #include "Tilemap.hpp"
 
-Tilemap::Tilemap() {
+Tilemap::Tilemap()
+{
 	// Set the vertices primitive type.
 	mVertices.setPrimitiveType(sf::Quads);
 }
 
-void Tilemap::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+void Tilemap::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
 	states.transform *= getTransform();
 	states.texture = &mMapTexture;
 	target.draw(mVertices, states);
 }
 
-bool Tilemap::loadFromFilename(std::string fname) {
+bool Tilemap::loadFromFilename(std::string fname)
+{
 	// Load the actual tilemap data itself.
 	std::ifstream ifile("resource/maps/" + fname + "_Data.json");
 
 	// Assert it loaded properly.
-	if (!ifile) {
+	if (!ifile)
+	{
 		return false;
 	}
 
@@ -29,7 +33,8 @@ bool Tilemap::loadFromFilename(std::string fname) {
 	ifile.open("resource/maps/" + fname + ".json");
 
 	// Assert it loaded properly.
-	if (!ifile) {
+	if (!ifile)
+	{
 		return false;
 	}
 
@@ -38,10 +43,12 @@ bool Tilemap::loadFromFilename(std::string fname) {
 	ifile >> tiledata;
 
 	// Initialize all data.
-	if (!getGraphicalData(graphicaldata)) {
+	if (!getGraphicalData(graphicaldata))
+	{
 		return false;
 	}
-	if (!getTileData(tiledata)) {
+	if (!getTileData(tiledata))
+	{
 		return false;
 	}
 
@@ -49,7 +56,8 @@ bool Tilemap::loadFromFilename(std::string fname) {
 	return updateVertices();
 }
 
-bool Tilemap::getGraphicalData(nlohmann::json &graphicaldata) {
+bool Tilemap::getGraphicalData(nlohmann::json &graphicaldata)
+{
 	/*
 Data to retrieve:
 - Tile array. (int[])
@@ -59,12 +67,12 @@ Data to retrieve:
 */
 
 	// Retrieve the grid dimensions.
-	int grid_width  = graphicaldata["width"];
+	int grid_width = graphicaldata["width"];
 	int grid_height = graphicaldata["height"];
 	mGridDimensions = {grid_width, grid_height};
 
 	// Retrieve the tile dimensions.
-	int tile_width  = graphicaldata["tilewidth"];
+	int tile_width = graphicaldata["tilewidth"];
 	int tile_height = graphicaldata["tileheight"];
 	mTileDimensions = {tile_width, tile_height};
 
@@ -80,7 +88,8 @@ Data to retrieve:
 	return true;
 }
 
-bool Tilemap::getTileData(nlohmann::json &tiledata) {
+bool Tilemap::getTileData(nlohmann::json &tiledata)
+{
 	/*
 Data to retrieve:
 - Tile ID info ("defaults", "0", "1", "2".. etc.)
@@ -94,7 +103,8 @@ Data to retrieve:
 	///////////////////////////
 
 	// If there's no individual tile data, return successful.
-	if (tiledata.find("tiles") == tiledata.end()) {
+	if (tiledata.find("tiles") == tiledata.end())
+	{
 		return true;
 	}
 
@@ -105,12 +115,14 @@ Data to retrieve:
 	return true;
 }
 
-void Tilemap::setTileAt(sf::Vector2f pos, int newTileID) {
+void Tilemap::setTileAt(sf::Vector2f pos, int newTileID)
+{
 	// Get the tile at the given position.
 	auto found = mTilePositions.find(getTileInside(pos));
 
 	// If not found, return.
-	if (found == mTilePositions.end()) {
+	if (found == mTilePositions.end())
+	{
 		return;
 	}
 
@@ -128,7 +140,8 @@ void Tilemap::setTileAt(sf::Vector2f pos, int newTileID) {
 	updateVertices();
 }
 
-bool Tilemap::updateVertices() {
+bool Tilemap::updateVertices()
+{
 	// Clear any previous vertices.
 	mVertices.clear();
 
@@ -140,9 +153,11 @@ bool Tilemap::updateVertices() {
 								texSize.y / mTileDimensions.y};
 
 	// Iterate through all tiles.
-	for (unsigned i = 0; i < mTiles.size(); ++i) {
+	for (unsigned i = 0; i < mTiles.size(); ++i)
+	{
 		// Ignore 0 (air) tiles.
-		if (mTiles[i] == 0) {
+		if (mTiles[i] == 0)
+		{
 			continue;
 		}
 
@@ -160,7 +175,7 @@ bool Tilemap::updateVertices() {
 			(float)mTileDimensions.x * (i % mGridDimensions.x),
 			(float)mTileDimensions.y * (i / mGridDimensions.x)};
 
-		sf::Vector2f width  = {(float)mTileDimensions.x, 0};
+		sf::Vector2f width = {(float)mTileDimensions.x, 0};
 		sf::Vector2f height = {0, (float)mTileDimensions.y};
 
 		// Append the vertices.
@@ -182,12 +197,14 @@ bool Tilemap::updateVertices() {
 	return true;
 }
 
-nlohmann::json Tilemap::getTileDataFor(int tileID) {
+nlohmann::json Tilemap::getTileDataFor(int tileID)
+{
 	// Check if the tiledata was found.
 	auto found = mTileData.find(std::to_string(tileID));
 
 	// If it wasn't found...
-	if (found == mTileData.end()) {
+	if (found == mTileData.end())
+	{
 		return mTileDefaults;
 	}
 
@@ -195,9 +212,11 @@ nlohmann::json Tilemap::getTileDataFor(int tileID) {
 	nlohmann::json ret = *found;
 
 	// Assert all tile data information is contained.
-	for (auto &i : mTileDefaults.items()) {
+	for (auto &i : mTileDefaults.items())
+	{
 		// If the ret data does not contain the current key...
-		if (ret.find(i.key()) == ret.end()) {
+		if (ret.find(i.key()) == ret.end())
+		{
 			// Append it.
 			ret[i.key()] = i.value();
 		}
@@ -207,7 +226,8 @@ nlohmann::json Tilemap::getTileDataFor(int tileID) {
 	return ret;
 }
 
-sf::Vector2f Tilemap::getTileInside(sf::Vector2f pos) {
+sf::Vector2f Tilemap::getTileInside(sf::Vector2f pos)
+{
 	// Floor the positions..
 	int x = pos.x;
 	int y = pos.y;
@@ -223,15 +243,18 @@ sf::Vector2f Tilemap::getTileInside(sf::Vector2f pos) {
 	return sf::Vector2f(x, y);
 }
 
-sf::Vector2f Tilemap::getTileSize() {
+sf::Vector2f Tilemap::getTileSize()
+{
 	return (sf::Vector2f)mTileDimensions;
 }
 
-sf::Texture &Tilemap::getTileMapTexture() {
+sf::Texture &Tilemap::getTileMapTexture()
+{
 	return mMapTexture;
 }
 
-sf::FloatRect Tilemap::getTileTextureRect(std::string tile_name) {
+sf::FloatRect Tilemap::getTileTextureRect(std::string tile_name)
+{
 	sf::FloatRect ret;
 
 	///
@@ -240,7 +263,8 @@ sf::FloatRect Tilemap::getTileTextureRect(std::string tile_name) {
 	int ID = getTileIDFromName(tile_name);
 	ID--;
 	// If the tile was air..
-	if (ID == -1) {
+	if (ID == -1)
+	{
 		// Return an empty rect.
 		return sf::FloatRect(0, 0, 0, 0);
 	}
@@ -254,9 +278,9 @@ sf::FloatRect Tilemap::getTileTextureRect(std::string tile_name) {
 	sf::Vector2i top_left = {ID % tilemapGridSize.x, ID / tilemapGridSize.x};
 
 	// Set the new boundaries.
-	ret.left   = top_left.x * mTileDimensions.x;
-	ret.top	= top_left.y * mTileDimensions.y;
-	ret.width  = mTileDimensions.x;
+	ret.left = top_left.x * mTileDimensions.x;
+	ret.top = top_left.y * mTileDimensions.y;
+	ret.width = mTileDimensions.x;
 	ret.height = mTileDimensions.y;
 
 	///
@@ -265,15 +289,18 @@ sf::FloatRect Tilemap::getTileTextureRect(std::string tile_name) {
 	return ret;
 }
 
-int Tilemap::getTileIDFromName(std::string tile_name) {
+int Tilemap::getTileIDFromName(std::string tile_name)
+{
 	// Iterate through all elements in mTileData.
-	for (auto &i : mTileData.get<nlohmann::json::object_t>()) {
+	for (auto &i : mTileData.get<nlohmann::json::object_t>())
+	{
 		// Get the tile data.
 		// We call this to automatically emplace default values if necessary.
 		nlohmann::json data = getTileDataFor(std::stoi(i.first));
 
 		// If the names match..
-		if (tile_name == data.at("name").get<std::string>()) {
+		if (tile_name == data.at("name").get<std::string>())
+		{
 			// Return i.first as an integer.
 			return std::stoi(i.first);
 		}
@@ -283,12 +310,14 @@ int Tilemap::getTileIDFromName(std::string tile_name) {
 	return 0;
 }
 
-int Tilemap::getTileID(sf::Vector2f pos) {
+int Tilemap::getTileID(sf::Vector2f pos)
+{
 	// Check if it's found.
 	auto found = mTilePositions.find(pos);
 
 	// If it's not found,
-	if (found == mTilePositions.end()) {
+	if (found == mTilePositions.end())
+	{
 		// Return -1
 		return -1;
 	}

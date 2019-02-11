@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <imgui-sfml/imgui-SFML.h>
 #include <imgui/imgui.h>
+#include <SFML/Graphics.hpp>
 
 #include "BuildingManager.hpp"
 #include "KeyManager.hpp"
@@ -12,7 +12,8 @@
  * @brief Base application class.
  *
  */
-class Application {
+class Application
+{
 public:
 	/**
 	 * @brief Initializes all game objects.

@@ -1,9 +1,9 @@
 #include "Application.hpp"
 
-Application::Application() :
-	mWindow(sf::VideoMode(600, 600), "Miner",
-			sf::Style::Titlebar | sf::Style::Close),
-	mBuilder(&mMap) {
+Application::Application()
+	: mWindow(sf::VideoMode(600, 600), "Miner", sf::Style::Titlebar | sf::Style::Close),
+	  mBuilder(&mMap)
+{
 	mWindow.setFramerateLimit(60);
 
 	// Init ImGui
@@ -17,19 +17,23 @@ Application::Application() :
 	mMap.loadFromFilename("map");
 }
 
-int Application::run() {
+int Application::run()
+{
 	mWindow.resetGLStates();
 
 	// Begin main application loop
-	while (mWindow.isOpen()) {
+	while (mWindow.isOpen())
+	{
 		// Poll Events
 		sf::Event event;
-		while (mWindow.pollEvent(event)) {
+		while (mWindow.pollEvent(event))
+		{
 			// Update ImGui
 			ImGui::SFML::ProcessEvent(event);
 
 			// Update SFML
-			switch (event.type) {
+			switch (event.type)
+			{
 			default:
 				break;
 			case sf::Event::Closed:
@@ -65,7 +69,8 @@ int Application::run() {
 	return 0;
 }
 
-void Application::mUpdateGui() {
+void Application::mUpdateGui()
+{
 	// Update ImGui
 	ImGui::SFML::Update(mWindow, mImGuiClock.restart());
 

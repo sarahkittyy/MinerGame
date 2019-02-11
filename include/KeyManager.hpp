@@ -8,7 +8,8 @@
  * keyboard & mouse globally.
  *
  */
-class KeyManager {
+class KeyManager
+{
 public:
 	/**
 	 * @brief Set the internal window reference for getMousePos()

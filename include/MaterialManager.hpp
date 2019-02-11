@@ -18,7 +18,8 @@
  * @brief Standalone class to init, and track in-game resources.
  *
  */
-class MaterialManager {
+class MaterialManager
+{
 public:
 	/**
 	 * @brief Default constructor.
@@ -30,7 +31,8 @@ public:
 	 * @brief Struct to bind a resource with a count.
 	 *
 	 */
-	struct Resource {
+	struct Resource
+	{
 		std::string name;
 		int count;
 	};

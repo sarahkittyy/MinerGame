@@ -17,7 +17,8 @@
  * @brief Renders a grid of tiles to the screen, using a VertexArray.
  *
  */
-class Tilemap : public sf::Drawable, public sf::Transformable {
+class Tilemap : public sf::Drawable, public sf::Transformable
+{
 public:
 	/**
 	 * @brief Construct the map.

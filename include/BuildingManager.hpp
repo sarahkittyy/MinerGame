@@ -2,9 +2,9 @@
 ////////TODO///////
 // Refactor ;-;
 ///////////////////
-#include <SFML/Graphics.hpp>
 #include <imgui-sfml/imgui-SFML.h>
 #include <imgui/imgui.h>
+#include <SFML/Graphics.hpp>
 
 #include <exception>
 #include <fstream>
@@ -22,7 +22,8 @@
  * @remarks I'm sorry.
  *
  */
-class BuildingManager : public sf::Drawable {
+class BuildingManager : public sf::Drawable
+{
 public:
 	/**
 	 * @brief Default constructor.
@@ -41,7 +42,8 @@ public:
 	 * @brief Placed building data.
 	 *
 	 */
-	struct BuildingEntityData {
+	struct BuildingEntityData
+	{
 		sf::Sprite spr;
 		Building *building_data;
 	};
