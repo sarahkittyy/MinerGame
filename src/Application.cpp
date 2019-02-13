@@ -1,7 +1,9 @@
 #include "Application.hpp"
 
 Application::Application()
-	: mWindow(sf::VideoMode(1000, 760), "Miner", sf::Style::Titlebar | sf::Style::Close),
+	: mWindow(sf::VideoMode(WINDOW_SIZE.x, WINDOW_SIZE.y),
+			  "Miner",
+			  sf::Style::Titlebar | sf::Style::Close),
 	  mMap("map"),
 	  mBuilder(&mMap)
 {
@@ -69,6 +71,12 @@ int Application::run()
 
 void Application::mUpdateGui()
 {
+
+	//Get the right-bottom coordinate of the map.
+	sf::Vector2i bottom_right = {
+		WINDOW_SIZE.x - 200,
+		WINDOW_SIZE.y - 200};
+
 	// Update ImGui
 	ImGui::SFML::Update(mWindow, mImGuiClock.restart());
 
@@ -79,8 +87,12 @@ void Application::mUpdateGui()
 		ImGuiWindowFlags_NoTitleBar;
 
 	// Init building window.///////////////////////////////////
-	ImGui::Begin("Buildings", nullptr, ImVec2(800, 200), -1.0f, default_flags);
-	ImGui::SetWindowPos(ImVec2(0, 560));
+	ImGui::Begin("Buildings",
+				 nullptr,
+				 ImVec2(bottom_right.x, 200),
+				 -1.0f,
+				 default_flags);
+	ImGui::SetWindowPos(ImVec2(0, bottom_right.y));
 
 	// Create a child container for the building buttons.
 	ImGui::BeginChild("BuildingButtons",
@@ -99,8 +111,12 @@ void Application::mUpdateGui()
 	////////////////////////////////////////////////////////
 
 	// Create the statistics window.////////////////////
-	ImGui::Begin("Statistics", nullptr, ImVec2(200, 560), -1.0f, default_flags);
-	ImGui::SetWindowPos(ImVec2(800, 0));
+	ImGui::Begin("Statistics",
+				 nullptr,
+				 ImVec2(200, bottom_right.y),
+				 -1.0f,
+				 default_flags);
+	ImGui::SetWindowPos(ImVec2(bottom_right.x, 0));
 
 	ImGui::Columns(4, nullptr, false);
 	ImGui::SetColumnWidth(0, 20);
@@ -116,12 +132,19 @@ void Application::mUpdateGui()
 
 	//////////////////////////////////////////////////////
 	// Create the tooltip window.
-	ImGui::Begin("Tooltip", nullptr, ImVec2(200, 350), -1.0f, default_flags);
-	ImGui::SetWindowPos(ImVec2(800, 560));
+	ImGui::Begin("Tooltip",
+				 nullptr,
+				 ImVec2(200, 350),
+				 -1.0f,
+				 default_flags);
+	ImGui::SetWindowPos(bottom_right);
 
 	// Create the child container for the building manager tooltip.
 	ImGui::BeginChild(
-		"TooltipBuildings", ImVec2(200, 325), false, default_flags);
+		"TooltipBuildings",
+		ImVec2(200, 325),
+		false,
+		default_flags);
 
 	// Render the resource tooltip.
 	mBuilder.renderGuiTooltip();
