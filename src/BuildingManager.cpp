@@ -412,8 +412,8 @@ void BuildingManager::updateBuilding()
 {
 	bool mouseInBounds = true;
 	// If off the tilemap boundaries...
-	if (KeyManager::getMousePos().x > 400 || KeyManager::getMousePos().x < 0 ||
-		KeyManager::getMousePos().y > 400 || KeyManager::getMousePos().y < 0)
+	if (KeyManager::getMousePos().x > 800 || KeyManager::getMousePos().x < 0 ||
+		KeyManager::getMousePos().y > 560 || KeyManager::getMousePos().y < 0)
 	{
 		mouseInBounds = false;
 	}
@@ -435,13 +435,13 @@ void BuildingManager::updateBuilding()
 	// Get the data for the tile we're currently on.
 	nlohmann::json tiledata =
 		mMap->getTileDataFor(mMap->getTileID(tile_pos));
-		
+
 	// Place building sprite on the tile position.
 	mBuildingSprite.setPosition(tile_pos);
 	mHighlightRect.setPosition(tile_pos);
 
 	mHighlightRect.setFillColor(HIGHLIGHT.at("DEFAULT"));
-	
+
 	//If not in build mode, return.
 	if (!mBuildMode || !mouseInBounds)
 	{

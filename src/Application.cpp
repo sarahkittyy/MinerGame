@@ -1,7 +1,7 @@
 #include "Application.hpp"
 
 Application::Application()
-	: mWindow(sf::VideoMode(600, 600), "Miner", sf::Style::Titlebar | sf::Style::Close),
+	: mWindow(sf::VideoMode(1000, 760), "Miner", sf::Style::Titlebar | sf::Style::Close),
 	  mMap("map"),
 	  mBuilder(&mMap)
 {
@@ -79,8 +79,8 @@ void Application::mUpdateGui()
 		ImGuiWindowFlags_NoTitleBar;
 
 	// Init building window.///////////////////////////////////
-	ImGui::Begin("Buildings", nullptr, ImVec2(400, 200), -1.0f, default_flags);
-	ImGui::SetWindowPos(ImVec2(0, 400));
+	ImGui::Begin("Buildings", nullptr, ImVec2(800, 200), -1.0f, default_flags);
+	ImGui::SetWindowPos(ImVec2(0, 560));
 
 	// Create a child container for the building buttons.
 	ImGui::BeginChild("BuildingButtons",
@@ -99,8 +99,8 @@ void Application::mUpdateGui()
 	////////////////////////////////////////////////////////
 
 	// Create the statistics window.////////////////////
-	ImGui::Begin("Statistics", nullptr, ImVec2(200, 250), -1.0f, default_flags);
-	ImGui::SetWindowPos(ImVec2(400, 0));
+	ImGui::Begin("Statistics", nullptr, ImVec2(200, 560), -1.0f, default_flags);
+	ImGui::SetWindowPos(ImVec2(800, 0));
 
 	ImGui::Columns(4, nullptr, false);
 	ImGui::SetColumnWidth(0, 20);
@@ -117,7 +117,7 @@ void Application::mUpdateGui()
 	//////////////////////////////////////////////////////
 	// Create the tooltip window.
 	ImGui::Begin("Tooltip", nullptr, ImVec2(200, 350), -1.0f, default_flags);
-	ImGui::SetWindowPos(ImVec2(400, 250));
+	ImGui::SetWindowPos(ImVec2(800, 560));
 
 	// Create the child container for the building manager tooltip.
 	ImGui::BeginChild(
