@@ -14,6 +14,10 @@ BuildingManager::BuildingManager(Tilemap *map)
 		throw std::runtime_error("Building initialization failed.");
 	}
 
+	//Init the highlight rectangle.
+	mHighlightRect.setSize(mMap->getTileSize());
+	mDrawHighlight = false;
+
 	// Add starter materials.
 	mMaterials.addResources({.name = "Cash", .count = 10});
 }
@@ -21,17 +25,22 @@ BuildingManager::BuildingManager(Tilemap *map)
 void BuildingManager::draw(sf::RenderTarget &target,
 						   sf::RenderStates states) const
 {
+	// Draw all built buildings.
+	for (auto &i : mBuilt)
+	{
+		target.draw(i.spr, states);
+	}
+
 	// If attempting to place a building...
 	if (mBuildMode)
 	{
 		// Draw the held building sprite.
 		target.draw(mBuildingSprite, states);
 	}
-
-	// Draw all built buildings.
-	for (auto &i : mBuilt)
+	//If the highlight should be drawn, draw it.
+	if (mDrawHighlight)
 	{
-		target.draw(i.spr, states);
+		target.draw(mHighlightRect, states);
 	}
 }
 
@@ -281,10 +290,8 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 void BuildingManager::update()
 {
 	// Update build mode.
-	if (mBuildMode)
-	{
-		updateBuilding();
-	}
+	updateBuilding();
+
 	// If ready to update a tick...
 	if (mTickClock.getElapsedTime() > sf::seconds(1.0f / mTPS))
 	{
@@ -403,6 +410,17 @@ void BuildingManager::placeBuilding(BuildingManager::Building *building)
 
 void BuildingManager::updateBuilding()
 {
+	bool mouseInBounds = true;
+	// If off the tilemap boundaries...
+	if (KeyManager::getMousePos().x > 400 || KeyManager::getMousePos().x < 0 ||
+		KeyManager::getMousePos().y > 400 || KeyManager::getMousePos().y < 0)
+	{
+		mouseInBounds = false;
+	}
+
+	//Toggle highlight drawing.
+	mDrawHighlight = true;
+
 	// Check for keys to indicate escaping building mode.
 	if (KeyManager::getKeyState(sf::Keyboard::Escape))
 	{
@@ -414,70 +432,87 @@ void BuildingManager::updateBuilding()
 	sf::Vector2f tile_pos =
 		mMap->getTileInside((sf::Vector2f)KeyManager::getMousePos());
 
+	// Get the data for the tile we're currently on.
+	nlohmann::json tiledata =
+		mMap->getTileDataFor(mMap->getTileID(tile_pos));
+		
 	// Place building sprite on the tile position.
 	mBuildingSprite.setPosition(tile_pos);
+	mHighlightRect.setPosition(tile_pos);
 
-	// If off the tilemap boundaries...
-	if (KeyManager::getMousePos().x > 400 || KeyManager::getMousePos().x < 0 ||
-		KeyManager::getMousePos().y > 400 || KeyManager::getMousePos().y < 0)
+	mHighlightRect.setFillColor(HIGHLIGHT.at("DEFAULT"));
+	
+	//If not in build mode, return.
+	if (!mBuildMode || !mouseInBounds)
 	{
-		// Return.
 		return;
+	}
+
+	// Check if we can purchase the building.////////
+	bool purchaseable = true;
+	for (auto &i : mBuildingBuilding->at("price"))
+	{
+		if (!mMaterials.canPurchase(
+				{.name  = i.at("name").get<std::string>(),
+				 .count = i.at("count").get<int>()}))
+		{
+			purchaseable = false;
+			break;
+		}
+	}
+	//Check if we can place the building/////////////
+	bool placeable = false;
+
+	// Release & return if we cannot place on this tile.
+	for (auto &i : mBuildingBuilding->at("canbuildon")
+					   .get<std::vector<std::string>>())
+	{
+		// Get the tile's name.
+		std::string tile_name = tiledata.at("name").get<std::string>();
+
+		// If the name matches the tile, the tile is placeable.
+		if (tile_name == i)
+		{
+			placeable = true;
+			break;
+		}
+	}
+	// Assert the building's position is not taken up.
+	for (auto &i : mBuilt)
+	{
+		// If it is..
+		if (i.spr.getGlobalBounds().contains(tile_pos))
+		{
+			//it's not placeable..
+			placeable = false;
+			break;
+		}
+	}
+
+	// If not purchaseable, or not placeable...
+	if (!purchaseable || !placeable)
+	{
+		//Highlight the tile red...
+		mHighlightRect.setFillColor(HIGHLIGHT.at("INVALID"));
 	}
 
 	// Check if left mouse is clicked.
 	if (KeyManager::getLMouseState() == 1)
 	{
-		// Get the data for the tile we're currently on.
-		nlohmann::json tiledata =
-			mMap->getTileDataFor(mMap->getTileID(tile_pos));
-
-		bool canPlace = false;
-
-		// Release & return if we cannot place on this tile.
-		for (auto &i : mBuildingBuilding->at("canbuildon")
-						   .get<std::vector<std::string>>())
+		//If we're not in bounds...
+		if (!mouseInBounds)
 		{
-			// Get the tile's name.
-			std::string tile_name = tiledata.at("name").get<std::string>();
+			//Release & return.
+			releaseBuilding();
+			return;
+		}   //THIS CHECK MAY BE REDUNDANT, BUT I GOT SCARED SO I LEFT IT HERE
 
-			// If the name matches the tile, the tile is placeable.
-			if (tile_name == i)
-			{
-				canPlace = true;
-				break;
-			}
-		}
-		if (!canPlace)
+		//If we can't place the building...
+		if (!placeable)
 		{
 			// Release & return.
 			releaseBuilding();
 			return;
-		}
-
-		// Assert the building's position is not taken up.
-		for (auto &i : mBuilt)
-		{
-			// If it is..
-			if (i.spr.getGlobalBounds().contains(tile_pos))
-			{
-				// Release & return.
-				releaseBuilding();
-				return;
-			}
-		}
-
-		// Check if we can purchase the building.
-		bool purchaseable = true;
-		for (auto &i : mBuildingBuilding->at("price"))
-		{
-			if (!mMaterials.canPurchase(
-					{.name  = i.at("name").get<std::string>(),
-					 .count = i.at("count").get<int>()}))
-			{
-				purchaseable = false;
-				break;
-			}
 		}
 
 		// If purchaseable...

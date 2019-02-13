@@ -2,6 +2,7 @@
 
 Application::Application()
 	: mWindow(sf::VideoMode(600, 600), "Miner", sf::Style::Titlebar | sf::Style::Close),
+	  mMap("map"),
 	  mBuilder(&mMap)
 {
 	mWindow.setFramerateLimit(60);
@@ -12,9 +13,6 @@ Application::Application()
 
 	// Init the keyboard manager
 	KeyManager::setWindowReference(&mWindow);
-
-	// Init the map.
-	mMap.loadFromFilename("map");
 }
 
 int Application::run()

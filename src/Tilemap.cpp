@@ -6,6 +6,15 @@ Tilemap::Tilemap()
 	mVertices.setPrimitiveType(sf::Quads);
 }
 
+Tilemap::Tilemap(std::string fname)
+{
+	//Set the vertex primitive type.
+	mVertices.setPrimitiveType(sf::Quads);
+
+	//Init the map.
+	loadFromFilename(fname);
+}
+
 void Tilemap::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
@@ -67,14 +76,14 @@ Data to retrieve:
 */
 
 	// Retrieve the grid dimensions.
-	int grid_width = graphicaldata["width"];
-	int grid_height = graphicaldata["height"];
-	mGridDimensions = {grid_width, grid_height};
+	int grid_width  = graphicaldata["width"].get<int>();
+	int grid_height = graphicaldata["height"].get<int>();
+	mGridDimensions = sf::Vector2i(grid_width, grid_height);
 
 	// Retrieve the tile dimensions.
-	int tile_width = graphicaldata["tilewidth"];
-	int tile_height = graphicaldata["tileheight"];
-	mTileDimensions = {tile_width, tile_height};
+	int tile_width  = graphicaldata["tilewidth"].get<int>();
+	int tile_height = graphicaldata["tileheight"].get<int>();
+	mTileDimensions = sf::Vector2i(tile_width, tile_height);
 
 	// Retrieve the tile array.
 	mTiles = graphicaldata["layers"][0]["data"].get<std::vector<int>>();
@@ -175,7 +184,7 @@ bool Tilemap::updateVertices()
 			(float)mTileDimensions.x * (i % mGridDimensions.x),
 			(float)mTileDimensions.y * (i / mGridDimensions.x)};
 
-		sf::Vector2f width = {(float)mTileDimensions.x, 0};
+		sf::Vector2f width  = {(float)mTileDimensions.x, 0};
 		sf::Vector2f height = {0, (float)mTileDimensions.y};
 
 		// Append the vertices.
@@ -278,9 +287,9 @@ sf::FloatRect Tilemap::getTileTextureRect(std::string tile_name)
 	sf::Vector2i top_left = {ID % tilemapGridSize.x, ID / tilemapGridSize.x};
 
 	// Set the new boundaries.
-	ret.left = top_left.x * mTileDimensions.x;
-	ret.top = top_left.y * mTileDimensions.y;
-	ret.width = mTileDimensions.x;
+	ret.left   = top_left.x * mTileDimensions.x;
+	ret.top	= top_left.y * mTileDimensions.y;
+	ret.width  = mTileDimensions.x;
 	ret.height = mTileDimensions.y;
 
 	///

@@ -27,7 +27,13 @@ public:
 	Tilemap();
 
 	/**
-	 * @brief Loads the tilemap data from it's ID.
+	 * @brief Construct the map from it's name. Calls loadFromFilename()
+	 * 
+	 */
+	Tilemap(std::string fname);
+
+	/**
+	 * @brief Loads the tilemap data from it's name.
 	 *
 	 * @param name The name of the map, without the path/.json extension.
 	 * @return true The map loaded properly.

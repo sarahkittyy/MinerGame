@@ -218,6 +218,29 @@ private:
 	sf::Sprite mBuildingSprite;
 
 	/**
+	 * @brief A rectangle rendered ontop of the map, to indicate placeable/unplaceable, and/or which tile is being hovered over.
+	 * 
+	 */
+	sf::RectangleShape mHighlightRect;
+
+	/**
+	 * @brief A constant map of names to colors, for the different colors the
+	 * map cursor can take on.
+	 * 
+	 */
+	const std::unordered_map<std::string, sf::Color> HIGHLIGHT = {
+		{"DEFAULT",
+		 sf::Color(255, 255, 255, 130)},
+		{"INVALID",
+		 sf::Color(255, 65, 65, 130)}};
+
+	/**
+	 * @brief True if the HighlightRect should be drawn.
+	 * 
+	 */
+	bool mDrawHighlight;
+
+	/**
 	 * @brief True if one of the buttons are being hovered over.
 	 *
 	 * @remarks Updated in renderGuiBuildings().
