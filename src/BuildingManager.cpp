@@ -3,9 +3,9 @@
 BuildingManager::BuildingManager(Tilemap *map)
 {
 	// Initialize defaults.
-	mMap = map;
+	mMap	   = map;
 	mBuildMode = false;
-	mTPS = 1;
+	mTPS	   = 1;
 	mGlobalClock.restart();
 
 	// Attempt to initialize buildings...
@@ -52,8 +52,8 @@ void BuildingManager::renderGuiBuildings()
 		{
 			// Set the hovering flag & set the pointer to the hovered building.
 			mBuildingButtonHovered = true;
-			hoveredThisFrame = true;
-			mBuildingHovered = &i;
+			hoveredThisFrame	   = true;
+			mBuildingHovered	   = &i;
 		}
 		ImGui::NextColumn();
 	}
@@ -76,12 +76,25 @@ void BuildingManager::renderGuiResources()
 
 		float rpt = mMaterials.getAverageResourcePerTick(i.first);
 
-		// Add the name of it, and its count.
-		ImGui::Text(std::string("%s - %d (%c%.2f/T)").c_str(),
-					i.first.c_str(),
-					i.second,
+		// Add the name of it...
+		ImGui::Text("%s",
+					i.first.c_str());
+
+		ImGui::NextColumn();
+
+		ImGui::Text("-");
+		ImGui::NextColumn();
+
+		//And then the count & rpt.
+		ImGui::Text("%d",
+					i.second);
+
+		ImGui::SameLine();
+
+		ImGui::Text("(%c%.2f/T)",
 					(rpt >= 0) ? ('+') : ('-'),
 					std::abs(rpt));
+
 		ImGui::NextColumn();
 	}
 }
@@ -115,7 +128,7 @@ void BuildingManager::renderGuiTooltip()
 			* Sell price = 90% buy price.
 	*/
 
-	bool mapBuildingHovered = false;
+	bool mapBuildingHovered				 = false;
 	Building *mapBuildingHoveredBuilding = nullptr;
 	// Check if building on map is hovered...
 	for (auto &i : mBuilt)
@@ -125,7 +138,7 @@ void BuildingManager::renderGuiTooltip()
 				(sf::Vector2f)KeyManager::getMousePos()))
 		{
 			// We're hovering, grab a pointer to the hovered building and break.
-			mapBuildingHovered = true;
+			mapBuildingHovered		   = true;
 			mapBuildingHoveredBuilding = i.building_data;
 			break;
 		}
@@ -220,7 +233,7 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 	for (auto &i : building.at("pertick").at("resource_in"))
 	{
 		std::string name = i.at("name").get<std::string>();
-		int count = i.at("count").get<int>();
+		int count		 = i.at("count").get<int>();
 
 		// Render the icon.
 		ImGui::Image(*mMaterials.getTexture(name));
@@ -236,7 +249,7 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 	for (auto &i : building.at("pertick").at("resource_out"))
 	{
 		std::string name = i.at("name").get<std::string>();
-		int count = i.at("count").get<int>();
+		int count		 = i.at("count").get<int>();
 
 		// Render the icon.
 		ImGui::Image(*mMaterials.getTexture(name));
@@ -297,7 +310,7 @@ void BuildingManager::update()
 			for (auto &j : i->building_data->at("sellprice"))
 			{
 				mMaterials.addResources(
-					{.name = j.at("name").get<std::string>(),
+					{.name  = j.at("name").get<std::string>(),
 					 .count = j.at("count").get<int>()});
 			}
 
@@ -323,7 +336,7 @@ void BuildingManager::updateTick()
 		nlohmann::json pertick = i.building_data->at("pertick");
 
 		// Get the resources per tick in & out.
-		nlohmann::json rpt_in = pertick.at("resource_in");
+		nlohmann::json rpt_in  = pertick.at("resource_in");
 		nlohmann::json rpt_out = pertick.at("resource_out");
 
 		bool purchaseable = true;
@@ -332,7 +345,7 @@ void BuildingManager::updateTick()
 		{
 			// Break if unpurchaseable.
 			if (!mMaterials.canPurchase(
-					{.name = obj.at("name").get<std::string>(),
+					{.name  = obj.at("name").get<std::string>(),
 					 .count = obj.at("count").get<int>()}))
 			{
 				purchaseable = false;
@@ -346,7 +359,7 @@ void BuildingManager::updateTick()
 			// Purchase it.
 			for (auto &obj : rpt_in)
 			{
-				mMaterials.purchase({.name = obj.at("name").get<std::string>(),
+				mMaterials.purchase({.name  = obj.at("name").get<std::string>(),
 									 .count = obj.at("count").get<int>()});
 			}
 
@@ -354,7 +367,7 @@ void BuildingManager::updateTick()
 			for (auto &obj : rpt_out)
 			{
 				mMaterials.addResources(
-					{.name = obj.at("name").get<std::string>(),
+					{.name  = obj.at("name").get<std::string>(),
 					 .count = obj.at("count").get<int>()});
 			}
 		}
@@ -459,7 +472,7 @@ void BuildingManager::updateBuilding()
 		for (auto &i : mBuildingBuilding->at("price"))
 		{
 			if (!mMaterials.canPurchase(
-					{.name = i.at("name").get<std::string>(),
+					{.name  = i.at("name").get<std::string>(),
 					 .count = i.at("count").get<int>()}))
 			{
 				purchaseable = false;
@@ -473,7 +486,7 @@ void BuildingManager::updateBuilding()
 			// Purchase...
 			for (auto &i : mBuildingBuilding->at("price"))
 			{
-				mMaterials.purchase({.name = i.at("name").get<std::string>(),
+				mMaterials.purchase({.name  = i.at("name").get<std::string>(),
 									 .count = i.at("count").get<int>()});
 			}
 

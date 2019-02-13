@@ -104,17 +104,14 @@ void Application::mUpdateGui()
 	ImGui::Begin("Statistics", nullptr, ImVec2(200, 250), -1.0f, default_flags);
 	ImGui::SetWindowPos(ImVec2(400, 0));
 
-	// Create a child container for the resource counts.
-	ImGui::BeginChild(
-		"StatisticsResources", ImVec2(180, 200), true, default_flags);
-	ImGui::Columns(2, nullptr, false);
-	ImGui::SetColumnWidth(0, 25);
-	ImGui::SetColumnWidth(1, 175);
+	ImGui::Columns(4, nullptr, false);
+	ImGui::SetColumnWidth(0, 20);
+	ImGui::SetColumnWidth(1, 43);
+	ImGui::SetColumnWidth(2, 15);
+	ImGui::SetColumnWidth(3, 100);
 
 	// Render the resource counts with their icons.
 	mBuilder.renderGuiResources();
-
-	ImGui::EndChild();
 
 	ImGui::End();
 	//////////////////////////////////////////////////////
