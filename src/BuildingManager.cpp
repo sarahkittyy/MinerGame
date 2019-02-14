@@ -203,10 +203,18 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 	ImGui::Text("Count: %d",
 				getBuildingCount(building.at("name").get<std::string>()));
 
-	// Render the name & building of the building.
-	ImGui::Text("%s\n> %s\n---",
-				building.at("name").get<std::string>().c_str(),
-				building.at("description").get<std::string>().c_str());
+	// Render the name of the building.
+	ImGui::Text("%s\n",
+				building.at("name").get<std::string>().c_str());
+
+	//Render the description strings.
+	ImGui::Text(">");
+	ImGui::SameLine();
+	for (auto &i : building.at("description").get<nlohmann::json::array_t>())
+	{
+		ImGui::Text("%s", i.get<std::string>().c_str());
+	}
+	ImGui::Text("---");
 
 	// If configured to render the sell price...
 	if (isHighlightedOnMap)

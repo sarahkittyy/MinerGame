@@ -28,7 +28,7 @@
 				"count": 4
 			}],
 			"texture": "buildings/wood_cutter.png",
-			"description": "Cuts wood.",
+			"description": ["Cuts wood."],
 			"pertick": {
 				"resource_in": [{
 					"name": "Coal",
@@ -55,7 +55,7 @@
 				"count": 1
 			}],
 			"texture": "buildings/coal_drill.png",
-			"description": "Mines coal.",
+			"description": ["Mines coal."],
 			"pertick": {
 				"resource_in": [
 
@@ -81,7 +81,7 @@
 				"count": 9
 			}],
 			"texture": "buildings/sawmill.png",
-			"description": "Processes & Sells wood.",
+			"description": ["Processes & Sells wood."],
 			"pertick": {
 				"resource_in": [{
 					"name": "Wood",
@@ -108,7 +108,7 @@
 				"count": 45
 			}],
 			"texture": "buildings/stone_drill.png",
-			"description": "Mines stone.",
+			"description": ["Mines stone."],
 			"pertick": {
 				"resource_in": [{
 					"name": "Coal",
@@ -144,7 +144,7 @@
 				}
 			],
 			"texture": "buildings/stone_seller.png",
-			"description": "Sells stone for cash.",
+			"description": ["Sells stone for cash."],
 			"pertick": {
 				"resource_in": [{
 					"name": "Stone",
@@ -163,7 +163,7 @@
 	],
 	"upgrades": [{
 			"name": "TPS++",
-			"description": "Increases the TPS by one.",
+			"description": ["Increases the TPS by one."],
 			"icon": "upgrades/tps_up1.png",
 			"unlocked": true,
 			"unlock_price": [],
@@ -182,7 +182,7 @@
 		},
 		{
 			"name": "Coal Drill++",
-			"description": "Increases Coal/Tick from 1 to 2",
+			"description": ["Increases Coal/Tick by 1."],
 			"icon": "buildings/coal_drill.png",
 			"unlocked": true,
 			"unlock_price": [{

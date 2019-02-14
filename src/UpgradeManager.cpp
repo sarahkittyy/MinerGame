@@ -105,10 +105,15 @@ bool UpgradeManager::renderGuiTooltip()
 	ImGui::Text("%s", tooltipUpgrade->at("name").get<std::string>().c_str());
 
 	//Description.
-	ImGui::Text("%s", tooltipUpgrade->at("description").get<std::string>().c_str());
+	ImGui::Text(">");
+	ImGui::SameLine();
+	for (auto& i : tooltipUpgrade->at("description").get<nlohmann::json::array_t>())
+	{
+		ImGui::Text("%s", i.get<std::string>().c_str());
+	};
 
 	//Price...
-	ImGui::Text("Price:");
+	ImGui::Text("---\nPrice:");
 	for (auto& i : tooltipUpgrade->at("price"))
 	{
 		//Get the resource name & count.
