@@ -5,13 +5,17 @@ Application::Application()
 			  "Miner",
 			  sf::Style::Titlebar | sf::Style::Close),
 	  mMap("map"),
-	  mBuilder(&mMap)
+	  mBuilder(&mMap),
+	  mUpgrades(&mBuilder)
 {
 	mWindow.setFramerateLimit(60);
 
 	// Init ImGui
 	ImGui::SFML::Init(mWindow);
 	mImGuiClock.restart();
+
+	//Init the UpgradeManager.
+	mUpgrades.loadUpgradeData(mBuilder.getObjectData());
 
 	// Init the keyboard manager
 	KeyManager::setWindowReference(&mWindow);
@@ -87,7 +91,7 @@ void Application::mUpdateGui()
 		ImGuiWindowFlags_NoTitleBar;
 
 	// Init building window.///////////////////////////////////
-	ImGui::Begin("Buildings",
+	ImGui::Begin("General",
 				 nullptr,
 				 ImVec2(bottom_right.x, 200),
 				 -1.0f,
@@ -96,13 +100,27 @@ void Application::mUpdateGui()
 
 	// Create a child container for the building buttons.
 	ImGui::BeginChild("BuildingButtons",
-					  ImVec2(120, 180),
+					  ImVec2(150, 180),
 					  true,
 					  default_flags & ~ImGuiWindowFlags_NoTitleBar);
-	ImGui::Columns(4, nullptr, false);
+	ImGui::Columns(5, nullptr, false);
 
 	// Render the building manager's gui components.
 	mBuilder.renderGuiBuildings();
+
+	ImGui::EndChild();
+
+	ImGui::SameLine();
+
+	//Create a child container for the upgrades.
+	ImGui::BeginChild("UpgradeButtons",
+					  ImVec2(150, 180),
+					  true,
+					  default_flags & ~ImGuiWindowFlags_NoTitleBar);
+	ImGui::Columns(5, nullptr, false);
+
+	//Render the upgrade GUI's buttons here.
+	mUpgrades.renderGui();
 
 	ImGui::EndChild();
 
@@ -113,7 +131,7 @@ void Application::mUpdateGui()
 	// Create the statistics window.////////////////////
 	ImGui::Begin("Statistics",
 				 nullptr,
-				 ImVec2(200, bottom_right.y),
+				 ImVec2(200, bottom_right.y - 200),
 				 -1.0f,
 				 default_flags);
 	ImGui::SetWindowPos(ImVec2(bottom_right.x, 0));
@@ -134,10 +152,10 @@ void Application::mUpdateGui()
 	// Create the tooltip window.
 	ImGui::Begin("Tooltip",
 				 nullptr,
-				 ImVec2(200, 350),
+				 ImVec2(200, 400),
 				 -1.0f,
 				 default_flags);
-	ImGui::SetWindowPos(bottom_right);
+	ImGui::SetWindowPos(ImVec2(bottom_right.x, bottom_right.y - 200));
 
 	// Create the child container for the building manager tooltip.
 	ImGui::BeginChild(
@@ -146,8 +164,14 @@ void Application::mUpdateGui()
 		false,
 		default_flags);
 
-	// Render the resource tooltip.
-	mBuilder.renderGuiTooltip();
+	//If not rendering the upgrade tooltip...
+	if (!mUpgrades.renderGuiTooltip())
+	{
+		// Render the resource tooltip.
+		mBuilder.renderGuiTooltip();
+	}
+
+
 
 	ImGui::EndChild();
 

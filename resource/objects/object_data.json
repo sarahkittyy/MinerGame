@@ -164,28 +164,47 @@
 	"upgrades": [{
 			"name": "TPS++",
 			"description": "Increases the TPS by one.",
+			"icon": "upgrades/tps_up1.png",
+			"unlocked": true,
+			"unlock_price": [],
 			"uses": -1,
-			"baseprice": [{
+			"price": [{
 				"name": "Cash",
 				"count": 50
 			}],
 			"pricefactor": 4,
-			"actions": {
-
-			}
+			"methods": [{
+				"call": "tps_inc",
+				"args": [
+					1
+				]
+			}]
 		},
 		{
 			"name": "Coal Drill++",
 			"description": "Increases Coal/Tick from 1 to 2",
+			"icon": "buildings/coal_drill.png",
+			"unlocked": true,
+			"unlock_price": [{
+				"name": "Coal",
+				"count": 1
+			}],
 			"uses": 1,
-			"baseprice": [{
+			"price": [{
 				"name": "Cash",
 				"count": 50
 			}],
 			"pricefactor": 1,
-			"actions": {
-
-			}
+			"methods": [{
+				"call": "pertick_mod",
+				"args": [
+					"Coal Drill",
+					"out",
+					"Coal",
+					"+",
+					1
+				]
+			}]
 		}
 	]
 }

@@ -6,7 +6,9 @@
 
 #include "BuildingManager.hpp"
 #include "KeyManager.hpp"
+#include "MaterialManager.hpp"
 #include "Tilemap.hpp"
+#include "UpgradeManager.hpp"
 
 /**
  * @brief Base application class.
@@ -58,6 +60,12 @@ private:
 	 *
 	 */
 	BuildingManager mBuilder;
+
+	/**
+	 * @brief The main upgrade manager.
+	 * 
+	 */
+	UpgradeManager mUpgrades;
 
 	/**
 	 * @brief Begin & End the main ImGui windows.

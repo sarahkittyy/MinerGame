@@ -19,7 +19,7 @@ BuildingManager::BuildingManager(Tilemap *map)
 	mDrawHighlight = false;
 
 	// Add starter materials.
-	mMaterials.addResources({.name = "Cash", .count = 10});
+	mMaterials.addResources({.name = "Cash", .count = 1000});
 }
 
 void BuildingManager::draw(sf::RenderTarget &target,
@@ -42,6 +42,16 @@ void BuildingManager::draw(sf::RenderTarget &target,
 	{
 		target.draw(mHighlightRect, states);
 	}
+}
+
+nlohmann::json &BuildingManager::getObjectData()
+{
+	return mObjectData;
+}
+
+MaterialManager *BuildingManager::getMaterialManager()
+{
+	return &mMaterials;
 }
 
 void BuildingManager::renderGuiBuildings()
@@ -169,7 +179,7 @@ void BuildingManager::renderGuiTooltip()
 	else   // If neither...
 	{
 		// Render the TPS & the game time elapsed.
-		ImGui::Text("Ticks/Second: %d\n---\n", mTPS);
+		ImGui::Text("Ticks/Second: %.2f\n---\n", mTPS);
 		ImGui::Text("Time Elapsed: %d sec.",
 					(int)mGlobalClock.getElapsedTime().asSeconds());
 	}
@@ -401,6 +411,20 @@ int BuildingManager::getBuildingCount(std::string building_name)
 	return ret;
 }
 
+BuildingManager::Building *BuildingManager::getBuilding(std::string building_name)
+{
+	for (int i = 0; i < mBuildings; ++i)
+	{
+		Building *b = &mBuildings[i];
+		if (b->at("name").get<std::string>() == building_name)
+		{
+			//
+			return b;
+		}
+	}
+	return nullptr;
+}
+
 void BuildingManager::placeBuilding(BuildingManager::Building *building)
 {
 	mBuildMode = true;
@@ -561,6 +585,9 @@ bool BuildingManager::initBuildings()
 	nlohmann::json object_data;
 	file >> object_data;
 	file.close();
+
+	//Copy the data internally, to use later.
+	mObjectData = object_data;
 
 	// Init the material manager.
 	mMaterials.initResources(object_data);

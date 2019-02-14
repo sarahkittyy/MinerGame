@@ -50,9 +50,42 @@ void MaterialManager::removeResources(MaterialManager::Resource r)
 	mResources[r.name] -= r.count;
 }
 
+std::vector<MaterialManager::Resource> MaterialManager::priceToResourceVector(
+	nlohmann::json::array_t price)
+{
+	std::vector<Resource> ret;
+
+	//Append each resource item.
+	for (auto &i : price)
+	{
+		ret.push_back({.name  = i.at("name").get<std::string>(),
+					   .count = i.at("count").get<int>()});
+	}
+
+	//Return the resulting vector.
+	return ret;
+}
+
 bool MaterialManager::canPurchase(MaterialManager::Resource r)
 {
 	return mResources[r.name] >= r.count;
+}
+
+bool MaterialManager::canPurchaseMultiple(std::vector<MaterialManager::Resource> r)
+{
+	bool ret = true;
+	//For every resource...
+	for (auto &i : r)
+	{
+		//If any one of them isn't purcahseable...
+		if (!canPurchase(i))
+		{
+			//..It's unpurchaseable.
+			ret = false;
+			break;
+		}
+	}
+	return ret;
 }
 
 bool MaterialManager::purchase(MaterialManager::Resource r)
@@ -66,6 +99,23 @@ bool MaterialManager::purchase(MaterialManager::Resource r)
 	mResources[r.name] -= r.count;
 
 	// We were successful.
+	return true;
+}
+
+bool MaterialManager::purchaseMultiple(std::vector<MaterialManager::Resource> r)
+{
+	if (!canPurchaseMultiple(r))
+	{
+		return false;
+	}
+
+	//Purchase
+	for (auto &i : r)
+	{
+		mResources[i.name] -= i.count;
+	}
+
+	//Return successful.
 	return true;
 }
 

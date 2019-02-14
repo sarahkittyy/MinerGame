@@ -76,21 +76,47 @@ public:
 	void removeResources(Resource r);
 
 	/**
+	 * @brief Convert a json array to a vector of resource objects.
+	 * 
+	 * @param price A JSON array, formatted as a standard purchase cost.
+	 * @return std::vector<Resource> A vector of the required resources.
+	 */
+	std::vector<Resource> priceToResourceVector(nlohmann::json::array_t price);
+
+	/**
 	 * @brief Checks if there are as many resources in storage as given.
 	 *
-	 * @param cost The resource to check.
+	 * @param r The resource to check.
 	 * @return true If those many resources exist.
 	 */
 	bool canPurchase(Resource r);
 
 	/**
+	 * @brief Checks if all the given resources are in storage.
+	 * 
+	 * @param r The resources to check.
+	 * @return true If all the resources exist.
+	 * @return false If the item is unpurchaseable.
+	 */
+	bool canPurchaseMultiple(std::vector<Resource> r);
+
+	/**
 	 * @brief Attempt to purchase an object from the resources required..
 	 *
-	 * @param cost A resource to deduct from.
+	 * @param r A resource to deduct from.
 	 * @return true If the item is purchaseable, and was purchased.
 	 * @return false If there are not enough resources in internal storage.
 	 */
 	bool purchase(Resource r);
+
+	/**
+	 * @brief Attempt to purchase an item of multiple resource costs.
+	 * 
+	 * @param r The resources to deduct from.
+	 * @return true If the item was successfully purchased.
+	 * @return false If there weren't enough resources to purchase the item.
+	 */
+	bool purchaseMultiple(std::vector<Resource> r);
 
 	/**
 	 * @brief Updates tick-by-tick resource statistics, such as average

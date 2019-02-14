@@ -6,6 +6,7 @@
 #include <imgui/imgui.h>
 #include <SFML/Graphics.hpp>
 
+#include <algorithm>
 #include <exception>
 #include <fstream>
 #include <vector>
@@ -25,6 +26,12 @@
 class BuildingManager : public sf::Drawable
 {
 public:
+	/**
+	 * @brief Declare the upgrade manager as a friend class.
+	 * 
+	 */
+	friend class UpgradeManager;
+
 	/**
 	 * @brief Default constructor.
 	 *
@@ -47,6 +54,20 @@ public:
 		sf::Sprite spr;
 		Building *building_data;
 	};
+
+	/**
+	 * @brief Get the main object data json object.
+	 * 
+	 * @return nlohmann::json& A reference to the loaded object_data.json.
+	 */
+	nlohmann::json &getObjectData();
+
+	/**
+	 * @brief Return the internal material manager.
+	 * 
+	 * @return MaterialManager* A pointer to the main game material manager.
+	 */
+	MaterialManager *getMaterialManager();
 
 	/**
 	 * @brief Renders the necessary gui components.
@@ -105,10 +126,16 @@ private:
 	sf::Clock mGlobalClock;
 
 	/**
+	 * @brief The whole object_data json file.
+	 * 
+	 */
+	nlohmann::json mObjectData;
+
+	/**
 	 * @brief The ticks per second.
 	 *
 	 */
-	int mTPS;
+	float mTPS;
 
 	/**
 	 * @brief Internal reference to the tilemap, to retrieve tile properties.
@@ -155,6 +182,13 @@ private:
 	 * @return int The built count.
 	 */
 	int getBuildingCount(std::string building_name);
+
+	/**
+	 * @brief Returns a pointer to the building with the given name.
+	 * 
+	 * @return Building* 
+	 */
+	Building *getBuilding(std::string building_name);
 
 	/**
 	 * @brief Map of building names to their textures.
