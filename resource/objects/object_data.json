@@ -172,7 +172,7 @@
 				"name": "Cash",
 				"count": 75
 			}],
-			"pricefactor": 4,
+			"pricefactor": 5,
 			"methods": [{
 				"call": "tps_inc",
 				"args": [
@@ -189,17 +189,21 @@
 				"name": "Coal",
 				"count": 100
 			}],
-			"uses": 3,
+			"uses": 4,
 			"price": [{
 					"name": "Cash",
 					"count": 50
+				},
+				{
+					"name": "Wood",
+					"count": 250
 				},
 				{
 					"name": "Coal",
 					"count": 500
 				}
 			],
-			"pricefactor": 3,
+			"pricefactor": 5,
 			"methods": [{
 				"call": "pertick_mod",
 				"args": [
@@ -208,6 +212,82 @@
 					"Coal",
 					"*",
 					2
+				]
+			}]
+		},
+		{
+			"name": "Sawmill++",
+			"description": [
+				"Doubles the sawmill's",
+				"sell power."
+			],
+			"icon": "upgrades/sawmill_up.png",
+			"unlocked": false,
+			"unlock_price": [{
+				"name": "Cash",
+				"count": 200
+			}],
+			"uses": 5,
+			"price": [{
+					"name": "Cash",
+					"count": 800
+				},
+				{
+					"name": "Wood",
+					"count": 750
+				},
+				{
+					"name": "Stone",
+					"count": 500
+				}
+			],
+			"pricefactor": 4,
+			"methods": [{
+				"call": "pertick_mod",
+				"args": [
+					"Sawmill",
+					"out",
+					"Cash",
+					"*",
+					2
+				]
+			}]
+		},
+		{
+			"name": "Efficient Sawmills",
+			"description": [
+				"Reduces the wood/tick",
+				"intake by one."
+			],
+			"icon": "upgrades/sawmill_up2.png",
+			"unlocked": false,
+			"unlock_price": [{
+				"name": "Cash",
+				"count": 100
+			}],
+			"uses": 4,
+			"price": [{
+					"name": "Cash",
+					"count": 500
+				},
+				{
+					"name": "Wood",
+					"count": 300
+				},
+				{
+					"name": "Coal",
+					"count": 300
+				}
+			],
+			"pricefactor": 6,
+			"methods": [{
+				"call": "pertick_mod",
+				"args": [
+					"Sawmill",
+					"in",
+					"Wood",
+					"-",
+					1 f
 				]
 			}]
 		}
