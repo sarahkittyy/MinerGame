@@ -19,7 +19,7 @@ Detailed docs coming soon, but for now see `resource/objects/INFO.md` & `resourc
 
 ## Planned Changes
 
-* Upgrade System
+* ~~Upgrade System~~ Done!
 * Refactor BuildingManager class.
 * Cleanup unused symbols.
 * Polish.
