@@ -15,7 +15,7 @@ See `release/` for platform-specific zip files.
 
 ## Customization
 
-Detailed docs coming soon, but for now see `resource/objects/object_data.json`.
+Detailed docs coming soon, but for now see `resource/objects/INFO.md` & `resource/maps/INFO.md`.
 
 ## Planned Changes
 

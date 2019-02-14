@@ -18,3 +18,27 @@
 			* Path to the texture of the building itself.
 		* Description
 			* A description of the tower's stats and/or usage.
+		* Pertick
+			* Data on the tower's function per tick.
+			* Ex:
+			```json
+			"pertick": {
+				"resource_in": [{
+					"name": "Coal",
+					"count": 10
+				}],
+				"resource_out": [{
+					"name": "Wood",
+					"count": 1
+				}]
+			}
+			```
+			This object takes in 10 coal/tick and outputs 1 wood/tick.
+		* Canbuildon
+			* Contains an array of strings corresponding to tile names.
+			* The tower can only be placed on specified tile types.
+			* See `resource/maps/...`
+
+## Coming Soon:
+
+* Upgrades!
