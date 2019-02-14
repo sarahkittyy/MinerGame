@@ -19,7 +19,7 @@ BuildingManager::BuildingManager(Tilemap *map)
 	mDrawHighlight = false;
 
 	// Add starter materials.
-	mMaterials.addResources({.name = "Cash", .count = 1000});
+	mMaterials.addResources({.name = "Cash", .count = 10});
 }
 
 void BuildingManager::draw(sf::RenderTarget &target,
