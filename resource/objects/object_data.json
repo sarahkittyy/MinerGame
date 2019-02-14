@@ -32,11 +32,11 @@
 			"pertick": {
 				"resource_in": [{
 					"name": "Coal",
-					"count": 10
+					"count": 5
 				}],
 				"resource_out": [{
 					"name": "Wood",
-					"count": 1
+					"count": 2
 				}]
 			},
 			"canbuildon": [
@@ -52,7 +52,7 @@
 			}],
 			"sellprice": [{
 				"name": "Cash",
-				"count": 1
+				"count": 2
 			}],
 			"texture": "buildings/coal_drill.png",
 			"description": ["Mines coal."],
@@ -62,7 +62,7 @@
 				],
 				"resource_out": [{
 					"name": "Coal",
-					"count": 2
+					"count": 1
 				}]
 			},
 			"canbuildon": [
@@ -182,9 +182,9 @@
 		},
 		{
 			"name": "Coal Drill++",
-			"description": ["Increases Coal/Tick by 1."],
+			"description": ["Doubles the coal recieved/tick"],
 			"icon": "upgrades/coal_drill_up.png",
-			"unlocked": true,
+			"unlocked": false,
 			"unlock_price": [{
 				"name": "Coal",
 				"count": 100
@@ -206,8 +206,8 @@
 					"Coal Drill",
 					"out",
 					"Coal",
-					"+",
-					1
+					"*",
+					2
 				]
 			}]
 		}
