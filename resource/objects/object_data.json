@@ -183,7 +183,7 @@
 		{
 			"name": "Coal Drill++",
 			"description": ["Increases Coal/Tick by 1."],
-			"icon": "buildings/coal_drill.png",
+			"icon": "upgrades/coal_drill_up.png",
 			"unlocked": true,
 			"unlock_price": [{
 				"name": "Coal",
@@ -210,9 +210,6 @@
 					1
 				]
 			}]
-		},
-		{
-
 		}
 	]
 }
