@@ -78,7 +78,7 @@ void Application::mUpdateGui()
 
 	//Get the right-bottom coordinate of the map.
 	sf::Vector2i bottom_right = {
-		WINDOW_SIZE.x - 200,
+		WINDOW_SIZE.x - 260,
 		WINDOW_SIZE.y - 200};
 
 	// Update ImGui
@@ -131,7 +131,7 @@ void Application::mUpdateGui()
 	// Create the statistics window.////////////////////
 	ImGui::Begin("Statistics",
 				 nullptr,
-				 ImVec2(200, bottom_right.y - 200),
+				 ImVec2(260, bottom_right.y - 200),
 				 -1.0f,
 				 default_flags);
 	ImGui::SetWindowPos(ImVec2(bottom_right.x, 0));
@@ -152,7 +152,7 @@ void Application::mUpdateGui()
 	// Create the tooltip window.
 	ImGui::Begin("Tooltip",
 				 nullptr,
-				 ImVec2(200, 400),
+				 ImVec2(260, 400),
 				 -1.0f,
 				 default_flags);
 	ImGui::SetWindowPos(ImVec2(bottom_right.x, bottom_right.y - 200));

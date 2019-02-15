@@ -34,7 +34,7 @@ private:
 	//////////////////CONSTANTS////////////////////
 	const sf::Color BG_COLOR = sf::Color(100, 100, 255);
 
-	const sf::Vector2i WINDOW_SIZE = {840, 680};
+	const sf::Vector2i WINDOW_SIZE = {900, 680};
 	///////////////////////////////////////////////
 
 	/**
