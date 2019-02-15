@@ -140,7 +140,6 @@ void Application::mUpdateGui()
 	ImGui::SetColumnWidth(0, 20);
 	ImGui::SetColumnWidth(1, 43);
 	ImGui::SetColumnWidth(2, 15);
-	ImGui::SetColumnWidth(3, 100);
 
 	// Render the resource counts with their icons.
 	mBuilder.renderGuiResources();
@@ -160,7 +159,7 @@ void Application::mUpdateGui()
 	// Create the child container for the building manager tooltip.
 	ImGui::BeginChild(
 		"TooltipBuildings",
-		ImVec2(200, 325),
+		ImVec2(250, 325),
 		false,
 		default_flags);
 
