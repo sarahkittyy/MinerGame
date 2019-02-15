@@ -68,8 +68,23 @@ void UpgradeManager::renderGui()
 		//Get the texture.
 		auto* tex = getUpgradeTexture(i);
 
+		//Get the vector of resources it costs.
+		std::vector<MaterialManager::Resource> resource_cost = mMaterials->priceToResourceVector(i.at("price").get<nlohmann::json::array_t>());
+
+		//Check if we can purchase this item..
+		bool canPurchase	= mMaterials->canPurchaseMultiple(resource_cost);
+		sf::Color tintColor = sf::Color::White;
+		sf::Color bgColor   = sf::Color::Transparent;
+
+		//Set the tint of the button if we cannot purchase it.
+		if (!canPurchase)
+		{
+			tintColor = sf::Color(0, 0, 0, 175);
+			bgColor   = tintColor;
+		}
+
 		//Draw the button.
-		if (ImGui::ImageButton(*tex, 1))
+		if (ImGui::ImageButton(*tex, 1, bgColor, tintColor))
 		{
 			//If pressed, call the upgrade.
 			callUpgrade(i);

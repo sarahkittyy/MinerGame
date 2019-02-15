@@ -61,8 +61,22 @@ void BuildingManager::renderGuiBuildings()
 	// For every building...
 	for (auto &i : mBuildings)
 	{
+		std::vector<MaterialManager::Resource> resource_cost = mMaterials.priceToResourceVector(i.at("price").get<nlohmann::json::array_t>());
+
+		//Check if it's purchaseable, to set the tint of the button.
+		bool canPurchase	= mMaterials.canPurchaseMultiple(resource_cost);
+		sf::Color tintColor = sf::Color::White;
+		sf::Color bgColor   = sf::Color::Transparent;
+
+		//Set the tint of the button if we cannot purchase it.
+		if (!canPurchase)
+		{
+			tintColor = sf::Color(0, 0, 0, 175);
+			bgColor   = tintColor;
+		}
+
 		// Create a building button, and begin placing a building if pressed.
-		if (ImGui::ImageButton(*getBuildingTexture(i), 1))
+		if (ImGui::ImageButton(*getBuildingTexture(i), 1, bgColor, tintColor))
 		{
 			placeBuilding(&i);
 		}
