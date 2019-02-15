@@ -19,7 +19,7 @@ BuildingManager::BuildingManager(Tilemap *map)
 	mDrawHighlight = false;
 
 	// Add starter materials.
-	mMaterials.addResources({.name = "Cash", .count = 10});
+	mMaterials.addResources({.name = "Cash", .count = 1000000000000});
 }
 
 void BuildingManager::draw(sf::RenderTarget &target,
@@ -119,7 +119,7 @@ void BuildingManager::renderGuiResources()
 		ImGui::NextColumn();
 
 		//And then the count & rpt.
-		ImGui::Text("%d",
+		ImGui::Text("%ld",
 					i.second);
 
 		ImGui::SameLine();
@@ -243,8 +243,8 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 				*mMaterials.getTexture(i.at("name").get<std::string>()));
 			// Render the name & count
 			ImGui::SameLine();
-			ImGui::Text("%d %s",
-						i.at("count").get<int>(),
+			ImGui::Text("%ld %s",
+						i.at("count").get<long>(),
 						i.at("name").get<std::string>().c_str());
 		}
 	}
@@ -261,8 +261,8 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 				*mMaterials.getTexture(i.at("name").get<std::string>()));
 			// Render the name & count
 			ImGui::SameLine();
-			ImGui::Text("%d %s",
-						i.at("count").get<int>(),
+			ImGui::Text("%ld %s",
+						i.at("count").get<long>(),
 						i.at("name").get<std::string>().c_str());
 		}
 	}
@@ -274,13 +274,13 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 	for (auto &i : building.at("pertick").at("resource_in"))
 	{
 		std::string name = i.at("name").get<std::string>();
-		int count		 = i.at("count").get<int>();
+		long count		 = i.at("count").get<long>();
 
 		// Render the icon.
 		ImGui::Image(*mMaterials.getTexture(name));
 		// Render the name & count
 		ImGui::SameLine();
-		ImGui::Text("%d %s", count, name.c_str());
+		ImGui::Text("%ld %s", count, name.c_str());
 	}
 
 	// Now for out I/O...
@@ -290,13 +290,13 @@ void BuildingManager::renderGuiBuilding(BuildingManager::Building &building,
 	for (auto &i : building.at("pertick").at("resource_out"))
 	{
 		std::string name = i.at("name").get<std::string>();
-		int count		 = i.at("count").get<int>();
+		long count		 = i.at("count").get<long>();
 
 		// Render the icon.
 		ImGui::Image(*mMaterials.getTexture(name));
 		// Render the name & count
 		ImGui::SameLine();
-		ImGui::Text("%d %s", count, name.c_str());
+		ImGui::Text("%ld %s", count, name.c_str());
 	}
 
 	// Render what it's placeable on.
@@ -350,7 +350,7 @@ void BuildingManager::update()
 			{
 				mMaterials.addResources(
 					{.name  = j.at("name").get<std::string>(),
-					 .count = j.at("count").get<int>()});
+					 .count = j.at("count").get<long>()});
 			}
 
 			// Break.

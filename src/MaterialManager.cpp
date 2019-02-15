@@ -59,7 +59,7 @@ std::vector<MaterialManager::Resource> MaterialManager::priceToResourceVector(
 	for (auto &i : price)
 	{
 		ret.push_back({.name  = i.at("name").get<std::string>(),
-					   .count = i.at("count").get<int>()});
+					   .count = i.at("count").get<long>()});
 	}
 
 	//Return the resulting vector.
@@ -162,7 +162,7 @@ float MaterialManager::getAverageResourcePerTick(std::string resource)
 		   (float)queue_diff.size();
 }
 
-const std::map<std::string, int> &MaterialManager::getResources()
+const std::map<std::string, long> &MaterialManager::getResources()
 {
 	return mResources;
 }
