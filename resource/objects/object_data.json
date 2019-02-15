@@ -290,6 +290,52 @@
 					1
 				]
 			}]
+		},
+		{
+			"name": "Cheaper Stone Sellers",
+			"description": [
+				"Reduces the overall cost",
+				"of stone sellers",
+				"by 1 of each resource."
+			],
+			"icon": "buildings/stone_seller.png",
+			"unlocked": false,
+			"unlock_price": [{
+				"name": "Stone",
+				"count": 100
+			}],
+			"uses": 8,
+			"price": [{
+					"name": "Stone",
+					"count": 400
+				},
+				{
+					"name": "Wood",
+					"count": 250
+				}
+			],
+			"pricefactor": 5,
+			"methods": [{
+					"call": "price_mod",
+					"args": [
+						"both",
+						"Stone Seller",
+						"Stone",
+						"-",
+						1
+					]
+				},
+				{
+					"call": "price_mod",
+					"args": [
+						"both",
+						"Stone Seller",
+						"Wood",
+						"-",
+						1
+					]
+				}
+			]
 		}
 	]
 }
